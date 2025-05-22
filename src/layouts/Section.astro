@@ -1,0 +1,40 @@
+---
+import { css } from "../../styled-system/css";
+
+interface Props {
+  title?: string;
+}
+
+const { title = "" } = Astro.props;
+---
+
+<section
+  class={css({
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    gap: "8",
+    w: "full",
+    h: "auto",
+  })}
+>
+  <h2
+    class={css({
+      fontSize: "xl",
+      fontWeight: "bold",
+    })}
+  >
+    {title}
+  </h2>
+  <div
+    class={css({
+      display: "grid",
+      alignItems: "flex-start",
+      gridTemplateColumns: "1fr",
+      placeContent: "center",
+      w: "full",
+      h: "full",
+    })}
+  >
+    <slot />
+  </div>
+</section>

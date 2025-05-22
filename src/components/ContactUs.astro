@@ -1,0 +1,33 @@
+---
+import { actions } from "astro:actions";
+
+const result = Astro.getActionResult(actions.contactform);
+if (result && !result.error) {
+  // return Astro.redirect("https://iteract.trhr-core.dev");
+  console.log("alsdfjoijiiiriiriiriiriiriiriir");
+}
+
+import { css } from "styled-system/css";
+const inputStyle = css({
+  border: "1px solid",
+  borderColor: "gray.10",
+});
+---
+
+<form method="POST" action={actions.contactform}>
+  <div>
+    <label for="name">Name</label>
+    <input class={inputStyle} type="text" name="name" id="name" required />
+  </div>
+  <button
+    class={css({
+      border: "1px solid",
+      borderColor: "gray.10",
+      px: "4",
+      py: "2",
+      fontFamily: "depa",
+      fontSize: "xl",
+      letterSpacing: "wider",
+    })}>SEND</button
+  >
+</form>

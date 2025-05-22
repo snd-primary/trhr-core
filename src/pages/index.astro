@@ -1,11 +1,111 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import ContactUs from "src/components/ContactUs.astro";
+import { css } from "../../styled-system/css";
+import Layout from "../layouts/Layout.astro";
+import Section from "../layouts/Section.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// svg icons
+import GithutIcon from "public/icon/github.svg";
+import XIcon from "public/icon/x.svg";
+
+const linkItem = [
+  { href: "/", label: "Work" },
+  { href: "/", label: "Blog" },
+  { href: "/", label: "Skill" },
+];
 ---
 
 <Layout>
-	<Welcome />
+  <main
+    class={css({
+      w: "full",
+      h: "full",
+      border: "2px solid",
+      borderColor: "orange.400",
+      padding: "8",
+    })}
+  >
+    <Section>
+      <p>○○○○は、フリーランスのフロントエンドエンジニアです。</p>
+      <div></div>
+    </Section>
+
+    <!-- 各種リンク -->
+    <Section>
+      <div
+        class={css({
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gridTemplateRows: "repeat(2, 1fr)",
+          height: "480px",
+          w: "full",
+          gap: "1px",
+          background: "gray.12",
+          fontFamily: "depa",
+          border: "1px solid",
+          borderColor: "gray.12",
+          borderRadius: "2xl",
+          overflow: "hidden",
+        })}
+      >
+        {
+          linkItem.map((item) => (
+            <a
+              href={item.href}
+              class={css({
+                background: "gray.1",
+                display: "grid",
+                placeContent: "center",
+                placeItems: "center",
+                fontSize: "5xl",
+              })}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+        {
+          !(linkItem.length % 2 === 0) && (
+            <div
+              class={css({
+                background: "gray.1",
+                display: "grid",
+                placeContent: "center",
+                placeItems: "center",
+              })}
+            />
+          )
+        }
+      </div>
+    </Section>
+
+    <Section>
+      <ul
+        class={css({
+          display: "flex",
+          alignItems: "center",
+          gap: "4",
+        })}
+      >
+        <li>
+          <a href="/" rel="noopener noreferer" target="_blank">
+            <GithutIcon width={36} height={36} />
+          </a>
+        </li>
+        <li>
+          <a href="/" rel="noopener noreferer" target="_blank">
+            <XIcon width={36} height={36} />
+          </a>
+        </li>
+      </ul>
+    </Section>
+
+    <Section>
+      <div>おといあわせふぉーむ（実装する気概があれば）</div>
+    </Section>
+
+    <Section>
+      <ContactUs />
+    </Section>
+  </main>
 </Layout>

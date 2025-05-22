@@ -1,0 +1,154 @@
+@layer reset, base, tokens, recipes, utilities;
+
+:root {
+  --font-depa: "DepartureMono", monospace;
+  --font-global:
+    "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    Meiryo, sans-serif;
+  --orange-1: #0d0907;
+  --orange-2: #1c1611;
+  --orange-3: #2e1f13;
+  --orange-4: #3e240d;
+  --orange-5: #4c2d12;
+  --orange-6: #5b391c;
+  --orange-7: #714928;
+  --orange-8: #915e33;
+  --orange-9: #dd822c;
+  --orange-10: #d0761b;
+  --orange-11: #f7aa6b;
+  --orange-12: #fcdfc9;
+
+  --orange-a1: #ca000004;
+  --orange-a2: #fcac6813;
+  --orange-a3: #fb964626;
+  --orange-a4: #fc831837;
+  --orange-a5: #fe8c2845;
+  --orange-a6: #fd974055;
+  --orange-a7: #fd9f516c;
+  --orange-a8: #ffa2558d;
+  --orange-a9: #ff9632dc;
+  --orange-a10: #fe8f1fcf;
+  --orange-a11: #ffb06ef7;
+  --orange-a12: #ffe2cbfc;
+
+  --orange-contrast: #fff;
+  --orange-surface: #2e221880;
+  --orange-indicator: #dd822c;
+  --orange-track: #dd822c;
+
+  --gray-1: #0a0a0c;
+  --gray-2: #18181a;
+  --gray-3: #212225;
+  --gray-4: #29292d;
+  --gray-5: #303136;
+  --gray-6: #393a40;
+  --gray-7: #46484f;
+  --gray-8: #5e606a;
+  --gray-9: #6c6e79;
+  --gray-10: #797b86;
+  --gray-11: #b2b3bd;
+  --gray-12: #eeeef0;
+
+  --gray-a1: #0a0ab403;
+  --gray-a2: #dcdcfa11;
+  --gray-a3: #d5def81d;
+  --gray-a4: #dfdffb25;
+  --gray-a5: #dde3fe2e;
+  --gray-a6: #dde1fc39;
+  --gray-a7: #dfe6ff48;
+  --gray-a8: #e1e6ff64;
+  --gray-a9: #e2e6ff74;
+  --gray-a10: #e4e8fe82;
+  --gray-a11: #eff0febb;
+  --gray-a12: #fcfcfef0;
+
+  --gray-contrast: #ffffff;
+  --gray-surface: rgba(0, 0, 0, 0.05);
+  --gray-indicator: #6c6e79;
+  --gray-track: #6c6e79;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root {
+      --orange-1: oklch(14.5% 0.0087 58.88);
+      --orange-2: oklch(20.4% 0.0136 58.88);
+      --orange-3: oklch(25.3% 0.0311 58.88);
+      --orange-4: oklch(29% 0.0529 58.88);
+      --orange-5: oklch(33% 0.0612 58.88);
+      --orange-6: oklch(37.9% 0.0646 58.88);
+      --orange-7: oklch(44.3% 0.0717 58.88);
+      --orange-8: oklch(52.8% 0.0884 58.88);
+      --orange-9: oklch(69.1% 0.1465 58.88);
+      --orange-10: oklch(65.3% 0.1465 58.88);
+      --orange-11: oklch(79.9% 0.1204 58.88);
+      --orange-12: oklch(92.2% 0.0439 58.88);
+
+      --orange-a1: color(display-p3 0.9137 0 0 / 0.009);
+      --orange-a2: color(display-p3 0.9922 0.7137 0.4902 / 0.07);
+      --orange-a3: color(display-p3 1 0.6627 0.349 / 0.139);
+      --orange-a4: color(display-p3 1 0.5804 0.1804 / 0.196);
+      --orange-a5: color(display-p3 1 0.5961 0.2431 / 0.254);
+      --orange-a6: color(display-p3 1 0.6588 0.3294 / 0.311);
+      --orange-a7: color(display-p3 1 0.6863 0.3961 / 0.396);
+      --orange-a8: color(display-p3 1 0.6824 0.4078 / 0.523);
+      --orange-a9: color(display-p3 1 0.6353 0.298 / 0.813);
+      --orange-a10: color(display-p3 1 0.6196 0.2588 / 0.76);
+      --orange-a11: color(display-p3 1 0.7294 0.4941 / 0.923);
+      --orange-a12: color(display-p3 1 0.9059 0.8275 / 0.968);
+
+      --orange-contrast: #fff;
+      --orange-surface: color(display-p3 0.1725 0.1333 0.0941 / 0.5);
+      --orange-indicator: oklch(69.1% 0.1465 58.88);
+      --orange-track: oklch(69.1% 0.1465 58.88);
+
+      --gray-1: oklch(14.5% 0.0042 277.7);
+      --gray-2: oklch(20.9% 0.004 277.7);
+      --gray-3: oklch(25.2% 0.0055 277.7);
+      --gray-4: oklch(28.3% 0.0075 277.7);
+      --gray-5: oklch(31.3% 0.0089 277.7);
+      --gray-6: oklch(35% 0.01 277.7);
+      --gray-7: oklch(40.1% 0.0121 277.7);
+      --gray-8: oklch(49.2% 0.0157 277.7);
+      --gray-9: oklch(54% 0.0167 277.7);
+      --gray-10: oklch(58.6% 0.0165 277.7);
+      --gray-11: oklch(77% 0.0138 277.7);
+      --gray-12: oklch(94.9% 0.0026 277.7);
+
+      --gray-a1: color(display-p3 0.0392 0.0392 0.9137 / 0.009);
+      --gray-a2: color(display-p3 0.8745 0.8745 0.9922 / 0.066);
+      --gray-a3: color(display-p3 0.8549 0.8902 0.9961 / 0.111);
+      --gray-a4: color(display-p3 0.8902 0.8902 1 / 0.143);
+      --gray-a5: color(display-p3 0.8706 0.8902 1 / 0.18);
+      --gray-a6: color(display-p3 0.8902 0.9098 1 / 0.217);
+      --gray-a7: color(display-p3 0.8863 0.9176 1 / 0.278);
+      --gray-a8: color(display-p3 0.8902 0.9098 1 / 0.388);
+      --gray-a9: color(display-p3 0.8941 0.9098 1 / 0.449);
+      --gray-a10: color(display-p3 0.9059 0.9216 1 / 0.503);
+      --gray-a11: color(display-p3 0.9451 0.949 1 / 0.727);
+      --gray-a12: color(display-p3 0.9882 0.9882 1 / 0.939);
+
+      --gray-contrast: #ffffff;
+      --gray-surface: color(display-p3 0 0 0 / 5%);
+      --gray-indicator: oklch(54% 0.0167 277.7);
+      --gray-track: oklch(54% 0.0167 277.7);
+    }
+  }
+}
+
+/* Register your custom font family and tell the browser where to find it. */
+@font-face {
+  font-family: "DepartureMono";
+  src: url("/fonts/DepartureMono-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-global);
+    color: var(--gray-12);
+    background: var(--gray-1);
+  }
+}
