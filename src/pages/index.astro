@@ -3,6 +3,7 @@ import ContactUs from "src/components/ContactUs.astro";
 import { css } from "../../styled-system/css";
 import Layout from "../layouts/Layout.astro";
 import Section from "../layouts/Section.astro";
+import { actions } from "astro:actions";
 
 // svg icons
 import GithutIcon from "public/icon/github.svg";
@@ -13,6 +14,11 @@ const linkItem = [
   { href: "/", label: "Blog" },
   { href: "/", label: "Skill" },
 ];
+const result = Astro.getActionResult(actions.formAction);
+
+if (result && !result.error) {
+  return Astro.redirect("/thanks");
+}
 ---
 
 <Layout>
@@ -105,7 +111,7 @@ const linkItem = [
     </Section>
 
     <Section>
-      <ContactUs />
+      <ContactUs result={result} />
     </Section>
   </main>
 </Layout>

@@ -1,18 +1,13 @@
 ---
+import type { ActionReturnType } from "astro:actions";
 import { actions } from "astro:actions";
 import { css } from "styled-system/css";
 
-// 正しいアクションの参照方法
-const result = Astro.getActionResult(actions.formAction);
-
-if (result && !result.error) {
-  console.log("フォーム送信成功:", result.data);
+interface Props {
+  result: ActionReturnType<typeof Astro.getActionResult> | undefined;
 }
 
-// エラーハンドリング
-if (result && result.error) {
-  console.log("フォームエラー:", result.error);
-}
+const { result } = Astro.props;
 
 const inputStyle = css({
   border: "1px solid",
@@ -56,13 +51,11 @@ const successStyle = css({
 <div class={css({ maxWidth: "md", width: "full" })}>
   <form method="POST" action={actions.formAction}>
     <div class={css({ display: "grid", gap: "4" })}>
-      {result && !result.error && <div>アベノミクス</div>}
-      {result && result.error && <div>桜を見る会</div>}
-
       <!-- 名前フィールド -->
       <div>
         <label for="name" class={labelStyle}>お名前 *</label>
-        <input class={inputStyle} type="text" name="name" id="name" required />
+        <input class={inputStyle} type="text" name="name" id="name" />
+        {result && result.error && <span>{}</span>}
       </div>
 
       <!-- メールアドレスフィールド -->
