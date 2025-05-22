@@ -1,33 +1,116 @@
 ---
 import { actions } from "astro:actions";
+import { css } from "styled-system/css";
 
-const result = Astro.getActionResult(actions.contactform);
+// 正しいアクションの参照方法
+const result = Astro.getActionResult(actions.formAction);
+
 if (result && !result.error) {
-  // return Astro.redirect("https://iteract.trhr-core.dev");
-  console.log("alsdfjoijiiiriiriiriiriiriiriir");
+  console.log("フォーム送信成功:", result.data);
 }
 
-import { css } from "styled-system/css";
+// エラーハンドリング
+if (result && result.error) {
+  console.log("フォームエラー:", result.error);
+}
+
 const inputStyle = css({
   border: "1px solid",
   borderColor: "gray.10",
+  padding: "3",
+  borderRadius: "md",
+  background: "gray.2",
+  color: "gray.12",
+  width: "full",
+  fontSize: "md",
+  "&:focus": {
+    borderColor: "orange.9",
+    outline: "none",
+  },
+});
+
+const labelStyle = css({
+  fontSize: "sm",
+  color: "gray.11",
+  fontWeight: "medium",
+  marginBottom: "2",
+  display: "block",
+});
+
+const errorStyle = css({
+  color: "red.9",
+  fontSize: "sm",
+  marginTop: "1",
+});
+
+const successStyle = css({
+  color: "green.9",
+  fontSize: "sm",
+  padding: "3",
+  background: "green.2",
+  borderRadius: "md",
+  marginBottom: "4",
 });
 ---
 
-<form method="POST" action={actions.contactform}>
-  <div>
-    <label for="name">Name</label>
-    <input class={inputStyle} type="text" name="name" id="name" required />
-  </div>
-  <button
-    class={css({
-      border: "1px solid",
-      borderColor: "gray.10",
-      px: "4",
-      py: "2",
-      fontFamily: "depa",
-      fontSize: "xl",
-      letterSpacing: "wider",
-    })}>SEND</button
-  >
-</form>
+<div class={css({ maxWidth: "md", width: "full" })}>
+  <form method="POST" action={actions.formAction}>
+    <div class={css({ display: "grid", gap: "4" })}>
+      {result && !result.error && <div>アベノミクス</div>}
+      {result && result.error && <div>桜を見る会</div>}
+
+      <!-- 名前フィールド -->
+      <div>
+        <label for="name" class={labelStyle}>お名前 *</label>
+        <input class={inputStyle} type="text" name="name" id="name" required />
+      </div>
+
+      <!-- メールアドレスフィールド -->
+      <div>
+        <label for="email" class={labelStyle}>メールアドレス</label>
+        <input class={inputStyle} type="email" name="email" id="email" />
+      </div>
+
+      <!-- メッセージフィールド -->
+      <div>
+        <label for="message" class={labelStyle}>メッセージ</label>
+        <textarea
+          class={`${css({
+            minHeight: "24",
+            resize: "vertical",
+          })} ${inputStyle}`}
+          name="message"
+          id="message"
+          rows={4}></textarea>
+      </div>
+
+      <!-- 送信ボタン -->
+      <button
+        type="submit"
+        class={css({
+          border: "1px solid",
+          borderColor: "orange.9",
+          background: "orange.9",
+          color: "orange.contrast",
+          px: "6",
+          py: "3",
+          fontFamily: "depa",
+          fontSize: "lg",
+          letterSpacing: "wider",
+          borderRadius: "md",
+          cursor: "pointer",
+          transition: "all 0.2s ease",
+          "&:hover": {
+            background: "orange.10",
+            borderColor: "orange.10",
+          },
+          "&:active": {
+            transform: "translateY(1px)",
+          },
+        })}
+      >
+        SEND
+      </button>
+    </div>
+  </form>
+</div>
