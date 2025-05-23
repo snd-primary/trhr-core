@@ -16,6 +16,19 @@ const linkItem = [
 ];
 const result = Astro.getActionResult(actions.formAction);
 
+let submittedData = { name: "", email: "", message: "" };
+
+if (Astro.request.method === "POST") {
+  try {
+    const formData = await Astro.request.formData();
+    submittedData = {
+      name: (formData.get("name") as string) || "",
+      email: (formData.get("email") as string) || "",
+      message: (formData.get("message") as string) || "",
+    };
+  } catch (error) {}
+}
+
 if (result && !result.error) {
   return Astro.redirect("/thanks");
 }
@@ -111,7 +124,7 @@ if (result && !result.error) {
     </Section>
 
     <Section>
-      <ContactUs result={result} />
+      <ContactUs result={result} submittedData={submittedData} />
     </Section>
   </main>
 </Layout>

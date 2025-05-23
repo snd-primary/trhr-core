@@ -1,13 +1,48 @@
 ---
 import type { ActionReturnType } from "astro:actions";
+import { isInputError } from "astro:actions";
 import { actions } from "astro:actions";
 import { css } from "styled-system/css";
 
 interface Props {
   result: ActionReturnType<typeof Astro.getActionResult> | undefined;
+  submittedData?: { name: string; email: string; message: string };
 }
 
-const { result } = Astro.props;
+const { result, submittedData = { name: "", email: "", message: "" } } =
+  Astro.props;
+
+// エラー情報を一度だけ取得
+const errorFields =
+  result?.error && isInputError(result.error) ? result.error.fields : {};
+
+const nameError = errorFields.name?.[0] || null;
+const emailError = errorFields.email?.[0] || null;
+const messageError = errorFields.message?.[0] || null;
+
+// エラー情報を取得するヘルパー関数
+const getFieldError = (fieldName: string) => {
+  if (result?.error && isInputError(result.error)) {
+    return result.error.fields[fieldName]?.[0];
+  }
+  return null;
+};
+
+// フィールドにエラーがあるかチェックするヘルパー関数
+const hasFieldError = (fieldName: string) => {
+  const hasError = getFieldError(fieldName) !== null;
+  console.log(`hasFieldError(${fieldName}):`, hasError);
+  return hasError;
+};
+
+// フォーム値を取得するヘルパー関数（エラー時の値保持用）
+const getFieldValue = (fieldName: keyof typeof submittedData) => {
+  // エラー時は送信されたデータを表示、成功時は空文字
+  if (result?.error) {
+    return submittedData[fieldName] || "";
+  }
+  return "";
+};
 
 const inputStyle = css({
   border: "1px solid",
@@ -19,8 +54,23 @@ const inputStyle = css({
   width: "full",
   fontSize: "md",
   "&:focus": {
-    borderColor: "orange.9",
-    outline: "none",
+    outline: "1px",
+  },
+});
+
+const inputErrorStyle = css({
+  border: "1px solid",
+  borderColor: "rose.500",
+  padding: "3",
+  borderRadius: "md",
+  background: "gray.2",
+  color: "gray.12",
+  width: "full",
+  fontSize: "md",
+  "&:focus": {
+    borderColor: "rose.500",
+    outline: "1px solid",
+    outlineColor: "gray.a12",
   },
 });
 
@@ -37,31 +87,45 @@ const errorStyle = css({
   fontSize: "sm",
   marginTop: "1",
 });
-
-const successStyle = css({
-  color: "green.9",
-  fontSize: "sm",
-  padding: "3",
-  background: "green.2",
-  borderRadius: "md",
-  marginBottom: "4",
-});
 ---
 
 <div class={css({ maxWidth: "md", width: "full" })}>
-  <form method="POST" action={actions.formAction}>
+  <form method="POST" action={actions.formAction} novalidate>
     <div class={css({ display: "grid", gap: "4" })}>
       <!-- 名前フィールド -->
       <div>
         <label for="name" class={labelStyle}>お名前 *</label>
-        <input class={inputStyle} type="text" name="name" id="name" />
-        {result && result.error && <span>{}</span>}
+        <input
+          class={hasFieldError("name") ? inputErrorStyle : inputStyle}
+          type="text"
+          name="name"
+          id="name"
+          value={getFieldValue("name")}
+          required
+        />
+        {
+          getFieldError("name") && (
+            <span class={errorStyle}>{getFieldError("name")}</span>
+          )
+        }
       </div>
 
       <!-- メールアドレスフィールド -->
       <div>
         <label for="email" class={labelStyle}>メールアドレス</label>
-        <input class={inputStyle} type="email" name="email" id="email" />
+        <input
+          class={hasFieldError("email") ? inputErrorStyle : inputStyle}
+          type="email"
+          name="email"
+          id="email"
+          value={getFieldValue("email")}
+          required
+        />
+        {
+          getFieldError("email") && (
+            <span class={errorStyle}>{getFieldError("email")}</span>
+          )
+        }
       </div>
 
       <!-- メッセージフィールド -->
@@ -71,10 +135,16 @@ const successStyle = css({
           class={`${css({
             minHeight: "24",
             resize: "vertical",
-          })} ${inputStyle}`}
+          })} ${hasFieldError("message") ? inputErrorStyle : inputStyle}`}
           name="message"
           id="message"
-          rows={4}></textarea>
+          rows={4}>{getFieldValue("message")}</textarea
+        >
+        {
+          getFieldError("message") && (
+            <span class={errorStyle}>{getFieldError("message")}</span>
+          )
+        }
       </div>
 
       <!-- 送信ボタン -->
