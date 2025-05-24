@@ -2,12 +2,9 @@
 import ContactUs from "src/components/ContactUs.astro";
 import { css } from "../../styled-system/css";
 import Layout from "../layouts/Layout.astro";
-import Section from "../layouts/Section.astro";
 import { actions } from "astro:actions";
 
-// svg icons
-import GithutIcon from "public/icon/github.svg";
-import XIcon from "public/icon/x.svg";
+import BentoCard from "../components/ui/BentoCard.astro";
 
 const linkItem = [
   { href: "/", label: "Work" },
@@ -42,89 +39,135 @@ if (result && !result.error) {
       border: "2px solid",
       borderColor: "orange.400",
       padding: "8",
+      display: "grid",
+      gridTemplateColumns: "1fr",
+      gap: "8",
     })}
   >
-    <Section>
-      <p>○○○○は、フリーランスのフロントエンドエンジニアです。</p>
-      <div></div>
-    </Section>
-
-    <!-- 各種リンク -->
-    <Section>
-      <div
-        class={css({
-          display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
-          gridTemplateRows: "repeat(2, 1fr)",
-          height: "480px",
-          w: "full",
-          gap: "1px",
-          background: "gray.12",
-          fontFamily: "depa",
-          border: "1px solid",
-          borderColor: "gray.12",
-          borderRadius: "2xl",
-          overflow: "hidden",
+    <div
+      class={css({
+        display: "grid",
+        w: "full",
+        h: "auto",
+        alignItems: "flex-start",
+        gap: 2,
+        gridTemplateColumns: "repeat(4, 1fr)",
+        gridTemplateAreas: `
+					"c1 c1 c1 c2" 
+					"c3 c4 c4 c4" 
+					". . c5 c5" 
+					`,
+      })}
+    >
+      <BentoCard
+        title="I'm a WEB DEVELOPER"
+        desc="TRHRは、Webサイト/アプリケーション開発を得意としたフリーランスのフロントエンドエンジニアです。"
+        label="PROFILE"
+        className={css({
+          gridArea: "c1",
         })}
       >
-        {
-          linkItem.map((item) => (
-            <a
-              href={item.href}
-              class={css({
-                background: "gray.1",
-                display: "grid",
-                placeContent: "center",
-                placeItems: "center",
-                fontSize: "5xl",
-              })}
-            >
-              {item.label}
-            </a>
-          ))
-        }
-        {
-          !(linkItem.length % 2 === 0) && (
-            <div
-              class={css({
-                background: "gray.1",
-                display: "grid",
-                placeContent: "center",
-                placeItems: "center",
-              })}
-            />
-          )
-        }
-      </div>
-    </Section>
-
-    <Section>
-      <ul
-        class={css({
-          display: "flex",
-          alignItems: "center",
-          gap: "4",
+        <div
+          class={css({
+            w: 28,
+            h: 28,
+            backgroundColor: "slate.100",
+          })}
+        >
+          asd;fjk
+        </div>
+      </BentoCard>
+      <BentoCard
+        title="UP TO DATE"
+        desc="常にフロントエンド領域の最新技術をキャッチアップしています"
+        label="CORE SKILLS"
+        className={css({
+          gridArea: "c2",
         })}
       >
-        <li>
-          <a href="/" rel="noopener noreferer" target="_blank">
-            <GithutIcon width={36} height={36} />
-          </a>
-        </li>
-        <li>
-          <a href="/" rel="noopener noreferer" target="_blank">
-            <XIcon width={36} height={36} />
-          </a>
-        </li>
-      </ul>
-    </Section>
+        <div
+          class={css({
+            w: 28,
+            h: 28,
+            backgroundColor: "slate.100",
+          })}
+        >
+          asd;fjk
+        </div>
+      </BentoCard>
+      <BentoCard
+        title="RUNTIME"
+        desc="品質とパフォーマンスに拘ります"
+        label="RELIABILITY"
+        className={css({
+          gridArea: "c3",
+        })}
+      >
+        <div
+          class={css({
+            w: 28,
+            h: 28,
+            backgroundColor: "slate.100",
+          })}
+        >
+          RELIABILITY
+        </div>
+      </BentoCard>
+      <BentoCard
+        title="SKILL LIBRARY"
+        desc="スキル一覧のリスト"
+        label="STACK"
+        className={css({
+          gridArea: "c4",
+        })}
+      >
+        <div
+          class={css({
+            w: "full",
+            h: "auto",
+            border: "1px solid",
+            borderColor: "gray.10",
+            padding: 2,
+            display: "grid",
+            gridTemplateColumns: "1fr",
+          })}
+        >
+          <span
+            class={css({
+              display: "inline-block",
+              background: "gray.4",
+            })}>HTML,CSS,JavaScript(ES6),TypeScript,PHP,Node.js</span
+          >
+          <span
+            class={css({
+              display: "inline-block",
+              background: "gray.4",
+            })}>React,Next.js,</span
+          >
+        </div>
+      </BentoCard>
+      <BentoCard
+        title="CUSTOMERS LOVE US"
+        desc="お客様第一ですよという旨を書く"
+        label="PHILOSOPHY"
+        className={css({
+          gridArea: "c5",
+        })}
+      >
+        <div
+          class={css({
+            w: 28,
+            h: 28,
+            backgroundColor: "slate.100",
+          })}
+        >
+          PHILOSOPHY
+        </div>
+      </BentoCard>
+    </div>
 
-    <Section>
-      <div>おといあわせふぉーむ（実装する気概があれば）</div>
-    </Section>
+    <div>おといあわせふぉーむ（実装する気概があれば）</div>
 
-    <Section>
-      <ContactUs result={result} submittedData={submittedData} />
-    </Section>
+    <ContactUs result={result} submittedData={submittedData} />
   </main>
 </Layout>

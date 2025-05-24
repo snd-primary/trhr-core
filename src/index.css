@@ -149,6 +149,6 @@
   body {
     font-family: var(--font-global);
     color: var(--gray-12);
-    background: var(--gray-1);
+    background: var(--gray-2);
   }
 }

@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ポートフォリオ - Bento Grid</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #0f0f28; /* 元画像に近い濃い紺色 */
+        color: #e0e0ff; /* やや青みがかった白 */
+        font-family: "Press Start 2P", "Courier New", Courier, monospace;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* 上寄せ */
+        min-height: 100vh;
+        box-sizing: border-box;
+      }
+
+      .bento-grid-container {
+        display: grid;
+        /* 元画像のレイアウトに近いグリッド構成 (4列ベース) */
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: minmax(180px, auto); /* 行の高さ */
+        gap: 15px;
+        width: 100%;
+        max-width: 1200px;
+        padding: 15px;
+        box-sizing: border-box;
+      }
+
+      .bento-item {
+        background-color: #1a1a3a; /* やや明るい紺色 */
+        border: 2px solid #303050;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 0 15px rgba(50, 50, 80, 0.6);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* 内容を上下に配置 */
+        overflow: hidden;
+        transition:
+          transform 0.2s ease-in-out,
+          box-shadow 0.2s ease-in-out;
+        position: relative; /* 擬似要素用 */
+      }
+
+      .bento-item:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 0 20px rgba(100, 100, 220, 0.8);
+      }
+
+      /* ピクセルグリッド風エフェクト */
+      .bento-item::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+          linear-gradient(rgba(200, 200, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(200, 200, 255, 0.03) 1px, transparent 1px);
+        background-size: 3px 3px;
+        pointer-events: none;
+        opacity: 0.7;
+        z-index: 0;
+      }
+      .bento-item > * {
+        position: relative; /* テキストやアイコンが擬似要素より上に来るように */
+        z-index: 1;
+      }
+
+      .bento-item h3 {
+        font-size: 1.2em; /* 元画像の「INSTANT SETUP」などの文字サイズ感 */
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: #ffc0cb; /* ピンク系 */
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        word-break: break-word;
+      }
+
+      .bento-item p {
+        font-size: 0.75em;
+        line-height: 1.5;
+        color: #b0b0d0; /* やや薄い紫がかった白 */
+        margin-bottom: 15px;
+      }
+
+      .bento-item .small-text {
+        /* "CORE" "LATENCY" のような小さい文字 */
+        font-size: 0.6em;
+        text-align: center;
+        color: #8080a0;
+        margin-top: auto; /* 下部に配置 */
+        text-transform: uppercase;
+      }
+
+      .bento-item .large-text {
+        /* "99,7%" のような大きい文字 */
+        font-size: 2.5em;
+        font-weight: bold;
+        text-align: center;
+        color: #a0ffff; /* シアン系 */
+        margin: 10px 0;
+        line-height: 1;
+      }
+
+      .bento-item .icon-placeholder {
+        /* アイコンやグラフィックのプレースホルダー */
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        margin: 10px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2em; /* 絵文字アイコン用 */
+      }
+      .icon-globe {
+        background-color: #3030ff;
+        color: #e0e0ff;
+      } /* 青地に白 */
+      .icon-heart {
+        background-color: #ff69b4;
+        color: #1a1a3a;
+      } /* ピンク地に濃紺 */
+      .icon-star {
+        background-color: #ffd700;
+        color: #1a1a3a;
+      } /* 黄色地に濃紺 */
+      .icon-cube {
+        border: 3px dashed #8a2be2;
+        color: #8a2be2;
+      } /* 紫の破線 */
+      .icon-atom {
+        border: 3px dashed #00ffff;
+        color: #00ffff;
+      } /* シアンの破線 */
+      .icon-x {
+        background-color: #4040ff;
+        color: #ff6060;
+        font-size: 3em;
+      } /* 青地に赤のX */
+
+      /* 個別アイテムのグリッド配置 */
+      .item1 {
+        grid-column: span 1;
+        grid-row: span 1;
+      } /* Instant Setup */
+      .item2 {
+        grid-column: span 2;
+        grid-row: span 1;
+      } /* Customers Love Us */
+      .item3 {
+        grid-column: span 1;
+        grid-row: span 1;
+        text-align: center;
+      } /* Runtime */
+
+      .item4 {
+        grid-column: span 2;
+        grid-row: span 2;
+      } /* 24-7-365 Support (メインコンテンツ想定) */
+      .item5 {
+        grid-column: span 2;
+        grid-row: span 1;
+      } /* Digital Media (プロジェクト1) */
+
+      .item6 {
+        grid-column: span 2;
+        grid-row: span 1;
+      } /* Mobile App (プロジェクト2) */
+      .item7 {
+        grid-column: span 2;
+        grid-row: span 1;
+      } /* Desktop App (プロジェクト3) */
+
+      .item8 {
+        grid-column: span 1;
+        grid-row: span 1;
+        text-align: center;
+      } /* Up to Date (スキルカテゴリ1) */
+      .item9 {
+        grid-column: span 2;
+        grid-row: span 1;
+      } /* Large Plugin Library (スキル一覧) */
+      .item10 {
+        grid-column: span 1;
+        grid-row: span 1;
+        text-align: center;
+      } /* No More Latency (連絡先) */
+
+      /* プロジェクト/スキルリスト用 */
+      .item-list ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .item-list li {
+        background-color: #252545;
+        padding: 6px 10px;
+        margin-bottom: 6px;
+        border-radius: 4px;
+        font-size: 0.7em;
+        color: #c0c0e0;
+      }
+
+      /* ダッシュボード風グラフィック */
+      .dashboard-graphic {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        height: 70px;
+        padding: 0 5px;
+        margin-top: 10px;
+        overflow: hidden;
+      }
+      .dashboard-graphic .bar {
+        background-color: #4a4aff; /* 明るい青 */
+        width: 8%;
+        border-top: 2px solid #8a8aff; /* さらに明るい青 */
+        animation: riseUp 1.5s ease-out forwards;
+      }
+      @keyframes riseUp {
+        from {
+          height: 0;
+        }
+      }
+      /* バーの高さをランダムに設定 (JSでやるのが望ましいがCSSで雰囲気を出す) */
+      .dashboard-graphic .bar:nth-child(1) {
+        height: 60%;
+        animation-delay: 0.1s;
+      }
+      .dashboard-graphic .bar:nth-child(2) {
+        height: 40%;
+        animation-delay: 0.2s;
+      }
+      .dashboard-graphic .bar:nth-child(3) {
+        height: 80%;
+        animation-delay: 0.3s;
+      }
+      .dashboard-graphic .bar:nth-child(4) {
+        height: 50%;
+        animation-delay: 0.4s;
+      }
+      .dashboard-graphic .bar:nth-child(5) {
+        height: 70%;
+        animation-delay: 0.5s;
+      }
+      .dashboard-graphic .bar:nth-child(6) {
+        height: 30%;
+        animation-delay: 0.6s;
+      }
+      .dashboard-graphic .bar:nth-child(7) {
+        height: 90%;
+        animation-delay: 0.7s;
+      }
+      .dashboard-graphic .bar:nth-child(8) {
+        height: 45%;
+        animation-delay: 0.8s;
+      }
+
+      /* レスポンシブ対応 */
+      @media (max-width: 992px) {
+        /* タブレットサイズ */
+        .bento-grid-container {
+          grid-template-columns: repeat(2, 1fr); /* 2列に */
+        }
+        /* 横長アイテムは幅いっぱいに */
+        .item2,
+        .item4,
+        .item5,
+        .item6,
+        .item7,
+        .item9 {
+          grid-column: span 2;
+        }
+      }
+
+      @media (max-width: 600px) {
+        /* モバイルサイズ */
+        .bento-grid-container {
+          grid-template-columns: 1fr; /* 1列に */
+          grid-auto-rows: minmax(150px, auto);
+          padding: 10px;
+          gap: 10px;
+        }
+        /* 全てのアイテムを幅いっぱいに */
+        .bento-item {
+          grid-column: span 1 !important;
+        }
+        .bento-item h3 {
+          font-size: 1em;
+        }
+        .bento-item p {
+          font-size: 0.7em;
+        }
+        .bento-item .large-text {
+          font-size: 2em;
+        }
+        .icon-placeholder {
+          width: 50px;
+          height: 50px;
+          font-size: 1.5em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bento-grid-container">
+      <!-- Row 1 -->
+      <div class="bento-item item1">
+        <h3>Instant Setup</h3>
+        <p>Your Name / Title</p>
+        <div class="icon-placeholder icon-globe">🌍</div>
+        <p class="small-text">PROFILE</p>
+      </div>
+      <div class="bento-item item2">
+        <h3>Customers Love Us</h3>
+        <p>
+          Passionate about creating intuitive and engaging user experiences.
+          Let's build something amazing together!
+        </p>
+        <div class="icon-placeholder icon-heart" style="font-size: 1.5em">
+          💖
+        </div>
+        <p class="small-text">PHILOSOPHY</p>
+      </div>
+      <div class="bento-item item3">
+        <h3>Runtime</h3>
+        <p class="large-text">99,9%</p>
+        <p>Commitment to quality and performance.</p>
+        <p class="small-text">RELIABILITY</p>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="bento-item item4">
+        <!-- メインの自己紹介やアピール -->
+        <h3>24-7-365 Support</h3>
+        <p>
+          Hi, I'm [あなたの名前], a [あなたの職種] based in [あなたの活動拠点].
+          With X years of experience in [あなたの専門分野1] and
+          [あなたの専門分野2], I specialize in developing innovative solutions
+          that solve real-world problems. My approach is collaborative and
+          user-focused, ensuring a final product that is both functional and
+          delightful.
+        </p>
+        <div
+          class="icon-placeholder icon-cube"
+          style="align-self: flex-end; margin-top: auto"
+        >
+          🧊
+        </div>
+        <p class="small-text">ABOUT ME</p>
+      </div>
+      <div class="bento-item item5">
+        <!-- プロジェクト1 (元画像のDigital Media) -->
+        <h3>Digital Media Project</h3>
+        <p>
+          Developed a dynamic web platform for a media company, featuring
+          interactive content and seamless video streaming.
+        </p>
+        <div
+          class="icon-placeholder"
+          style="
+            background: url(&quot;https://via.placeholder.com/150/3030FF/E0E0FF?text=Laptop&quot;)
+              center/cover;
+          "
+        ></div>
+        <p class="small-text">PROJECT SHOWCASE</p>
+      </div>
+
+      <!-- Row 3 (元画像でいうMobile App, Desktop Appの行) -->
+      <div class="bento-item item6">
+        <!-- プロジェクト2 (元画像のMobile App) -->
+        <h3>Mobile App Dev</h3>
+        <p>
+          Designed and built a cross-platform mobile application for [目的].
+          Focused on user-friendly UI and offline capabilities.
+        </p>
+        <div
+          class="icon-placeholder"
+          style="
+            background: url(&quot;https://via.placeholder.com/150/FF69B4/1A1A3A?text=Mobile&quot;)
+              center/cover;
+          "
+        ></div>
+        <p class="small-text">PROJECT SHOWCASE</p>
+      </div>
+      <div class="bento-item item7">
+        <!-- プロジェクト3 (元画像のDesktop App) -->
+        <h3>Desktop App Suite</h3>
+        <p>
+          Created a suite of desktop tools for [目的], enhancing productivity
+          for users through an intuitive interface.
+        </p>
+        <div
+          class="icon-placeholder"
+          style="
+            background: url(&quot;https://via.placeholder.com/150/A0FFA0/1A1A3A?text=Monitor&quot;)
+              center/cover;
+          "
+        ></div>
+        <p class="small-text">PROJECT SHOWCASE</p>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="bento-item item8">
+        <h3>Up To Date</h3>
+        <p>Constantly learning new technologies.</p>
+        <div class="icon-placeholder icon-atom">⚛️</div>
+        <p class="small-text">CORE SKILLS</p>
+      </div>
+      <div class="bento-item item9 item-list">
+        <!-- スキルリスト (元画像のLarge Plugin Library) -->
+        <h3>Large Skill Library</h3>
+        <ul>
+          <li>HTML5, CSS3, JavaScript (ES6+)</li>
+          <li>React, Vue.js, Angular</li>
+          <li>Node.js, Python, Java</li>
+          <li>SQL, NoSQL Databases</li>
+          <li>UI/UX Design, Figma</li>
+        </ul>
+        <div
+          class="icon-placeholder icon-star"
+          style="align-self: flex-end; margin-top: auto"
+        >
+          🌟
+        </div>
+        <p class="small-text">TECH STACK</p>
+      </div>
+      <div class="bento-item item10">
+        <h3>No More Latency</h3>
+        <p>Let's connect!</p>
+        <p style="font-size: 0.7em; word-break: break-all">
+          your.email@example.com
+        </p>
+        <div class="icon-placeholder icon-x">✕</div>
+        <p class="small-text">CONTACT</p>
+      </div>
+
+      <!-- Dashboard風アイテムの追加 -->
+      <div class="bento-item" style="grid-column: span 2">
+        <h3>Dashboard</h3>
+        <p>Key metrics and performance indicators visualized.</p>
+        <div class="dashboard-graphic">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+        <p class="small-text">ANALYTICS</p>
+      </div>
+      <div class="bento-item" style="grid-column: span 2">
+        <h3>Open To Work</h3>
+        <p>
+          Seeking new challenges and opportunities. Available for freelance or
+          full-time positions.
+        </p>
+        <div class="icon-placeholder" style="font-size: 2.5em; color: #8aff8a">
+          🚀
+        </div>
+        <p class="small-text">AVAILABILITY</p>
+      </div>
+    </div>
+
+    <script>
+      // JavaScriptでバーの高さをランダムに設定する例 (オプション)
+      document.addEventListener("DOMContentLoaded", () => {
+        const bars = document.querySelectorAll(".dashboard-graphic .bar");
+        bars.forEach((bar) => {
+          const randomHeight = Math.random() * 80 + 20; // 20% to 100%
+          bar.style.height = `${randomHeight}%`;
+        });
+      });
+    </script>
+  </body>
+</html>

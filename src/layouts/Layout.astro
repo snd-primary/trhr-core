@@ -2,6 +2,8 @@
 import "../index.css";
 import { css } from "../../styled-system/css";
 import { ClientRouter } from "astro:transitions";
+
+const currentYear = new Date().getFullYear();
 ---
 
 <!doctype html>
@@ -11,7 +13,7 @@ import { ClientRouter } from "astro:transitions";
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
+    <title>TRHR</title>
     <ClientRouter />
   </head>
   <body>
@@ -53,7 +55,7 @@ import { ClientRouter } from "astro:transitions";
           borderColor: "orange.400",
         })}
       >
-        <span>footer</span>
+        <span>&copy; {currentYear} trhr-core </span>
       </footer>
     </div>
   </body>
