@@ -11,6 +11,16 @@ const linkItem = [
   { href: "/", label: "Blog" },
   { href: "/", label: "Skill" },
 ];
+const skillsList = [
+  "HTML",
+  "CSS",
+  "JavaScript(ES6)",
+  "TypeScript",
+  "PHP",
+  "Node.js",
+  "React",
+  "Next.js",
+];
 const result = Astro.getActionResult(actions.formAction);
 
 let submittedData = { name: "", email: "", message: "" };
@@ -123,27 +133,31 @@ if (result && !result.error) {
       >
         <div
           class={css({
+            backgroundColor: "gray.800", // Terminal background color
+            color: "green.400", // Terminal text color
+            fontFamily: "mono", // Monospace font
+            padding: "4",
+            borderRadius: "md",
             w: "full",
             h: "auto",
-            border: "1px solid",
-            borderColor: "gray.10",
-            padding: 2,
-            display: "grid",
-            gridTemplateColumns: "1fr",
+            overflowX: "auto", // For horizontal scrolling if content is too wide
           })}
         >
-          <span
+          <div class={css({ display: "flex", alignItems: "center", mb: "2" })}>
+            <span class={css({ color: "blue.400" })}>user@trhr-portfolio</span>
+            <span class={css({ color: "white", mx: "1" })}>:</span>
+            <span class={css({ color: "purple.400" })}>~/skills</span>
+            <span class={css({ color: "white", ml: "1" })}>$</span>
+            <span class={css({ color: "white", ml: "2" })}>cat skills.txt</span>
+          </div>
+          <pre
             class={css({
-              display: "inline-block",
-              background: "gray.4",
-            })}>HTML,CSS,JavaScript(ES6),TypeScript,PHP,Node.js</span
-          >
-          <span
-            class={css({
-              display: "inline-block",
-              background: "gray.4",
-            })}>React,Next.js,</span
-          >
+              margin: "0",
+              whiteSpace: "pre-wrap",
+              wordBreak: "break-all",
+            })}>
+{skillsList.join("\n")}
+</pre>
         </div>
       </BentoCard>
       <BentoCard
