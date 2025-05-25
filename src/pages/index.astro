@@ -1,6 +1,6 @@
 ---
 import ContactUs from "src/components/ContactUs.astro";
-import { css } from "../../styled-system/css";
+import { css, cx } from "../../styled-system/css";
 import Layout from "../layouts/Layout.astro";
 import { actions } from "astro:actions";
 
@@ -39,6 +39,19 @@ if (Astro.request.method === "POST") {
 if (result && !result.error) {
   return Astro.redirect("/thanks");
 }
+
+const itemHeight = 350;
+const row = 3;
+const initialGridStyles = {
+  display: "grid",
+  gridTemplate: `
+    "c1 c1 c3 c3" 300px
+    "c2 c4 c4 c4" 500px/ 1fr 1fr
+  `,
+  width: "full",
+  height: `calc(${row} * ${itemHeight})`,
+  gap: 2,
+};
 ---
 
 <Layout>
@@ -46,33 +59,17 @@ if (result && !result.error) {
     class={css({
       w: "full",
       h: "full",
-      border: "2px solid",
-      borderColor: "orange.400",
       padding: "8",
       display: "grid",
       gridTemplateColumns: "1fr",
       gap: "8",
     })}
   >
-    <div
-      class={css({
-        display: "grid",
-        w: "full",
-        h: "auto",
-        alignItems: "flex-start",
-        gap: 2,
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gridTemplateAreas: `
-					"c1 c1 c1 c2" 
-					"c3 c4 c4 c4" 
-					". . c5 c5" 
-					`,
-      })}
-    >
+    <div class={css(initialGridStyles)}>
       <BentoCard
         title="I'm a WEB DEVELOPER"
         desc="TRHRは、Webサイト/アプリケーション開発を得意としたフリーランスのフロントエンドエンジニアです。"
-        label="PROFILE"
+        href="/"
         className={css({
           gridArea: "c1",
         })}
@@ -88,9 +85,8 @@ if (result && !result.error) {
         </div>
       </BentoCard>
       <BentoCard
-        title="UP TO DATE"
+        title="BLOG"
         desc="常にフロントエンド領域の最新技術をキャッチアップしています"
-        label="CORE SKILLS"
         className={css({
           gridArea: "c2",
         })}
@@ -106,9 +102,8 @@ if (result && !result.error) {
         </div>
       </BentoCard>
       <BentoCard
-        title="RUNTIME"
+        title="PHILOSOPHY"
         desc="品質とパフォーマンスに拘ります"
-        label="RELIABILITY"
         className={css({
           gridArea: "c3",
         })}
@@ -126,7 +121,6 @@ if (result && !result.error) {
       <BentoCard
         title="SKILL LIBRARY"
         desc="スキル一覧のリスト"
-        label="STACK"
         className={css({
           gridArea: "c4",
         })}
@@ -158,24 +152,6 @@ if (result && !result.error) {
             })}>
 {skillsList.join("\n")}
 </pre>
-        </div>
-      </BentoCard>
-      <BentoCard
-        title="CUSTOMERS LOVE US"
-        desc="お客様第一ですよという旨を書く"
-        label="PHILOSOPHY"
-        className={css({
-          gridArea: "c5",
-        })}
-      >
-        <div
-          class={css({
-            w: 28,
-            h: 28,
-            backgroundColor: "slate.100",
-          })}
-        >
-          PHILOSOPHY
         </div>
       </BentoCard>
     </div>

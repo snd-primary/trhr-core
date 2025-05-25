@@ -4,11 +4,11 @@ import { css } from "styled-system/css";
 interface Props {
   title: string;
   desc: string;
-  label?: string;
+  href?: string;
   className: string;
 }
 
-const { title, desc, label, className } = Astro.props;
+const { title, desc, href, className } = Astro.props;
 ---
 
 <div
@@ -22,9 +22,10 @@ const { title, desc, label, className } = Astro.props;
     gap: 2,
     display: "grid",
     gridTemplateColumns: "1fr",
+    alignItems: "flex-start",
     gridTemplateRows: "subgrid",
-    gridRow: "span 5",
-  })} ${className}`}
+    gridRow: "span 1",
+  })} ${className} item`}
 >
   <h2
     class={css({
@@ -49,12 +50,19 @@ const { title, desc, label, className } = Astro.props;
   >
     <slot />
   </div>
-  <span
-    class={css({
-      marginX: "auto",
-      fontSize: "sm",
-      paddingTop: 4,
-      color: "gray.9",
-    })}>[{label}]</span
-  >
+  {
+    href && (
+      <a
+        href={href}
+        class={css({
+          marginX: "auto",
+          fontSize: "sm",
+          paddingTop: 4,
+          color: "orange.10",
+        })}
+      >
+        [READ MORE]
+      </a>
+    )
+  }
 </div>

@@ -9,7 +9,6 @@ export default defineConfig({
     "./src/**/*.{ts,tsx,js,jsx,astro}",
     "./pages/**/*.{ts,tsx,js,jsx,astro}",
   ],
-
   // Files to exclude
   exclude: [],
 
@@ -81,6 +80,33 @@ export default defineConfig({
         },
         fonts: {
           depa: { value: "var(--font-depa)" },
+        },
+      },
+      keyframes: {
+        itemFocusEnter: {
+          "0%": {
+            transform: "scale(0.85) translateZ(0px)", // 少し小さく、奥まった状態から開始
+            opacity: "0.7",
+          },
+          "60%": {
+            transform: "scale(1.05) translateZ(30px)", // 少し拡大し、手前に浮き出る
+            opacity: "0.9",
+          },
+          "100%": {
+            transform: "scale(1) translateZ(0px)", // 最終的なサイズと位置に収まる
+            opacity: "1",
+          },
+        },
+        // 他のアイテムが縮小・退場するアニメーション
+        otherItemShrinkExit: {
+          "0%": {
+            transform: "scale(1) translateZ(0px)",
+            opacity: "1",
+          },
+          "100%": {
+            transform: "scale(0.1) translateZ(-50px)", // 小さくなり、少し奥へ
+            opacity: "0",
+          },
         },
       },
     },
