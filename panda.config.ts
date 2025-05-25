@@ -32,7 +32,7 @@ export default defineConfig({
           accent: { value: "oklch(0.274 0.006 286.033)" },
           accentForeground: { value: "oklch(0.985 0 0)" },
           destructive: { value: "oklch(0.704 0.191 22.216)" },
-          border: { value: "oklch(1 0 0 / 50%)" },
+          border: { value: "oklch(1 0 0 / 20%)" },
           input: { value: "oklch(1 0 0 / 15%)" },
           ring: { value: "oklch(0.554 0.135 66.442)" },
           chart1: { value: "oklch(0.488 0.243 264.376)" },
