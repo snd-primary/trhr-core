@@ -45,8 +45,9 @@ const row = 3;
 const initialGridStyles = {
   display: "grid",
   gridTemplate: `
-    "c1 c1 c3 c3" 300px
-    "c2 c4 c4 c4" 500px/ 1fr 1fr
+    "c1 c1 c5 c3" 300px
+    "c2 c4 c4 c4" 400px
+    "c6 c6 c6 c6"  750px / 1fr 1fr 1fr
   `,
   width: "full",
   height: `calc(${row} * ${itemHeight})`,
@@ -133,11 +134,19 @@ const initialGridStyles = {
             padding: "4",
             borderRadius: "md",
             w: "full",
+            maxW: "full",
             h: "auto",
             overflowX: "auto", // For horizontal scrolling if content is too wide
           })}
         >
-          <div class={css({ display: "flex", alignItems: "center", mb: "2" })}>
+          <div
+            class={css({
+              w: "full",
+              display: "flex",
+              alignItems: "center",
+              mb: "2",
+            })}
+          >
             <span class={css({ color: "blue.400" })}>user@trhr-portfolio</span>
             <span class={css({ color: "white", mx: "1" })}>:</span>
             <span class={css({ color: "purple.400" })}>~/skills</span>
@@ -150,14 +159,37 @@ const initialGridStyles = {
               whiteSpace: "pre-wrap",
               wordBreak: "break-all",
             })}>
-{skillsList.join("\n")}
-</pre>
+						{skillsList.join("\n")}
+					</pre>
         </div>
       </BentoCard>
+      <BentoCard
+        title="WORKS"
+        desc="これまでに作成した成果物"
+        href="/"
+        className={css({
+          gridArea: "c5",
+        })}
+      >
+        <div
+          class={css({
+            w: 28,
+            h: 28,
+            backgroundColor: "slate.100",
+          })}
+        >
+          aasdf
+        </div>
+      </BentoCard>
+      <BentoCard
+        title="CONTACT"
+        desc="これまでに作成した成果物"
+        className={css({
+          gridArea: "c6",
+        })}
+      >
+        <ContactUs result={result} submittedData={submittedData} />
+      </BentoCard>
     </div>
-
-    <div>おといあわせふぉーむ（実装する気概があれば）</div>
-
-    <ContactUs result={result} submittedData={submittedData} />
   </main>
 </Layout>

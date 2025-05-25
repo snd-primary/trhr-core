@@ -18,13 +18,12 @@ const { title, desc, href, className } = Astro.props;
     w: "full",
     h: "full",
     fontFamily: "depa",
-    padding: 3,
-    gap: 2,
+    padding: 4,
+    gap: 3,
     display: "grid",
     gridTemplateColumns: "1fr",
-    alignItems: "flex-start",
-    gridTemplateRows: "subgrid",
-    gridRow: "span 1",
+    gridTemplateRows: "min-content min-content 1fr min-content",
+    alignContent: "flex-start",
   })} ${className} item`}
 >
   <h2
@@ -43,9 +42,10 @@ const { title, desc, href, className } = Astro.props;
     class={css({
       w: "full",
       h: "full",
-      marginX: "auto",
-      display: "flex",
-      justifyContent: "center",
+      display: "grid",
+      placeContent: "center",
+      placeItems: "center",
+      gridTemplateColumns: "1fr",
     })}
   >
     <slot />
