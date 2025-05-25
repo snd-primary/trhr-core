@@ -34,17 +34,30 @@ if (result && !result.error) {
 
 const itemHeight = 350;
 const row = 3;
-const initialGridStyles = {
+const initialGridStyles = css({
   display: "grid",
-  gridTemplate: `
-    "c1 c1 c5 c3" 300px
-    "c2 c4 c4 c4" 400px
-    "c6 c6 c6 c6"  750px / 1fr 1fr 1fr
+  gridTemplateColumns: "1fr",
+  gridTemplateRows: "auto",
+  gridTemplateAreas: `
+    "c1"  
+    "c2" 
+    "c3" 
+    "c4" 
+    "c5" 
+    "c6" 
   `,
+  md: {
+    gridTemplate: `
+    "c1 c1 c2 c3" 350px
+    "c5 c4 c4 c4" 450px
+    "c6 c6 c6 c6"  620px / 1fr 1fr 1fr
+  `,
+    gap: 2,
+  },
   width: "full",
   height: `calc(${row} * ${itemHeight})`,
-  gap: 2,
-};
+  gap: 4,
+});
 ---
 
 <Layout>
@@ -52,13 +65,16 @@ const initialGridStyles = {
     class={css({
       w: "full",
       h: "full",
-      padding: "8",
+      padding: "4",
       display: "grid",
       gridTemplateColumns: "1fr",
-      gap: "8",
+      gap: "12",
+      md: {
+        gap: "4",
+      },
     })}
   >
-    <div class={css(initialGridStyles)}>
+    <div class={initialGridStyles}>
       <BentoCard
         title="I'm a WEB DEVELOPER"
         desc="TRHRは、Webサイト/アプリケーション開発を得意としたフリーランスのフロントエンドエンジニアです。"
@@ -112,8 +128,8 @@ const initialGridStyles = {
         </div>
       </BentoCard>
       <BentoCard
-        title="SKILL LIBRARY"
-        desc="スキル一覧のリスト"
+        title="MY SKILLS"
+        desc=""
         className={css({
           gridArea: "c4",
         })}

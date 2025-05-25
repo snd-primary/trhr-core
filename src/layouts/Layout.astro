@@ -2,8 +2,23 @@
 import "../index.css";
 import { css } from "../../styled-system/css";
 import { ClientRouter } from "astro:transitions";
+import Header from "src/components/Header.astro";
+import Footer from "src/components/Footer.astro";
 
-const currentYear = new Date().getFullYear();
+const container = css({
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  gridTemplateRows: "60px 1fr 120px",
+  alignItems: "flex-start",
+  alignContent: "flex-start",
+  justifyItems: "center",
+  justifySelf: "center",
+  position: "relative",
+  minHeight: "100vh",
+  height: "auto",
+  maxWidth: "breakpoint-2xl",
+  w: "full",
+});
 ---
 
 <!doctype html>
@@ -16,44 +31,22 @@ const currentYear = new Date().getFullYear();
     <title>TRHR</title>
     <ClientRouter />
   </head>
-  <body>
-    <div
-      class={css({
-        margin: "12",
-        display: "grid",
-        gridTemplateColumns: "1fr",
-        gridTemplateRows: "60px 1fr 120px",
-        alignItems: "flex-start",
-        justifyItems: "center",
-        position: "relative",
-        minHeight: "100vh",
-        height: "auto",
-      })}
-    >
-      <header
+  <body
+    class={css({
+      background: "background",
+      color: "foreground",
+    })}
+  >
+    <div class={container}>
+      <Header />
+      <div
         class={css({
-          w: "full",
-          h: "full",
-          position: "sticky",
-          top: 0,
-          left: 0,
-          display: "grid",
-          placeItems: "center",
-          placeContent: "center",
+          maxWidth: "breakpoint-xl",
         })}
       >
-        <h1>title</h1>
-      </header>
-      <slot />
-      <footer
-        class={css({
-          w: "full",
-          h: "full",
-          border: "1px solid",
-        })}
-      >
-        <span>&copy; {currentYear} trhr-core </span>
-      </footer>
+        <slot />
+      </div>
+      <Footer />
     </div>
   </body>
 </html>

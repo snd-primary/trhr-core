@@ -1,0 +1,17 @@
+---
+import { css } from "styled-system/css";
+
+const currentYear = new Date().getFullYear();
+const style = css({
+  w: "full",
+  h: "full",
+  textAlign: "center",
+  display: "grid",
+  placeContent: "center",
+  placeItems: "center",
+});
+---
+
+<footer class={style}>
+  <span>&copy; {currentYear} trhr-core </span>
+</footer>

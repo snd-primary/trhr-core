@@ -1,51 +1,332 @@
 ---
-import { css } from "styled-system/css";
+// src/components/ui/MySkill.astro
+import { css } from "styled-system/css"; // PandaCSSのcss関数とkeyframesをインポート
+import { defineKeyframes } from "@pandacss/dev";
 
-const skillsList = [
-  "HTML",
-  "CSS",
-  "JavaScript(ES6)",
-  "TypeScript",
-  "PHP",
-  "Node.js",
-  "React",
-  "Next.js",
+// スキルデータのインターフェース定義
+interface SkillData {
+  skill: string; // スキル名
+  category: string; // カテゴリ
+  experience: string; // 経験year数
+}
+
+// スキルデータをJSONオブジェクトとして定義 (画像に基づいて更新)
+const allSkills: SkillData[] = [
+  // Languages
+  {
+    skill: "JavaScript",
+    category: "Languages",
+    experience: "4.5year",
+  },
+  { skill: "TypeScript", category: "Languages", experience: "1year" },
+  { skill: "Node.js", category: "Languages", experience: "1.5year" }, // カテゴリを「Languages」に（FW/Libraryにも分類可）
+  { skill: "PowerShell", category: "Languages", experience: "2year" },
+  { skill: "PHP", category: "Languages", experience: "2year" },
+  { skill: "VBA", category: "Languages", experience: "1year" },
+  { skill: "C++", category: "Languages", experience: "6month" },
+  { skill: "HTML", category: "Languages", experience: "5year" }, // 一般的にはマークアップ言語だが、既存の分類に合わせる
+  { skill: "CSS", category: "Languages", experience: "5year" }, // 一般的にはスタイルシート言語だが、既存の分類に合わせる
+  { skill: "SCSS", category: "Languages", experience: "3year" }, // CSSプリプロセッサ
+
+  // FW/Library
+  {
+    skill: "React",
+    category: "FW/Library",
+    experience: "2.5year",
+  },
+  {
+    skill: "Next.js",
+    category: "FW/Library",
+    experience: "1year",
+  },
+  {
+    skill: "Astro",
+    category: "FW/Library",
+    experience: "1year",
+  },
+  {
+    skill: "Nuxt.js",
+    category: "FW/Library",
+    experience: "2month",
+  },
+  {
+    skill: "Electron",
+    category: "FW/Library",
+    experience: "1year",
+  },
+  {
+    skill: "Gatsby.js",
+    category: "FW/Library",
+    experience: "6month",
+  },
+  { skill: "GSAP", category: "FW/Library", experience: "1year" },
+  {
+    skill: "Three.js",
+    category: "FW/Library",
+    experience: "1year",
+  },
+  {
+    skill: "WebGL",
+    category: "FW/Library",
+    experience: "2month",
+  },
+  {
+    skill: "ReactRouter",
+    category: "FW/Library",
+    experience: "1month",
+  },
+  {
+    skill: "Vite/Webpack",
+    category: "FW/Library",
+    experience: "2.5year",
+  }, // ビルドツールとして「other」も可
+
+  // DB & API
+  { skill: "GraphQL", category: "DB", experience: "6month" },
+  { skill: "Prisma", category: "DB", experience: "6month" },
+  { skill: "Firebase", category: "DB", experience: "1year" },
+  { skill: "NeonDB", category: "DB", experience: "2month" },
+
+  // CSS (UIライブラリ含む)
+  { skill: "CSS monthdules", category: "CSS", experience: "1year" },
+  { skill: "TailwindCSS", category: "CSS", experience: "1year" },
+  { skill: "vanilla-extract", category: "CSS", experience: "1year" },
+  { skill: "PandaCSS", category: "CSS", experience: "1year" },
+  { skill: "MUI (v5)", category: "CSS", experience: "1year" },
+  { skill: "RadixUI", category: "CSS", experience: "1year" },
+  { skill: "shadcn/ui", category: "CSS", experience: "1year" },
+
+  // OS
+  { skill: "Windows", category: "OS", experience: "5year" },
+  { skill: "Arch Linux", category: "OS", experience: "3month" },
+
+  // other (ツール、CI/CDなど)
+  { skill: "Playwright", category: "other", experience: "3month" },
+  { skill: "VSCode", category: "other", experience: "4year" },
+  { skill: "Neovim", category: "other", experience: "1year" },
+  { skill: "Git/Github", category: "other", experience: "4year" },
+  { skill: "MS 365", category: "other", experience: "2year" },
+  { skill: "Cursor", category: "other", experience: "6month" },
+  { skill: "Figma", category: "other", experience: "3year" },
+  { skill: "Adobe illustrator", category: "other", experience: "1year" },
+  { skill: "Adobe Photoshop", category: "other", experience: "1year" },
 ];
+
+// スキルをカテゴリごとにグループ化
+const groupedSkills = allSkills.reduce(
+  (acc, currentSkill) => {
+    const category = currentSkill.category;
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(currentSkill);
+    return acc;
+  },
+  {} as Record<string, SkillData[]>,
+);
+
+// ターミナルのプロンプト情報
+const user = "guest";
+const host = "portfolio.dev";
+const promptText = `${user}@${host}:~$`; // 変数名を prompt から promptText に変更 (Astroの予約語との衝突回避)
+const commandText = "show_skills --format=table"; // 変数名を command から commandText に変更
+
+/**
+ * 文字列を指定された長さに右パディングする関数
+ */
+function padRight(str: string, length: number, char: string = " "): string {
+  return str + char.repeat(Math.max(0, length - str.length));
+}
+
+/**
+ * 指定されたカテゴリのスキル一覧テーブルを生成する関数
+ */
+function generateTableForCategory(
+  categoryName: string,
+  skills: SkillData[],
+): string[] {
+  const output: string[] = [];
+  output.push(`\nCategory: ${categoryName}`);
+
+  const headerSkill = "Skill";
+  const headerExperience = "";
+
+  let maxSkillLength = headerSkill.length;
+  let maxExperienceLength = headerExperience.length;
+
+  skills.forEach((skill) => {
+    if (skill.skill.length > maxSkillLength)
+      maxSkillLength = skill.skill.length;
+    if (skill.experience.length > maxExperienceLength)
+      maxExperienceLength = skill.experience.length;
+  });
+
+  maxSkillLength += 2;
+  maxExperienceLength += 2;
+
+  const topBorder = `┌${"─".repeat(maxSkillLength)}┬${"─".repeat(maxExperienceLength)}┐`;
+  const headerSeparator = `├${"─".repeat(maxSkillLength)}┼${"─".repeat(maxExperienceLength)}┤`;
+  const bottomBorder = `└${"─".repeat(maxSkillLength)}┴${"─".repeat(maxExperienceLength)}┘`;
+
+  output.push(topBorder);
+  output.push(
+    `│${padRight(` ${headerSkill}`, maxSkillLength)}│${padRight(` ${headerExperience}`, maxExperienceLength)}│`,
+  );
+  output.push(headerSeparator);
+
+  skills.forEach((skill) => {
+    output.push(
+      `│${padRight(` ${skill.skill}`, maxSkillLength)}│${padRight(` ${skill.experience}`, maxExperienceLength)}│`,
+    );
+  });
+
+  output.push(bottomBorder);
+  return output;
+}
+
+const tableOutputLines: string[] = [];
+for (const category in groupedSkills) {
+  tableOutputLines.push(
+    ...generateTableForCategory(category, groupedSkills[category]),
+  );
+}
+
+const terminalWindowStyles = css({
+  backgroundColor: "secondary/50",
+  borderRadius: "md",
+  color: "popoverForeground",
+  // boxShadow: "0px 0px 5px 4px rgba(255, 255, 255, 0.2)",
+  border: "1px solid",
+  borderColor: "border",
+  fontSize: "sm",
+  overflow: "hidden",
+  h: "auto",
+  w: "full",
+});
+
+const terminalHeaderStyles = css({
+  display: "flex",
+  alignItems: "center",
+  padding: "2",
+  borderBottom: "1px solid",
+  borderColor: "border",
+  boxSizing: "content-box",
+});
+
+const buttonsContainerStyles = css({
+  display: "flex",
+  gap: "2",
+});
+
+const titleStyles = css({
+  textAlign: "center",
+  flexGrow: 1,
+  color: "scondaryForeground",
+});
+
+const terminalBodyStyles = css({
+  padding: "2",
+  height: "full",
+  maxHeight: "480px",
+  md: {
+    maxHeight: "330px",
+  },
+  overflowY: "auto",
+  overscrollBehavior: "contain",
+  scrollbarColor: "orange #222",
+  "&::-webkit-scrollbar": {
+    width: "8px",
+  },
+  "&::-webkit-scrollbar-track": {
+    background: "gray.700",
+    borderRadius: "4px",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    background: "gray.600",
+    borderRadius: "4px",
+  },
+  "&::-webkit-scrollbar-thumb:hover": {
+    background: "gray.500",
+  },
+});
+
+const buttonStyles = {
+  width: "3",
+  height: "3",
+  borderRadius: "full",
+  border: "1px solid",
+};
+const promptLineStyles = {
+  marginBottom: "2",
+};
+
+const promptLineStylesMt4 = {
+  marginTop: "4",
+};
+
+const promptTextStyles = {
+  color: "blue.500",
+};
+
+const commandTextStyles = {
+  marginLeft: "2",
+  color: "blue.200",
+};
+
+const outputStyles = {
+  marginTop: "2",
+};
+
+const preStyles = {
+  whiteSpace: "pre-wrap",
+  lineHeight: "tight",
+  fontFamily: "depa",
+};
+
+const keyframes = defineKeyframes({
+  blinkAnimation: {
+    "0%": { backgroundColor: "tranparent" },
+    "50%": { backgroundColor: "gray.12" },
+    "100%": { backgroundColor: "transparent" },
+  },
+});
+
+const cursorStyles = css({
+  display: "inline-block",
+  backgroundColor: "gray.12",
+  width: "0.5em",
+  height: "1em",
+  verticalAlign: "middle",
+  animation: `${keyframes.blinkAnimation} 1s step-end infinite`,
+});
 ---
 
-<div
-  class={css({
-    backgroundColor: "gray.800", // Terminal background color
-    color: "green.400", // Terminal text color
-    fontFamily: "mono", // Monospace font
-    padding: "4",
-    borderRadius: "md",
-    w: "full",
-    maxW: "full",
-    h: "auto",
-    overflowX: "auto", // For horizontal scrolling if content is too wide
-  })}
->
-  <div
-    class={css({
-      w: "full",
-      display: "flex",
-      alignItems: "center",
-      mb: "2",
-    })}
-  >
-    <span class={css({ color: "blue.400" })}>user@trhr-portfolio</span>
-    <span class={css({ color: "white", mx: "1" })}>:</span>
-    <span class={css({ color: "purple.400" })}>~/skills</span>
-    <span class={css({ color: "white", ml: "1" })}>$</span>
-    <span class={css({ color: "white", ml: "2" })}>cat skills.txt</span>
+<div class={terminalWindowStyles}>
+  <div class={terminalHeaderStyles}>
+    <div class={buttonsContainerStyles}>
+      <span class={css(buttonStyles, { borderColor: "chart5" })}></span>
+      {/* bg-red-500 */}
+      <span class={css(buttonStyles, { borderColor: "primary" })}></span>
+      {/* bg-yellow-500 */}
+      <span class={css(buttonStyles, { borderColor: "chart2" })}></span>
+      {/* bg-green-500 */}
+    </div>
+    <div class={titleStyles}>My Skills - bash</div>
   </div>
-  <pre
-    class={css({
-      margin: "0",
-      whiteSpace: "pre-wrap",
-      wordBreak: "break-all",
-    })}>
-						{skillsList.join("\n")}
-					</pre>
+
+  <div class={terminalBodyStyles}>
+    <div class={css(promptLineStyles)}>
+      <span class={css(promptTextStyles)}>{promptText}</span>
+      <span class={css(commandTextStyles)}>{commandText}</span>
+    </div>
+
+    <div class={css(outputStyles)}>
+      {tableOutputLines.map((line) => <pre class={css(preStyles)}>{line}</pre>)}
+    </div>
+    <div class={css(promptLineStyles, promptLineStylesMt4)}>
+      {/* 複数のスタイルを結合 */}
+      <span class={css(promptTextStyles)}>{promptText}</span>
+      <span class={cursorStyles}></span>
+    </div>
+  </div>
 </div>
