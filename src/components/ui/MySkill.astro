@@ -1,0 +1,51 @@
+---
+import { css } from "styled-system/css";
+
+const skillsList = [
+  "HTML",
+  "CSS",
+  "JavaScript(ES6)",
+  "TypeScript",
+  "PHP",
+  "Node.js",
+  "React",
+  "Next.js",
+];
+---
+
+<div
+  class={css({
+    backgroundColor: "gray.800", // Terminal background color
+    color: "green.400", // Terminal text color
+    fontFamily: "mono", // Monospace font
+    padding: "4",
+    borderRadius: "md",
+    w: "full",
+    maxW: "full",
+    h: "auto",
+    overflowX: "auto", // For horizontal scrolling if content is too wide
+  })}
+>
+  <div
+    class={css({
+      w: "full",
+      display: "flex",
+      alignItems: "center",
+      mb: "2",
+    })}
+  >
+    <span class={css({ color: "blue.400" })}>user@trhr-portfolio</span>
+    <span class={css({ color: "white", mx: "1" })}>:</span>
+    <span class={css({ color: "purple.400" })}>~/skills</span>
+    <span class={css({ color: "white", ml: "1" })}>$</span>
+    <span class={css({ color: "white", ml: "2" })}>cat skills.txt</span>
+  </div>
+  <pre
+    class={css({
+      margin: "0",
+      whiteSpace: "pre-wrap",
+      wordBreak: "break-all",
+    })}>
+						{skillsList.join("\n")}
+					</pre>
+</div>
