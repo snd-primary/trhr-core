@@ -5,15 +5,39 @@ import { css } from "styled-system/css";
 <header
   class={css({
     w: "full",
-    h: "full",
+    h: "full", // Assuming 'full' means 60px as per Layout.astro grid-template-rows
     position: "sticky",
     top: 0,
     left: 0,
-    display: "grid",
-    placeItems: "center",
-    placeContent: "center",
-    background: "red",
+    display: "flex", // Changed to flex for layout
+    alignItems: "center",
+    justifyContent: "space-between", // Space between title and nav
+    padding: "0 2rem", // Add some padding
+    background: "token(colors.gray.100)", // Changed background for better visibility
+    borderBottom: "1px solid token(colors.gray.300)",
   })}
 >
-  <h1>title</h1>
+  <a href="/" class={css({ textDecoration: 'none', color: 'inherit' })}>
+    <h1 class={css({ fontSize: "1.5rem", fontWeight: "bold" })}>Site Title</h1>
+  </a>
+  <nav>
+    <ul class={css({ listStyle: "none", display: "flex", gap: "1rem" })}>
+      <li>
+        <a 
+          href="/about" 
+          class={css({
+            textDecoration: "none",
+            color: "token(colors.blue.600)",
+            _hover: {
+              textDecoration: "underline",
+              color: "token(colors.blue.800)",
+            }
+          })}
+        >
+          About
+        </a>
+      </li>
+      <!-- Add other navigation links here if needed -->
+    </ul>
+  </nav>
 </header>
