@@ -1,0 +1,103 @@
+---
+import { css } from "styled-system/css";
+---
+
+<div
+  class={css({
+    border: "1px solid",
+    borderColor: "border",
+    w: "155px",
+    aspectRatio: "square",
+    display: "grid",
+    gridTemplate: `
+							"h h h h" 0.2fr
+							"m m m s"  1fr							
+							"f f f f"  0.1fr / 1fr 1fr 1fr 1fr
+						`,
+    "& div": {
+      w: "full",
+      h: "full",
+      borderColor: "border",
+    },
+  })}
+>
+  <div class={css({ gridArea: "h", borderBottom: "1px solid" })}></div>
+  <div
+    class={css({
+      gridArea: "m",
+      display: "grid",
+      gridTemplateColumns: "1fr",
+      gridTemplateRows: "1fr 1.1fr",
+      gap: 1,
+      padding: 2,
+    })}
+  >
+    <div
+      class={css({
+        w: "full",
+        h: "full",
+        border: "1px solid",
+        background: `
+    radial-gradient(circle, transparent 20%, oklch(0.141 0.005 285.823) 20%, oklch(0.141 0.005 285.823) 80%, transparent 80%, transparent),
+    radial-gradient(circle, transparent 20%, oklch(0.141 0.005 285.823) 20%, oklch(0.141 0.005 285.823) 80%, transparent 80%, transparent) 12px 12px,
+    linear-gradient(oklch(0.595 0.184 98.047) 5px, transparent 1px) 0 -1px,
+    linear-gradient(90deg, oklch(0.595 0.184 98.047) 1px, oklch(0.141 0.005 285.823) 1px) -1px 0
+  `,
+        backgroundSize: "24px 24px, 24px 24px, 12px 12px, 12px 12px",
+      })}
+    >
+    </div>
+    <div
+      class={css({
+        w: "full",
+        display: "flex",
+        flexDirection: "column",
+        gap: 1,
+        "& > span": {
+          w: "full",
+          display: "block",
+          background: "border",
+        },
+      })}
+    >
+      <span
+        class={css({
+          h: "16px",
+        })}></span>
+      <span
+        class={css({
+          h: "8px",
+        })}></span>
+      <span
+        class={css({
+          h: "4px",
+        })}></span>
+      <span
+        class={css({
+          h: "2px",
+        })}></span>
+      <span
+        class={css({
+          h: "1px",
+        })}></span>
+    </div>
+  </div>
+  <div
+    class={css({
+      gridArea: "s",
+      display: "grid",
+      gridTemplateColumns: "1fr",
+      gap: 2,
+      padding: 1,
+      "& > span": {
+        w: "full",
+        h: "full",
+        border: "1px solid",
+        borderColor: "border",
+      },
+    })}
+  >
+    <span></span>
+  </div>
+  <div class={css({ gridArea: "f", borderTop: "1px solid" })}></div>
+</div>

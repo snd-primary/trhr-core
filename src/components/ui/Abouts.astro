@@ -1,0 +1,24 @@
+---
+import MyImg from "../../assets/about.png";
+import { Image } from "astro:assets";
+import { css } from "styled-system/css";
+---
+
+<div
+  class={css({
+    w: "full",
+    h: "full",
+  })}
+>
+  TRHRは、フリーランスのフロントエンドエンジニアです。
+  <Image
+    class={css({
+      border: "1px solid",
+      borderColor: "border",
+    })}
+    src={MyImg}
+    alt={"adsf"}
+    width={250}
+    height={250}
+  />
+</div>

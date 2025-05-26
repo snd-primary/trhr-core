@@ -1,17 +1,15 @@
 ---
 import ContactUs from "src/components/ContactUs.astro";
-import { css, cx } from "../../styled-system/css";
+import { css } from "../../styled-system/css";
 import Layout from "../layouts/Layout.astro";
 import { actions } from "astro:actions";
 
-import BentoCard from "../components/ui/BentoCard.astro";
+import BentoItem from "../components/ui/BentoItem.astro";
 import MySkill from "src/components/ui/MySkill.astro";
 
-const linkItem = [
-  { href: "/", label: "Work" },
-  { href: "/", label: "Blog" },
-  { href: "/", label: "Skill" },
-];
+import SnsLinks from "src/components/ui/SnsLinks.astro";
+import BlogMotif from "src/components/ui/BlogMotif.astro";
+import Abouts from "src/components/ui/Abouts.astro";
 
 const result = Astro.getActionResult(actions.formAction);
 
@@ -45,13 +43,14 @@ const initialGridStyles = css({
     "c4" 
     "c5" 
     "c6" 
+    "c7" 
   `,
   md: {
     gridTemplate: `
     "c1 c1 c1 c2" 270px
     "c1 c1 c1 c3" 270px
     "c5 c4 c4 c4" 450px
-    "c6 c6 c6 c6"  620px / 1fr 1fr 1fr 1fr
+    "c6 c6 c6 c7"  570px / 1fr 1fr 1fr 1fr
   `,
     gap: 2,
   },
@@ -76,94 +75,23 @@ const initialGridStyles = css({
     })}
   >
     <div class={initialGridStyles}>
-      <BentoCard
-        title="I'm a WEB DEVELOPER"
-        desc="TRHRは、Webサイト/アプリケーション開発を得意としたフリーランスのフロントエンドエンジニアです。"
-        href="/"
-        className={css({
-          gridArea: "c1",
-        })}
-      >
-        <div
-          class={css({
-            w: 28,
-            h: 28,
-            backgroundColor: "slate.100",
-          })}
-        >
-          asd;fjk
-        </div>
-      </BentoCard>
-      <BentoCard
-        title="BLOG"
-        desc="常にフロントエンド領域の最新技術をキャッチアップしています"
-        className={css({
-          gridArea: "c2",
-        })}
-      >
-        <div
-          class={css({
-            w: 28,
-            h: 28,
-            backgroundColor: "slate.100",
-          })}
-        >
-          asd;fjk
-        </div>
-      </BentoCard>
-      <BentoCard
-        title="PHILOSOPHY"
-        desc="品質とパフォーマンスに拘ります"
-        className={css({
-          gridArea: "c3",
-        })}
-      >
-        <div
-          class={css({
-            w: 28,
-            h: 28,
-            backgroundColor: "slate.100",
-          })}
-        >
-          RELIABILITY
-        </div>
-      </BentoCard>
-      <BentoCard
-        title="MY SKILLS"
-        desc=""
-        className={css({
-          gridArea: "c4",
-        })}
-      >
+      <BentoItem title="WEB DEVELOPER" href="/" area="c1">
+        <Abouts />
+      </BentoItem>
+      <BentoItem title="BLOG" area="c2">
+        <BlogMotif />
+      </BentoItem>
+      <BentoItem title="PHILOSOPHY" area="c3" />
+      <BentoItem title="MY SKILLS" area="c4">
         <MySkill />
-      </BentoCard>
-      <BentoCard
-        title="WORKS"
-        desc="これまでに作成した成果物"
-        href="/"
-        className={css({
-          gridArea: "c5",
-        })}
-      >
-        <div
-          class={css({
-            w: 28,
-            h: 28,
-            backgroundColor: "slate.100",
-          })}
-        >
-          aasdf
-        </div>
-      </BentoCard>
-      <BentoCard
-        title="CONTACT"
-        desc="これまでに作成した成果物"
-        className={css({
-          gridArea: "c6",
-        })}
-      >
+      </BentoItem>
+      <BentoItem title="WORKS" href="/" area="c5" />
+      <BentoItem title="CONTACT" area="c6">
         <ContactUs result={result} submittedData={submittedData} />
-      </BentoCard>
+      </BentoItem>
+      <BentoItem title="SNS" area="c7">
+        <SnsLinks />
+      </BentoItem>
     </div>
   </main>
 </Layout>

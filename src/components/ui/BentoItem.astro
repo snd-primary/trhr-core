@@ -3,39 +3,41 @@ import { css } from "styled-system/css";
 
 interface Props {
   title: string;
-  desc?: string;
   href?: string;
-  className: string;
+  area: "c1" | "c2" | "c3" | "c4" | "c5" | "c6" | "c7";
 }
 
-const { title, desc, href, className } = Astro.props;
+const { title, area, href } = Astro.props;
 
 const container = css({
   border: "1px solid",
   borderColor: "border",
-  background: "secondary/40",
+  background: "secondary/20",
   borderRadius: "xs",
   w: "full",
   h: "full",
   fontFamily: "depa",
-  padding: 4,
+  p: 4,
   md: {
-    padding: 4,
+    px: 2,
+    pt: 1,
+    pb: 2,
   },
   gap: 3,
   display: "grid",
   gridTemplateColumns: "1fr",
-  gridTemplateRows: "min-content min-content 1fr min-content",
+  gridTemplateRows: "min-content 1fr min-content",
   alignContent: "flex-start",
+  gridArea: area,
 });
 ---
 
-<section class={`${container} ${className} item`}>
+<section class={container}>
   <h2
     class={css({
       fontSize: "2xl",
       md: { fontSize: "4xl" },
-      color: "primary/90",
+      color: "primary",
       fontWeight: "bold",
       display: "inline-block",
       width: "fit-content",
@@ -43,7 +45,6 @@ const container = css({
   >
     {title}
   </h2>
-  {desc && <p>{desc}</p>}
   <div
     class={css({
       w: "full",

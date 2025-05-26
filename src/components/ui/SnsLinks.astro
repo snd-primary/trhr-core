@@ -1,0 +1,36 @@
+---
+import GithubIcon from "public/icon/github.svg";
+import InstagramIcon from "public/icon/instagram.svg";
+import XIcon from "public/icon/x.svg";
+import RssIcon from "public/icon/rss.svg";
+import { css } from "styled-system/css";
+
+const iconToRender = [
+  { component: GithubIcon, props: { href: "/" } },
+  { component: XIcon, props: { href: "/" } },
+  { component: InstagramIcon, props: { href: "/" } },
+  { component: RssIcon, props: { href: "/" } },
+];
+const iconStyle = css({
+  stroke: "orange",
+});
+
+const container = css({
+  display: "grid",
+  gridTemplateColumns: "repeat(2, 1fr)",
+  gap: 8,
+});
+---
+
+<div class={container}>
+  {
+    iconToRender.map((item) => {
+      const Component = item.component;
+      return (
+        <a href={item.props.href}>
+          <Component width={64} height={64} class={iconStyle} />
+        </a>
+      );
+    })
+  }
+</div>
