@@ -1,11 +1,45 @@
 ---
-import { css } from "styled-system/css";
+import { css, type RecipeVariantProps } from "styled-system/css";
+import { cva } from "styled-system/css/cva.mjs";
 
+const gridAreaVariants = cva({
+  base: {},
+  variants: {
+    areas: {
+      c1: {
+        gridArea: "c1",
+      },
+      c2: {
+        gridArea: "c2",
+      },
+      c3: {
+        gridArea: "c3",
+      },
+      c4: {
+        gridArea: "c4",
+      },
+      c5: {
+        gridArea: "c5",
+      },
+      c6: {
+        gridArea: "c6",
+      },
+      c7: {
+        gridArea: "c7",
+      },
+      c8: {
+        gridArea: "c8",
+      },
+    },
+  },
+});
 interface Props {
   title: string;
   href?: string;
-  area: "c1" | "c2" | "c3" | "c4" | "c5" | "c6" | "c7";
+  area: "c1" | "c2" | "c3" | "c4" | "c5" | "c6" | "c7" | "c8";
 }
+
+export type gridAreaVariantsType = RecipeVariantProps<typeof gridAreaVariants>;
 
 const { title, area, href } = Astro.props;
 
@@ -28,11 +62,10 @@ const container = css({
   gridTemplateColumns: "1fr",
   gridTemplateRows: "min-content 1fr min-content",
   alignContent: "flex-start",
-  gridArea: area,
 });
 ---
 
-<section class={container}>
+<section class={`${container} ${gridAreaVariants({ areas: area })}`}>
   <h2
     class={css({
       fontSize: "2xl",
