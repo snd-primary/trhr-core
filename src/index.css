@@ -8,3 +8,11 @@
   font-style: normal;
   font-display: swap;
 }
+
+:root {
+  --hdr-gradient: linear-gradient(
+    to right in oklch,
+    oklch(100% 0 0 / 0%) 20%,
+    oklch(90% 0.6 254 / 0.2) 100%
+  );
+}

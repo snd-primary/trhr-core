@@ -1,0 +1,127 @@
+---
+import { css, cva } from "styled-system/css";
+const experiences = [
+  {
+    year: "2021年～",
+    title: "フリーランスとしてWebの世界に入門",
+    description:
+      "Webサイトのマークアップ/デザイン/運用に携わる。この時は,WordPressサイトのパフォーマンス改善、Next.jsやAstroを用いたJamstack構成のサイト開発を強みにしていました。",
+  },
+  {
+    year: "2023年11月～2025年4月",
+    title: "金融系システムのUI/UXエンジニア",
+    description:
+      "チームでの開発を経験したくなり、開発会社に入社。レガシーなUI/UX開発基盤のモダンWeb化プロジェクトに参画。これまでに培った知識を活かし、フロントエンドの技術選定やCSS設計を主導しました。",
+  },
+  {
+    year: "現在",
+    title: "フリーランスエンジニア/インディーハッカー",
+    description:
+      "AIに特化した開発フローを身に着けないとエンジニアとして終わると思い、会社をやめました。AIを用いたWeb開発のワークフローを研究しつつ、個人開発に取り組んでいます。",
+  },
+];
+
+// タイムラインアイテムのスタイル
+const timelineItemStyle = cva({
+  base: {
+    position: "relative",
+    paddingLeft: { base: "22px", md: "18px" },
+    marginBottom: "12px",
+    _before: {
+      // タイムラインの縦線
+      content: "''",
+      position: "absolute",
+      left: { base: "4px", md: "5px" },
+      top: "3px",
+      width: "2px",
+      height: "calc(100% + 8px)",
+      backgroundColor: "primary",
+    },
+  },
+  variants: {
+    isLast: {
+      // 最後のアイテム用のバリアント
+      true: {
+        marginBottom: "0",
+        _before: {
+          height: { base: "10px", md: "12px" },
+        },
+      },
+    },
+  },
+});
+
+// タイムラインマーカーのスタイル
+const timelineMarkerStyle = css({
+  position: "absolute",
+  left: "0px",
+  top: "3px",
+  width: { base: "10px", md: "12px" },
+  height: { base: "10px", md: "12px" },
+  borderRadius: "50%",
+  backgroundColor: "background",
+  border: "2px solid",
+  borderColor: "primary",
+});
+
+// 経歴コンテンツエリアのスタイル
+const timelineContentStyle = css({
+  padding: { base: "6px 8px", md: "8px 10px" },
+  borderRadius: "sm",
+  boxShadow: "xs",
+});
+
+// 年のスタイル
+const timelineYearStyle = css({
+  display: "block",
+  fontWeight: "bold",
+  color: "primary",
+});
+
+// タイトルのスタイル
+const timelineTitleStyle = css({
+  fontWeight: "semibold",
+  color: "secondaryForeground/80",
+  fontSize: "sm",
+  p: 1,
+  borderRadius: "sm",
+});
+
+// 説明文のスタイル
+const timelineDescriptionStyle = css({
+  fontSize: "sm",
+  border: "1px solid",
+  borderColor: "border",
+  borderRadius: "xs",
+  p: 2,
+});
+---
+
+<div
+  class={css({
+    w: "full",
+    h: "full",
+    // color: "primary",
+  })}
+>
+  <div>
+    <div class={css({ position: "relative" })}>
+      {
+        experiences.map((exp, index) => (
+          <div
+            class={timelineItemStyle({
+              isLast: index === experiences.length - 1,
+            })}
+          >
+            <div class={timelineMarkerStyle} />
+            <div class={timelineContentStyle}>
+              <span class={timelineYearStyle}>{exp.year}</span>
+              <h4 class={timelineTitleStyle}>[ {exp.title} ]</h4>
+              <p class={timelineDescriptionStyle}>{exp.description}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>

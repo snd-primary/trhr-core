@@ -17,13 +17,14 @@ export default defineConfig({
     extend: {
       tokens: {
         colors: {
+          customGradient: { value: "var(--hdr-gradient)" },
           background: { value: "oklch(0.141 0.005 285.823)" },
           foreground: { value: "oklch(0.985 0 0)" },
           card: { value: "oklch(0.21 0.006 285.885)" },
           cardForeground: { value: "oklch(0.985 0 0)" },
           popover: { value: "oklch(0.21 0.006 285.885)" },
           popoverForeground: { value: "oklch(0.985 0 0)" },
-          primary: { value: "oklch(0.795 0.184 86.047)" },
+          primary: { value: "oklch(0.795 0.184 86.017)" },
           primaryForeground: { value: "oklch(0.421 0.095 57.708)" },
           secondary: { value: "oklch(0.274 0.006 286.033)" },
           secondaryForeground: { value: "oklch(0.985 0 0)" },
@@ -33,7 +34,7 @@ export default defineConfig({
           accentForeground: { value: "oklch(0.985 0 0)" },
           destructive: { value: "oklch(0.704 0.191 22.216)" },
           // border: { value: "oklch(1 0 0 / 20%)" },
-          border: { value: "oklch(0.595 0.184 98.047)" },
+          border: { value: "oklch(0.445 0.184 98.047)" },
           input: { value: "oklch(1 0 0 / 15%)" },
           ring: { value: "oklch(0.554 0.135 66.442)" },
           chart1: { value: "oklch(0.488 0.243 264.376)" },

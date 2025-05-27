@@ -10,6 +10,7 @@ import MySkill from "src/components/ui/MySkill.astro";
 import SnsLinks from "src/components/ui/SnsLinks.astro";
 import BlogMotif from "src/components/ui/BlogMotif.astro";
 import Abouts from "src/components/ui/Abouts.astro";
+import Career from "src/components/ui/career.astro";
 
 const result = Astro.getActionResult(actions.formAction);
 
@@ -47,10 +48,10 @@ const initialGridStyles = css({
   `,
   md: {
     gridTemplate: `
-    "c1 c1 c1 c2" 270px
-    "c1 c1 c1 c3" 270px
-    "c5 c4 c4 c4" 450px
-    "c6 c6 c6 c7"  570px / 1fr 1fr 1fr 1fr
+    "c1 c5 c8 c8" 270px
+    "c1 c3 c8 c8" 280px
+    "c4 c4 c4 c2" 450px
+    "c7 c6 c6 c6"  570px / 1fr 1fr 1fr 1fr
   `,
     gap: 2,
   },
@@ -75,11 +76,14 @@ const initialGridStyles = css({
     })}
   >
     <div class={initialGridStyles}>
-      <BentoItem title="WEB DEVELOPER" href="/" area="c1">
+      <BentoItem title="ABOUT" area="c1">
         <Abouts />
       </BentoItem>
       <BentoItem title="BLOG" area="c2">
         <BlogMotif />
+      </BentoItem>
+      <BentoItem title="CAREER" area="c8">
+        <Career />
       </BentoItem>
       <BentoItem title="PHILOSOPHY" area="c3" />
       <BentoItem title="MY SKILLS" area="c4">

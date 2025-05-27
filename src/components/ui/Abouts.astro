@@ -2,23 +2,47 @@
 import MyImg from "../../assets/about.png";
 import { Image } from "astro:assets";
 import { css } from "styled-system/css";
+
+const container = css({
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  placeContent: "center",
+  placeItems: "center",
+  gap: 3,
+  p: 4,
+  w: "full",
+});
 ---
 
-<div
-  class={css({
-    w: "full",
-    h: "full",
-  })}
->
-  TRHRは、フリーランスのフロントエンドエンジニアです。
+<div class={container}>
   <Image
-    class={css({
-      border: "1px solid",
-      borderColor: "border",
-    })}
+    class={css({ aspectRatio: "square" })}
     src={MyImg}
-    alt={"adsf"}
-    width={250}
-    height={250}
+    alt={"プロフィール画像"}
+    width={200}
+    height={200}
   />
+  <h3
+    class={css({
+      fontWeight: "bold",
+      color: "primary",
+    })}
+  >
+    TRHR&nbsp;(Ari Shinoda)
+  </h3>
+  <div
+    class={css({
+      display: "flex",
+      flexDirection: "column",
+      gap: "2",
+      color: "primary",
+      fontSize: "sm",
+    })}
+  >
+    <p>TRHRは、フロントエンド領域に強みを持つフリーランスエンジニアです。</p>
+    <p>
+      Next.jsやAstroなどのWebフレームワークを用いたWebサイト/アプリ開発を中心に活動しています。
+    </p>
+    <p>今年から新たなチャレンジとして個人開発も始めました！</p>
+  </div>
 </div>
