@@ -6,7 +6,7 @@ import { css } from "styled-system/css";
   class={css({
     border: "1px solid",
     borderColor: "primary",
-    w: "155px",
+    w: "240px",
     aspectRatio: "square",
     display: "grid",
     gridTemplate: `
@@ -50,8 +50,9 @@ import { css } from "styled-system/css";
     <div
       class={css({
         w: "full",
-        display: "flex",
-        flexDirection: "column",
+        display: "grid",
+        gridTemplateColumns: "1fr",
+        gridTemplateRows: "5fr 4fr 3fr 2fr 1fr",
         gap: 1,
         "& > span": {
           w: "full",
@@ -60,26 +61,11 @@ import { css } from "styled-system/css";
         },
       })}
     >
-      <span
-        class={css({
-          h: "16px",
-        })}></span>
-      <span
-        class={css({
-          h: "8px",
-        })}></span>
-      <span
-        class={css({
-          h: "4px",
-        })}></span>
-      <span
-        class={css({
-          h: "2px",
-        })}></span>
-      <span
-        class={css({
-          h: "1px",
-        })}></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
   </div>
   <div

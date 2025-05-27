@@ -10,7 +10,7 @@ import MySkill from "src/components/ui/MySkill.astro";
 import SnsLinks from "src/components/ui/SnsLinks.astro";
 import BlogMotif from "src/components/ui/BlogMotif.astro";
 import Abouts from "src/components/ui/Abouts.astro";
-import Career from "src/components/ui/career.astro";
+import Career from "src/components/ui/Career.astro";
 
 const result = Astro.getActionResult(actions.formAction);
 
@@ -39,21 +39,21 @@ const initialGridStyles = css({
   gridTemplateRows: "auto",
   gridTemplateAreas: `
     "c1"  
-    "c2" 
-    "c3" 
-    "c4" 
+    "c8" 
     "c5" 
-    "c6" 
+    "c2" 
+    "c4" 
     "c7" 
+    "c6" 
   `,
   md: {
     gridTemplate: `
-    "c1 c5 c8 c8" 270px
-    "c1 c3 c8 c8" 280px
-    "c4 c4 c4 c2" 450px
+    "c1 c8 c8 c5" 270px
+    "c1 c8 c8 c5" 280px
+    "c4 c4 c2 ." 450px
     "c7 c6 c6 c6"  570px / 1fr 1fr 1fr 1fr
   `,
-    gap: 2,
+    gap: 1,
   },
   width: "full",
   height: `calc(${row} * ${itemHeight})`,
@@ -85,7 +85,6 @@ const initialGridStyles = css({
       <BentoItem title="CAREER" area="c8">
         <Career />
       </BentoItem>
-      <BentoItem title="PHILOSOPHY" area="c3" />
       <BentoItem title="MY SKILLS" area="c4">
         <MySkill />
       </BentoItem>

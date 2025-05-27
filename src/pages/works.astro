@@ -1,0 +1,52 @@
+---
+import Layout from "src/layouts/Layout.astro";
+import { css } from "styled-system/css";
+
+const tableContainer = css({
+  display: "grid",
+  gridTemplateColumns: "repeat(3, 1fr)",
+  gridTemplateRows: "repeat(3, 300px)",
+  gap: "1px",
+  background: "border",
+  w: "full",
+  h: "full",
+  border: "1px solid",
+  borderColor: "border",
+});
+
+const cell = css({
+  w: "full",
+  h: "full",
+  background: "background",
+});
+---
+
+<Layout>
+  <main
+    class={css({
+      w: "full",
+      h: "full",
+      padding: "4",
+      display: "grid",
+      gridTemplateColumns: "1fr",
+      border: "1px solid",
+      borderColor: "border",
+      gap: "12",
+      md: {
+        gap: "4",
+      },
+    })}
+  >
+    <div class={tableContainer}>
+      <div class={cell}>a</div>
+      <div class={cell}>b</div>
+      <div class={cell}>c</div>
+      <div class={cell}>d</div>
+      <div class={cell}>e</div>
+      <div class={cell}>e</div>
+      <div class={cell}>e</div>
+      <div class={cell}>e</div>
+      <div class={cell}>e</div>
+    </div>
+  </main>
+</Layout>

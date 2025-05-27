@@ -12,29 +12,26 @@ import { css } from "styled-system/css";
     display: "flex", // Changed to flex for layout
     alignItems: "center",
     justifyContent: "space-between", // Space between title and nav
-    padding: "0 2rem", // Add some padding
-    background: "token(colors.gray.100)", // Changed background for better visibility
-    borderBottom: "1px solid token(colors.gray.300)",
   })}
 >
-  <a href="/" class={css({ textDecoration: 'none', color: 'inherit' })}>
+  <a href="/" class={css({ textDecoration: "none", color: "inherit" })}>
     <h1 class={css({ fontSize: "1.5rem", fontWeight: "bold" })}>Site Title</h1>
   </a>
   <nav>
     <ul class={css({ listStyle: "none", display: "flex", gap: "1rem" })}>
       <li>
-        <a 
-          href="/about" 
+        <a
+          href="/about"
           class={css({
             textDecoration: "none",
             color: "token(colors.blue.600)",
             _hover: {
               textDecoration: "underline",
               color: "token(colors.blue.800)",
-            }
+            },
           })}
         >
-          About
+          <!-- About -->
         </a>
       </li>
       <!-- Add other navigation links here if needed -->
