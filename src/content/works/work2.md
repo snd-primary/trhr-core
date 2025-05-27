@@ -1,7 +1,7 @@
 ---
 title: "Second Endeavor"
 description: "A detailed account of the second innovative endeavor."
-image: "/images/placeholder-work2.jpg"
+image: "../../assets/image.png"
 date: 2024-01-15
 tags: ["Graphic Design", "Portfolio"]
 ---
@@ -11,6 +11,7 @@ tags: ["Graphic Design", "Portfolio"]
 Welcome to the documentation of my second major endeavor. This project focuses on innovative graphic design.
 
 Key aspects:
+
 - Aspect X
 - Aspect Y
 - Aspect Z
