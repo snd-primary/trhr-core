@@ -1,52 +1,154 @@
 ---
-import Layout from "src/layouts/Layout.astro";
-import { css } from "styled-system/css";
+import Layout from "src/layouts/Layout.astro"; // Standard layout component
+import { getCollection } from 'astro:content'; // For fetching content collections
+import { css } from "styled-system/css"; // For PandaCSS styling
 
-const tableContainer = css({
-  display: "grid",
-  gridTemplateColumns: "repeat(3, 1fr)",
-  gridTemplateRows: "repeat(3, 300px)",
-  gap: "1px",
-  background: "border",
-  w: "full",
-  h: "full",
-  border: "1px solid",
-  borderColor: "border",
+// Fetch all entries from the 'works' collection
+const allWorks = await getCollection('works');
+
+// Styles for the page layout and work items
+// These are basic styles and can be refined later.
+
+const mainPageStyles = css({
+  width: "full",
+  maxWidth: "1200px", // Limit max width for better readability on large screens
+  margin: "0 auto", // Center the content
+  padding: { base: "4", md: "6" }, // Responsive padding (e.g., p_4, md:p_6)
+  display: 'flex',
+  flexDirection: 'column',
+  gap: { base: "6", md: "8" }, // Responsive gap (e.g., gap_6, md:gap_8)
 });
 
-const cell = css({
-  w: "full",
-  h: "full",
-  background: "background",
+const pageTitleStyles = css({
+  fontSize: { base: "2xl", md: "3xl" }, // Responsive font size (e.g., text_2xl, md:text_3xl)
+  fontWeight: "bold",
+  textAlign: "center",
+  color: "token(colors.gray.800)", // Example: Use a token for color
+  marginBottom: { base: "4", md: "6" }, // Responsive margin (e.g., mb_4, md:mb_6)
+  letterSpacing: "tight", // Added for tighter letter spacing
+});
+
+const worksGridStyles = css({
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 300px), 1fr))", // Responsive grid columns
+  gap: { base: "4", md: "6" }, // Responsive gap
+  listStyle: "none", // Remove default list styling
+  padding: "0", // Remove default padding
+});
+
+const workCardStyles = css({
+  display: "flex", // Use flex for internal layout of card
+  flexDirection: "column",
+  border: "1px solid token(colors.gray.200)", // Example border color
+  borderRadius: "lg", // e.g., br_lg
+  overflow: "hidden", // Ensure content respects border radius
+  textDecoration: "none",
+  color: "inherit",
+  backgroundColor: "token(colors.white)", // Card background
+  boxShadow: "md", // Added default medium shadow
+  transition: "box-shadow 0.3s ease, transform 0.2s ease, border-color 0.2s ease", // Added border-color to transition
+  _hover: {
+    boxShadow: "xl", // e.g., shadow_xl
+    transform: "translateY(-4px)",
+    borderColor: "token(colors.blue.400)",
+  },
+});
+
+const workImageContainerStyles = css({
+  width: "100%",
+  height: "200px", // Fixed height for the image area
+  overflow: "hidden", // Clip image if it's too large
+});
+
+const workImageStyles = css({
+  width: "100%",
+  height: "100%",
+  objectFit: "cover", // Cover the container, cropping if necessary
+  transition: "transform 0.3s ease-out",
+  _hover: { // Slight zoom effect on image hover (within card)
+    transform: "scale(1.05)",
+  }
+});
+
+const workContentStyles = css({
+  padding: "1rem", // p_4
+  display: "flex",
+  flexDirection: "column",
+  flexGrow: "1", // Allows content to fill space, useful for tags at bottom
+});
+
+const workTitleStyles = css({
+  fontSize: "lg", // e.g., text_lg
+  fontWeight: "semibold",
+  color: "token(colors.gray.700)",
+  marginBottom: "0.5rem", // mb_2
+  transition: "color 0.2s ease-in-out", // Added transition for potential color changes
+  _hover: {
+    // Example: color: "token(colors.blue.600)" // If the title itself was a link or had interaction
+  }
+});
+
+const workDescriptionStyles = css({
+  fontSize: "sm", // e.g., text_sm
+  color: "token(colors.gray.600)",
+  marginBottom: "0.75rem", // mb_3
+  flexGrow: "1", // Pushes tags to the bottom
+});
+
+const workTagsContainerStyles = css({
+  marginTop: "auto", // Pushes tags to the bottom of the card content area
+  paddingTop: "0.5rem", // pt_2, space above tags
+});
+
+const workTagStyles = css({
+  display: "inline-block",
+  backgroundColor: "token(colors.blue.100)",
+  color: "token(colors.blue.800)",
+  padding: "0.25rem 0.75rem", // py_1, px_3
+  borderRadius: "full", // br_full for pill shape
+  fontSize: "xs", // text_xs
+  fontWeight: "medium",
+  marginRight: "0.5rem", // mr_2
+  marginBottom: "0.5rem", // mb_2
+});
+
+const noWorksMessageStyles = css({
+  textAlign: "center",
+  color: "token(colors.gray.500)",
+  padding: "2rem", // p_8
+  fontSize: "lg", // text_lg
 });
 ---
 
-<Layout>
-  <main
-    class={css({
-      w: "full",
-      h: "full",
-      padding: "4",
-      display: "grid",
-      gridTemplateColumns: "1fr",
-      border: "1px solid",
-      borderColor: "border",
-      gap: "12",
-      md: {
-        gap: "4",
-      },
-    })}
-  >
-    <div class={tableContainer}>
-      <div class={cell}>a</div>
-      <div class={cell}>b</div>
-      <div class={cell}>c</div>
-      <div class={cell}>d</div>
-      <div class={cell}>e</div>
-      <div class={cell}>e</div>
-      <div class={cell}>e</div>
-      <div class={cell}>e</div>
-      <div class={cell}>e</div>
-    </div>
+<Layout title="My Works - Portfolio">
+  <main class={mainPageStyles}>
+    <h1 class={pageTitleStyles}>
+      Explore My Portfolio
+    </h1>
+
+    {allWorks.length === 0 ? (
+      <p class={noWorksMessageStyles}>
+        It looks like there are no works to display at the moment. Please check back soon!
+      </p>
+    ) : (
+      <div class={worksGridStyles}>
+        {allWorks.map(work => (
+          <a href={`/works/${work.slug}`} class={workCardStyles} aria-label={`View details for ${work.data.title}`}>
+            <div class={workImageContainerStyles}>
+              <img src={work.data.image} alt={`Thumbnail for ${work.data.title}`} class={workImageStyles} />
+            </div>
+            <div class={workContentStyles}>
+              <h2 class={workTitleStyles}>{work.data.title}</h2>
+              <p class={workDescriptionStyles}>{work.data.description.length > 100 ? work.data.description.slice(0, 97) + "..." : work.data.description}</p>
+              <div class={workTagsContainerStyles}>
+                {work.data.tags.map(tag => (
+                  <span class={workTagStyles}>{tag}</span>
+                ))}
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
   </main>
 </Layout>
