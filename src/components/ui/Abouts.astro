@@ -8,7 +8,7 @@ const container = css({
   gridTemplateColumns: "1fr",
   placeContent: "center",
   placeItems: "center",
-  gap: 3,
+  gap: 6,
   p: 4,
   w: "full",
 });
@@ -16,7 +16,11 @@ const container = css({
 
 <div class={container}>
   <Image
-    class={css({ aspectRatio: "square" })}
+    class={css({
+      aspectRatio: "square",
+      borderRadius: "full",
+      border: "1px solid token(colors.border)",
+    })}
     src={MyImg}
     alt={"プロフィール画像"}
     width={200}
@@ -25,7 +29,7 @@ const container = css({
   <h3
     class={css({
       fontWeight: "bold",
-      color: "primary",
+      // color: "primary",
     })}
   >
     TRHR&nbsp;(Ari Shinoda)
@@ -35,7 +39,6 @@ const container = css({
       display: "flex",
       flexDirection: "column",
       gap: "2",
-      color: "primary",
       fontSize: "sm",
     })}
   >

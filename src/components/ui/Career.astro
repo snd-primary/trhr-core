@@ -34,7 +34,7 @@ const timelineItemStyle = cva({
       top: "3px",
       width: "2px",
       height: "calc(100% + 8px)",
-      backgroundColor: "primary",
+      backgroundColor: "foreground",
     },
   },
   variants: {
@@ -60,7 +60,7 @@ const timelineMarkerStyle = css({
   borderRadius: "50%",
   backgroundColor: "background",
   border: "2px solid",
-  borderColor: "primary",
+  borderColor: "foreground",
 });
 
 // 経歴コンテンツエリアのスタイル
@@ -74,7 +74,6 @@ const timelineContentStyle = css({
 const timelineYearStyle = css({
   display: "block",
   fontWeight: "bold",
-  color: "primary",
 });
 
 // タイトルのスタイル
@@ -83,7 +82,6 @@ const timelineTitleStyle = css({
   color: "secondaryForeground/80",
   fontSize: "sm",
   p: 1,
-  borderRadius: "sm",
 });
 
 // 説明文のスタイル
@@ -92,7 +90,6 @@ const timelineDescriptionStyle = css({
   border: "1px solid",
   borderColor: "border",
   borderRadius: "xs",
-  color: "primary",
   p: 2,
 });
 ---

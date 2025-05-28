@@ -1,18 +1,22 @@
 ---
-import { render } from "astro:content";
-import { getCollection } from "astro:content";
+import { getEntry, render } from "astro:content";
 import Layout from "src/layouts/Layout.astro";
 import { css } from "styled-system/css"; // For PandaCSS
+import { Image } from "astro:assets";
+import Tag from "src/components/ui/content/tag.astro";
 
-export async function getStaticPaths() {
-  const worksEntries = await getCollection("works");
-  return worksEntries.map((work) => ({
-    params: { slug: work.slug },
-    props: { work },
-  }));
+// 1. Get the slug from the incoming server request
+const { id } = Astro.params;
+if (id === undefined) {
+  return Astro.redirect("/404");
 }
-
-const { work } = Astro.props;
+// 2. Query for the entry directly using the request slug
+const work = await getEntry("works", id);
+// 3. Redirect if the entry does not exist
+if (work === undefined) {
+  return Astro.redirect("/404");
+}
+// 4. Render the entry to HTML in the template
 const { Content } = await render(work);
 
 // Basic styles
@@ -20,87 +24,57 @@ const pageStyles = css({
   maxWidth: "800px",
   margin: "0 auto",
   padding: { base: "1rem", md: "2rem" },
-  fontFamily: "sans-serif", // Assuming a base font is set globally in PandaCSS config
-  // backgroundColor: 'token(colors.white)', // Optional: if page bg needs to differ from layout
-  // boxShadow: 'sm', // Optional: if page needs a slight lift
+  fontFamily: "sans-serif",
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  gap: 8,
 });
 
 const titleStyles = css({
   fontSize: { base: "2xl", md: "3xl" },
   fontWeight: "bold",
-  marginBottom: "0.75rem",
-  color: "token(colors.gray.800)",
-  letterSpacing: "tight", // Added for consistency
-  lineHeight: "shorter", // Added for better heading appearance
 });
 
 const dateStyles = css({
   fontSize: "sm",
-  color: "token(colors.gray.600)",
-  marginBottom: "0.5rem",
 });
 
 const tagsContainerStyles = css({
-  marginBottom: "1rem",
-});
-
-const tagStyles = css({
-  display: "inline-block",
-  backgroundColor: "token(colors.blue.100)",
-  color: "token(colors.blue.800)",
-  padding: "0.25rem 0.75rem",
-  borderRadius: "full",
-  fontSize: "xs",
-  fontWeight: "medium",
-  marginRight: "0.5rem",
-  marginBottom: "0.5rem",
+  display: "flex",
+  gap: 2,
 });
 
 const imageStyles = css({
   width: "100%",
   maxHeight: "400px",
+  aspectRatio: "portrait",
   objectFit: "cover",
-  borderRadius: "lg", // Slightly larger radius
-  marginBottom: "1.5rem",
-  border: "1px solid token(colors.gray.200)",
-  boxShadow: "md", // Added subtle shadow for depth
+  borderRadius: "2xl", // Slightly larger radius
+  boxShadow: "2xl", // Added subtle shadow for depth
 });
 
 const contentStyles = css({
   lineHeight: "1.75", // Increased line height for readability
-  color: "token(colors.gray.800)", // Darker text for better contrast
   wordBreak: "break-word",
   "& > :first-child": { marginTop: "0 !important" }, // Ensure no margin on first element
   "& h1": {
     fontSize: "2xl",
     fontWeight: "bold",
-    mt: "10",
-    mb: "5",
-    color: "token(colors.gray.900)",
     lineHeight: "tight",
   }, // For h1 within markdown
   "& h2": {
     fontSize: "xl",
     fontWeight: "semibold",
-    mt: "8",
-    mb: "4",
-    color: "token(colors.gray.900)",
     lineHeight: "tight",
   },
   "& h3": {
     fontSize: "lg",
     fontWeight: "semibold",
-    mt: "6",
-    mb: "3",
-    color: "token(colors.gray.900)",
     lineHeight: "tight",
   },
   "& h4": {
     fontSize: "md",
     fontWeight: "semibold",
-    mt: "5",
-    mb: "2",
-    color: "token(colors.gray.900)",
     lineHeight: "tight",
   },
   "& p": { marginBottom: "1.25rem" }, // Slightly more space between paragraphs
@@ -111,15 +85,12 @@ const contentStyles = css({
   },
   "& ul, & ol": {
     paddingLeft: "1.5rem",
-    marginBottom: "1.25rem",
     listStylePosition: "outside",
   },
-  "& li": { marginBottom: "0.5rem" }, // More space between list items
   "& li::marker": { color: "token(colors.gray.500)" },
   "& blockquote": {
     borderLeft: "4px solid token(colors.blue.300)",
     padding: "0.75rem 1rem",
-    margin: "1.5rem 0",
     fontStyle: "italic",
     color: "token(colors.gray.700)",
     backgroundColor: "token(colors.blue.50)",
@@ -153,14 +124,12 @@ const contentStyles = css({
     fontFamily: "inherit", // Inherit monospace from pre
   },
   "& hr": {
-    margin: "2rem 0",
     borderColor: "token(colors.gray.300)",
     borderTopWidth: "1px",
   },
   "& table": {
     width: "100%",
     borderCollapse: "collapse",
-    margin: "1.5rem 0",
     fontSize: "sm",
     textAlign: "left",
   },
@@ -178,15 +147,20 @@ const contentStyles = css({
     maxWidth: "100%",
     height: "auto",
     borderRadius: "md",
-    margin: "1rem 0",
     boxShadow: "sm",
   },
 });
+
+const headerStyle = css({
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  gap: 2,
+});
 ---
 
-<Layout title={work.data.title + " - My Works"}>
+<Layout title={"asdf"}>
   <article class={pageStyles}>
-    <header>
+    <header class={headerStyle}>
       <h1 class={titleStyles}>{work.data.title}</h1>
       <p class={dateStyles}>
         Published on: {
@@ -201,14 +175,14 @@ const contentStyles = css({
         work.data.tags && work.data.tags.length > 0 && (
           <div class={tagsContainerStyles}>
             {work.data.tags.map((tag) => (
-              <span class={tagStyles}>{tag}</span>
+              <Tag tag={tag} />
             ))}
           </div>
         )
       }
     </header>
 
-    <img
+    <Image
       src={work.data.image}
       alt={`Cover image for ${work.data.title}`}
       class={imageStyles}

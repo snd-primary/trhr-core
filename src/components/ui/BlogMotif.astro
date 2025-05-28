@@ -1,11 +1,13 @@
 ---
 import { css } from "styled-system/css";
+const bColor = "border";
 ---
 
 <div
   class={css({
     border: "1px solid",
-    borderColor: "primary",
+    borderColor: bColor,
+    borderRadius: "xl",
     w: "240px",
     aspectRatio: "square",
     display: "grid",
@@ -17,7 +19,7 @@ import { css } from "styled-system/css";
     "& div": {
       w: "full",
       h: "full",
-      borderColor: "primary",
+      borderColor: bColor,
     },
   })}
 >
@@ -37,11 +39,12 @@ import { css } from "styled-system/css";
         w: "full",
         h: "full",
         border: "1px solid",
+        borderRadius: "xl",
         background: `
-    radial-gradient(circle, transparent 20%, oklch(0.141 0.005 285.823) 20%, oklch(0.141 0.005 285.823) 80%, transparent 80%, transparent),
-    radial-gradient(circle, transparent 20%, oklch(0.141 0.005 285.823) 20%, oklch(0.141 0.005 285.823) 80%, transparent 80%, transparent) 12px 12px,
-    linear-gradient(oklch(0.795 0.184 86.017) 5px, transparent 1px) 0 -1px,
-    linear-gradient(90deg, oklch(0.795 0.184 86.017) 1px, oklch(0.141 0.005 285.823) 1px) -1px 0
+    radial-gradient(circle, transparent 20%, token(colors.background) 20%, token(colors.background) 80%, transparent 80%, transparent),
+    radial-gradient(circle, transparent 20%, token(colors.background) 20%, token(colors.background) 80%, transparent 80%, transparent) 12px 12px,
+    linear-gradient(token(colors.border) 5px, transparent 1px) 0 -1px,
+    linear-gradient(90deg, token(colors.border) 1px, token(colors.background/0) 1px) -1px 0
   `,
         backgroundSize: "24px 24px, 24px 24px, 12px 12px, 12px 12px",
       })}
@@ -57,7 +60,8 @@ import { css } from "styled-system/css";
         "& > span": {
           w: "full",
           display: "block",
-          background: "primary",
+          borderRadius: "sm",
+          background: bColor,
         },
       })}
     >
@@ -79,7 +83,8 @@ import { css } from "styled-system/css";
         w: "full",
         h: "full",
         border: "1px solid",
-        borderColor: "primary",
+        borderColor: bColor,
+        borderRadius: "lg",
       },
     })}
   >

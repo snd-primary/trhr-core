@@ -193,7 +193,7 @@ for (const category in groupedSkills) {
 
 const terminalWindowStyles = css({
   backgroundColor: "secondary/50",
-  borderRadius: "md",
+  borderRadius: "2xl",
   color: "popoverForeground",
   // boxShadow: "0px 0px 5px 4px rgba(255, 255, 255, 0.2)",
   border: "1px solid",
@@ -229,11 +229,11 @@ const terminalBodyStyles = css({
   height: "full",
   maxHeight: "480px",
   md: {
-    maxHeight: "315px",
+    maxHeight: "290px",
   },
   overflowY: "auto",
   overscrollBehavior: "contain",
-  scrollbarColor: "orange #222",
+  scrollbarColor: "white #222",
   "&::-webkit-scrollbar": {
     width: "8px",
   },
@@ -256,6 +256,7 @@ const buttonStyles = {
   borderRadius: "full",
   border: "1px solid",
 };
+
 const promptLineStyles = {
   marginBottom: "2",
 };
@@ -281,6 +282,7 @@ const preStyles = {
   whiteSpace: "pre-wrap",
   lineHeight: "tight",
   fontFamily: "depa",
+  color: "primary",
 };
 
 const keyframes = defineKeyframes({

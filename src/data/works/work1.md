@@ -1,7 +1,7 @@
 ---
 title: "First Project"
 description: "This is a description of the first amazing project."
-image: "../../assets/image.png"
+image: "./image.png"
 date: 2023-10-26
 tags: ["Web Development", "Astro"]
 ---

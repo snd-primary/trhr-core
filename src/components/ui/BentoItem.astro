@@ -46,22 +46,22 @@ const { title, area, href } = Astro.props;
 const container = css({
   border: "1px solid",
   borderColor: "border",
-  background: "secondary/20",
-  // borderRadius: "xs",
+
   w: "full",
   h: "full",
   fontFamily: "depa",
   p: 4,
   md: {
-    px: 2,
-    pt: 1,
+    px: 4,
+    pt: 4,
     pb: 2,
   },
-  gap: 3,
+  gap: 6,
   display: "grid",
   gridTemplateColumns: "1fr",
   gridTemplateRows: "min-content 1fr min-content",
   alignContent: "flex-start",
+  borderRadius: "4xl",
 });
 ---
 
@@ -70,10 +70,15 @@ const container = css({
     class={css({
       fontSize: "2xl",
       md: { fontSize: "4xl" },
-      color: "primary",
       fontWeight: "bold",
       display: "inline-block",
       width: "fit-content",
+      borderRadius: "20px",
+      border: "1px solid",
+      borderColor: "border",
+      background: "background",
+      px: 6,
+      py: 1,
     })}
   >
     {title}

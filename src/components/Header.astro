@@ -5,13 +5,16 @@ import { css } from "styled-system/css";
 <header
   class={css({
     w: "full",
-    h: "full", // Assuming 'full' means 60px as per Layout.astro grid-template-rows
+    h: "full",
     position: "sticky",
     top: 0,
     left: 0,
-    display: "flex", // Changed to flex for layout
+    display: "flex",
     alignItems: "center",
-    justifyContent: "space-between", // Space between title and nav
+    justifyContent: "space-between",
+    background: "background/30",
+    backdropFilter: "blur(12px)",
+    zIndex: "z50",
   })}
 >
   <a href="/" class={css({ textDecoration: "none", color: "inherit" })}>
@@ -31,10 +34,8 @@ import { css } from "styled-system/css";
             },
           })}
         >
-          <!-- About -->
         </a>
       </li>
-      <!-- Add other navigation links here if needed -->
     </ul>
   </nav>
 </header>

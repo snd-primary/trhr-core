@@ -1,7 +1,7 @@
 ---
 title: "Second Endeavor"
 description: "A detailed account of the second innovative endeavor."
-image: "../../assets/image.png"
+image: "./image.png"
 date: 2024-01-15
 tags: ["Graphic Design", "Portfolio"]
 ---
