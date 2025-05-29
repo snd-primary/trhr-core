@@ -27,6 +27,7 @@ if (Astro.request.method === "POST") {
   } catch (error) {}
 }
 
+console.log(submittedData);
 if (result && !result.error) {
   return Astro.redirect("/thanks");
 }
@@ -48,10 +49,11 @@ const initialGridStyles = css({
   `,
   md: {
     gridTemplate: `
-    "c1 c8 c8 c5" 270px
-    "c1 c8 c8 c5" 320px
+    "c1 c1 c8 c8" 270px
+    "c1 c1 c8 c8" 320px
     "c4 c4 c2 ." 450px
-    "c7 c6 c6 c6"  570px / 1fr 1fr 1fr 1fr
+    "c5 c6 c6 c6"  300px 
+    "c7 c6 c6 c6"  300px / 1fr 1fr 1fr 1fr
   `,
     gap: 3,
   },

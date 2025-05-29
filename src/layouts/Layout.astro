@@ -1,9 +1,9 @@
 ---
 import "../index.css";
 import { css } from "../../styled-system/css";
-import { ClientRouter } from "astro:transitions";
 import Header from "src/components/Header.astro";
 import Footer from "src/components/Footer.astro";
+import Head from "src/components/Head.astro";
 
 const container = css({
   display: "grid",
@@ -26,19 +26,12 @@ const container = css({
 
 <!doctype html>
 <html lang="ja-JP">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <title>TRHR</title>
-    <ClientRouter />
-  </head>
+  <Head />
   <body
     class={css({
       background: "background",
       color: "foreground",
-      fontFamily: "depa",
+      fontFamily: "global",
     })}
   >
     <div class={container}>

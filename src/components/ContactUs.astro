@@ -1,5 +1,4 @@
 ---
-import { defineKeyframes } from "@pandacss/dev";
 import type { ActionReturnType } from "astro:actions";
 import { isInputError } from "astro:actions";
 import { actions } from "astro:actions";
@@ -14,12 +13,12 @@ const { result, submittedData = { name: "", email: "", message: "" } } =
   Astro.props;
 
 // エラー情報を一度だけ取得
-const errorFields =
+/* const errorFields =
   result?.error && isInputError(result.error) ? result.error.fields : {};
-
-const nameError = errorFields.name?.[0] || null;
+ */
+/* const nameError = errorFields.name?.[0] || null;
 const emailError = errorFields.email?.[0] || null;
-const messageError = errorFields.message?.[0] || null;
+const messageError = errorFields.message?.[0] || null; */
 
 // エラー情報を取得するヘルパー関数
 const getFieldError = (fieldName: string) => {
@@ -45,50 +44,36 @@ const getFieldValue = (fieldName: keyof typeof submittedData) => {
   return "";
 };
 
-const inputStyle = css({
+const inputBaseStyle = css({
   border: "1px solid",
-  borderColor: "border",
   padding: "3",
-  borderRadius: "xs",
-  background: "secondary",
+  borderRadius: "2xl",
+  background: "input/50",
   width: "full",
   fontSize: "md",
+  transition: "all ease .2s",
+  outline: "1px solid token(colors.primary/0)",
   "&:focus": {
-    outline: "3px double",
-    outlineColor: "chart1",
-    opacity: "0",
-    animationName: "fadeInout",
-    animationDuration: "2s",
-    animationTimingFunction: "ease-in-out",
+    outline: "1px solid token(colors.primary)",
   },
 });
 
+const inputStyle = css({
+  borderColor: "border",
+});
+
 const inputErrorStyle = css({
-  border: "1px solid",
-  borderColor: "rose.500",
-  padding: "3",
-  borderRadius: "md",
-  background: "gray.2",
-  color: "gray.12",
-  width: "full",
-  fontSize: "md",
-  "&:focus": {
-    borderColor: "rose.500",
-    outline: "1px solid",
-    outlineColor: "gray.a12",
-  },
+  borderColor: "destructive",
 });
 
 const labelStyle = css({
   fontSize: "sm",
-  color: "gray.11",
-  fontWeight: "medium",
   marginBottom: "2",
   display: "block",
 });
 
 const errorStyle = css({
-  color: "red.9",
+  color: "destructive",
   fontSize: "sm",
   marginTop: "1",
 });
@@ -96,16 +81,17 @@ const errorStyle = css({
 
 <div class={css({ maxWidth: "md", width: "full" })}>
   <form method="POST" action={actions.formAction} novalidate>
-    <div class={css({ display: "grid", gap: "4" })}>
+    <div class={css({ display: "grid", gap: 12 })}>
       <!-- 名前フィールド -->
       <div>
         <label for="name" class={labelStyle}>お名前 *</label>
         <input
-          class={hasFieldError("name") ? inputErrorStyle : inputStyle}
+          class={`${inputBaseStyle} ${hasFieldError("name") ? inputErrorStyle : inputStyle}`}
           type="text"
           name="name"
           id="name"
           value={getFieldValue("name")}
+          placeholder="山田 太郎"
           required
         />
         {
@@ -117,13 +103,14 @@ const errorStyle = css({
 
       <!-- メールアドレスフィールド -->
       <div>
-        <label for="email" class={labelStyle}>メールアドレス</label>
+        <label for="email" class={labelStyle}>メールアドレス *</label>
         <input
-          class={hasFieldError("email") ? inputErrorStyle : inputStyle}
+          class={`${inputBaseStyle} ${hasFieldError("name") ? inputErrorStyle : inputStyle}`}
           type="email"
           name="email"
           id="email"
           value={getFieldValue("email")}
+          placeholder="example@xxx.com"
           required
         />
         {
@@ -135,12 +122,12 @@ const errorStyle = css({
 
       <!-- メッセージフィールド -->
       <div>
-        <label for="message" class={labelStyle}>メッセージ</label>
+        <label for="message" class={labelStyle}>メッセージ *</label>
         <textarea
           class={`${css({
             minHeight: "24",
             resize: "vertical",
-          })} ${hasFieldError("message") ? inputErrorStyle : inputStyle}`}
+          })} ${inputBaseStyle} ${hasFieldError("message") ? inputErrorStyle : inputStyle}`}
           name="message"
           id="message"
           rows={4}>{getFieldValue("message")}</textarea
@@ -153,31 +140,34 @@ const errorStyle = css({
       </div>
 
       <!-- 送信ボタン -->
-      <button
-        type="submit"
+      <div
         class={css({
-          border: "1px solid",
-          borderColor: "border",
-          background: "borders",
-          px: "6",
-          py: "3",
-          fontFamily: "depa",
-          fontSize: "lg",
-          letterSpacing: "wider",
-          borderRadius: "xs",
-          cursor: "pointer",
-          transition: "all 0.2s ease",
-          "&:hover": {
-            background: "orange.10",
-            borderColor: "orange.10",
-          },
-          "&:active": {
-            transform: "translateY(1px)",
-          },
+          display: "flex",
+          justifyContent: "center",
         })}
       >
-        SEND
-      </button>
+        <button
+          type="submit"
+          class={css({
+            px: 6,
+            py: 3,
+            fontSize: "xl",
+            width: "1/2",
+            textAlign: "center",
+            borderRadius: "full",
+            border: "1px solid token(colors.border)",
+            transition: "all ease 0.2s",
+            outline: "2px solid token(colors.primary/0)",
+            color: "inherit",
+            _hover: {
+              outline: "1px double token(colors.primary)",
+              color: "primary",
+            },
+          })}
+        >
+          SEND
+        </button>
+      </div>
     </div>
   </form>
 </div>

@@ -12,11 +12,9 @@ const formActionSchema = z.object({
   ),
   message: z.preprocess(
     (val) => val || "",
-    z
-      .string()
-      .min(10, {
-        message: "簡単で結構ですので、お問い合わせ内容を記載ください。",
-      }),
+    z.string().min(10, {
+      message: "簡単で結構ですので、お問い合わせ内容を記載ください。",
+    }),
   ),
 });
 
