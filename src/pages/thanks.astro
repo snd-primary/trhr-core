@@ -1,6 +1,23 @@
 ---
 import Layout from "src/layouts/Layout.astro";
 import { css } from "../../styled-system/css";
+
+const button = css({
+  px: 6,
+  pt: 2,
+  pb: 3,
+  width: "fit-content",
+  textAlign: "center",
+  borderRadius: "full",
+  border: "1px solid token(colors.border)",
+  transition: "all ease 0.2s",
+  outline: "2px solid token(colors.primary/0)",
+  color: "inherit",
+  _hover: {
+    outline: "1px double token(colors.primary)",
+    color: "primary",
+  },
+});
 ---
 
 <Layout>
@@ -8,38 +25,22 @@ import { css } from "../../styled-system/css";
     class={css({
       w: "full",
       h: "full",
-      padding: "4",
       display: "grid",
-      placeContent: "center", // Center the content
-      textAlign: "center", // Center the text
+      placeItems: "center",
+      placeContent: "center",
+      gap: 12,
     })}
   >
     <h1
       class={css({
-        fontSize: "2xl", // Example: "2xl" or "3xl" from theme
+        fontSize: "2xl",
         fontWeight: "bold",
-        mb: "4", // Example: margin bottom
+        mb: "4",
       })}
     >
       お問い合わせありがとうございました
     </h1>
-    <a
-      href="/"
-      class={css({
-        mt: "8", // Add some margin top
-        display: "inline-block",
-        padding: "2 4",
-        border: "1px solid token(colors.primary)",
-        borderRadius: "md",
-        color: "primary",
-        textDecoration: "none",
-        _hover: {
-          background: "primary",
-          color: "background",
-        },
-      })}
-    >
-      トップページに戻る
-    </a>
+
+    <a href="/works" class={button}>トップページ</a>
   </main>
 </Layout>

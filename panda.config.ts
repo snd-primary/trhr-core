@@ -63,7 +63,7 @@ export default defineConfig({
           depa: { value: '"DepartureMono", monospace' },
           global: {
             value:
-              '"Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif',
+              '"DepartureMono", "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif',
           },
         },
       },
