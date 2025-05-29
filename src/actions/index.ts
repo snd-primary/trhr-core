@@ -4,16 +4,16 @@ import { z } from "astro:schema";
 const formActionSchema = z.object({
   name: z.preprocess(
     (val) => val || "",
-    z.string().min(1, { message: "名前を入力してください。" }),
+    z.string().min(1, { message: "お名前を入力してください" }),
   ),
   email: z.preprocess(
     (val) => val || "",
-    z.string().email({ message: "有効なメールアドレスを入力してください。" }),
+    z.string().email({ message: "有効なメールアドレスを入力してください" }),
   ),
   message: z.preprocess(
     (val) => val || "",
-    z.string().min(10, {
-      message: "簡単で結構ですので、お問い合わせ内容を記載ください。",
+    z.string().min(1, {
+      message: "簡単で結構ですので、お問い合わせ内容を記載ください",
     }),
   ),
 });

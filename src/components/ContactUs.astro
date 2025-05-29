@@ -3,6 +3,7 @@ import type { ActionReturnType } from "astro:actions";
 import { isInputError } from "astro:actions";
 import { actions } from "astro:actions";
 import { css } from "styled-system/css";
+import PlaneIcon from "public/icon/plane-departure-solid.svg";
 
 interface Props {
   result: ActionReturnType<typeof Astro.getActionResult> | undefined;
@@ -12,14 +13,6 @@ interface Props {
 const { result, submittedData = { name: "", email: "", message: "" } } =
   Astro.props;
 
-// エラー情報を一度だけ取得
-/* const errorFields =
-  result?.error && isInputError(result.error) ? result.error.fields : {};
- */
-/* const nameError = errorFields.name?.[0] || null;
-const emailError = errorFields.email?.[0] || null;
-const messageError = errorFields.message?.[0] || null; */
-
 // エラー情報を取得するヘルパー関数
 const getFieldError = (fieldName: string) => {
   if (result?.error && isInputError(result.error)) {
@@ -28,11 +21,18 @@ const getFieldError = (fieldName: string) => {
   return null;
 };
 
-// フィールドにエラーがあるかチェックするヘルパー関数
+// フィールドにエラーがあるかチェックするヘルパー関数 (修正案)
 const hasFieldError = (fieldName: string) => {
-  const hasError = getFieldError(fieldName) !== null;
-  console.log(`hasFieldError(${fieldName}):`, hasError);
-  return hasError;
+  if (result?.error && isInputError(result.error)) {
+    const fieldErrorMessages = result.error.fields[fieldName];
+    // エラーメッセージの配列が存在し、かつその配列が空ではないことを確認
+    const hasError =
+      Array.isArray(fieldErrorMessages) && fieldErrorMessages.length > 0;
+
+    return hasError;
+  }
+  console.log(`hasFieldError(${fieldName}): false (no or not an input error)`); // デバッグログ強化
+  return false;
 };
 
 // フォーム値を取得するヘルパー関数（エラー時の値保持用）
@@ -75,15 +75,48 @@ const labelStyle = css({
 const errorStyle = css({
   color: "destructive",
   fontSize: "sm",
-  marginTop: "1",
+  position: "absolute",
+  bottom: -6,
+  right: "0",
+});
+
+const formStyle = css({
+  display: "grid",
+  gap: 14,
+});
+
+const buttonStyle = css({
+  px: 6,
+  py: 3,
+  fontSize: "xl",
+  width: "1/2",
+  textAlign: "center",
+  borderRadius: "full",
+  background: "background",
+  cursor: "pointer",
+  pointerEvents: "auto",
+  border: "1px solid token(colors.border)",
+  transition: "all ease-in-out 0.3s",
+  letterSpacing: "6px",
+  outline: "2px solid token(colors.primary/0)",
+  color: "inherit",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  position: "relative",
+  gap: 1,
+  _hover: {
+    outline: "2px solid token(colors.primary)",
+    color: "primary",
+  },
 });
 ---
 
 <div class={css({ maxWidth: "md", width: "full" })}>
-  <form method="POST" action={actions.formAction} novalidate>
-    <div class={css({ display: "grid", gap: 12 })}>
+  <form method="POST" action={actions.formAction} novalidate class={formStyle}>
+    <div class={css({ display: "grid", gap: 8 })}>
       <!-- 名前フィールド -->
-      <div>
+      <div class={css({ position: "relative" })}>
         <label for="name" class={labelStyle}>お名前 *</label>
         <input
           class={`${inputBaseStyle} ${hasFieldError("name") ? inputErrorStyle : inputStyle}`}
@@ -102,10 +135,10 @@ const errorStyle = css({
       </div>
 
       <!-- メールアドレスフィールド -->
-      <div>
+      <div class={css({ position: "relative" })}>
         <label for="email" class={labelStyle}>メールアドレス *</label>
         <input
-          class={`${inputBaseStyle} ${hasFieldError("name") ? inputErrorStyle : inputStyle}`}
+          class={`${inputBaseStyle} ${hasFieldError("email") ? inputErrorStyle : inputStyle}`}
           type="email"
           name="email"
           id="email"
@@ -121,12 +154,12 @@ const errorStyle = css({
       </div>
 
       <!-- メッセージフィールド -->
-      <div>
-        <label for="message" class={labelStyle}>メッセージ *</label>
+      <div class={css({ position: "relative" })}>
+        <label for="message" class={labelStyle}>メッセージ</label>
         <textarea
           class={`${css({
             minHeight: "24",
-            resize: "vertical",
+            resize: "none",
           })} ${inputBaseStyle} ${hasFieldError("message") ? inputErrorStyle : inputStyle}`}
           name="message"
           id="message"
@@ -138,36 +171,22 @@ const errorStyle = css({
           )
         }
       </div>
-
-      <!-- 送信ボタン -->
-      <div
-        class={css({
-          display: "flex",
-          justifyContent: "center",
-        })}
-      >
-        <button
-          type="submit"
-          class={css({
-            px: 6,
-            py: 3,
-            fontSize: "xl",
-            width: "1/2",
-            textAlign: "center",
-            borderRadius: "full",
-            border: "1px solid token(colors.border)",
-            transition: "all ease 0.2s",
-            outline: "2px solid token(colors.primary/0)",
-            color: "inherit",
-            _hover: {
-              outline: "1px double token(colors.primary)",
-              color: "primary",
-            },
-          })}
-        >
-          SEND
-        </button>
-      </div>
+    </div>
+    <!-- 送信ボタン -->
+    <div
+      class={css({
+        display: "flex",
+        justifyContent: "center",
+      })}
+    >
+      <button type="submit" class={buttonStyle}>
+        SEND
+        <PlaneIcon
+          width={26}
+          height={26}
+          class={css({ stroke: "currentcolor" })}
+        />
+      </button>
     </div>
   </form>
 </div>
