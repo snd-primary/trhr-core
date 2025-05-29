@@ -1,7 +1,45 @@
 ---
 import Layout from "src/layouts/Layout.astro";
+import { css } from "../../styled-system/css";
 ---
 
 <Layout>
-  <div>ご清聴ありがとうございました</div>
+  <main
+    class={css({
+      w: "full",
+      h: "full",
+      padding: "4",
+      display: "grid",
+      placeContent: "center", // Center the content
+      textAlign: "center", // Center the text
+    })}
+  >
+    <h1
+      class={css({
+        fontSize: "2xl", // Example: "2xl" or "3xl" from theme
+        fontWeight: "bold",
+        mb: "4", // Example: margin bottom
+      })}
+    >
+      お問い合わせありがとうございました
+    </h1>
+    <a
+      href="/"
+      class={css({
+        mt: "8", // Add some margin top
+        display: "inline-block",
+        padding: "2 4",
+        border: "1px solid token(colors.primary)",
+        borderRadius: "md",
+        color: "primary",
+        textDecoration: "none",
+        _hover: {
+          background: "primary",
+          color: "background",
+        },
+      })}
+    >
+      トップページに戻る
+    </a>
+  </main>
 </Layout>
