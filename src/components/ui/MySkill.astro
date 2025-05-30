@@ -1,198 +1,262 @@
 ---
 // src/components/ui/MySkill.astro
-import { css } from "styled-system/css"; // PandaCSSのcss関数とkeyframesをインポート
+import { css } from "styled-system/css"; // Pandacssのcss関数とkeyframesをインポート
 import { defineKeyframes } from "@pandacss/dev";
 
-// スキルデータのインターフェース定義
-interface SkillData {
-  skill: string; // スキル名
-  category: string; // カテゴリ
-  experience: string; // 経験year数
-}
-
-// スキルデータをJSONオブジェクトとして定義 (画像に基づいて更新)
-const allSkills: SkillData[] = [
-  // Languages
+const allSkills = [
   {
     skill: "JavaScript",
-    category: "Languages",
+    category: "FrontEnd",
     experience: "4.5year",
+    mastery: "░░░░░░░░░░░░",
   },
-  { skill: "TypeScript", category: "Languages", experience: "2year" },
-  { skill: "Node.js", category: "Languages", experience: "1.5year" }, // カテゴリを「Languages」に（FW/Libraryにも分類可）
-  { skill: "PowerShell", category: "Languages", experience: "2year" },
-  { skill: "PHP", category: "Languages", experience: "2year" },
-  { skill: "VBA", category: "Languages", experience: "1year" },
-  { skill: "C++", category: "Languages", experience: "6month" },
-  { skill: "HTML", category: "Languages", experience: "5year" }, // 一般的にはマークアップ言語だが、既存の分類に合わせる
-  { skill: "CSS", category: "Languages", experience: "5year" }, // 一般的にはスタイルシート言語だが、既存の分類に合わせる
-  { skill: "SCSS", category: "Languages", experience: "3year" }, // CSSプリプロセッサ
-
-  // FW/Library
+  {
+    skill: "TypeScript",
+    category: "FrontEnd",
+    experience: "2year",
+    mastery: "░░░░░░░░░",
+  },
+  {
+    skill: "Node.js",
+    category: "FrontEnd",
+    experience: "1.5year",
+    mastery: "░░░░░░░░",
+  },
+  {
+    skill: "PowerShell",
+    category: "FrontEnd",
+    experience: "2year",
+    mastery: "░░░░░░",
+  },
+  {
+    skill: "PHP",
+    category: "FrontEnd",
+    experience: "2year",
+    mastery: "░░░░░░",
+  },
+  {
+    skill: "VBA",
+    category: "FrontEnd",
+    experience: "1year",
+    mastery: "░░░░░░",
+  },
+  {
+    skill: "C++",
+    category: "FrontEnd",
+    experience: "6month",
+    mastery: "░░░",
+  },
+  {
+    skill: "HTML",
+    category: "FrontEnd",
+    experience: "5year",
+    mastery: "░░░░░░░░░░░░░",
+  },
+  {
+    skill: "css",
+    category: "FrontEnd",
+    experience: "5year",
+    mastery: "░░░░░░░░░░░░░",
+  },
+  {
+    skill: "Scss",
+    category: "FrontEnd",
+    experience: "3year",
+    mastery: "░░░░░░░░░░░░",
+  },
   {
     skill: "React",
-    category: "FW/Library",
+    category: "FrontEnd",
     experience: "2.5year",
+    mastery: "░░░░░░░░░░░",
   },
   {
     skill: "Next.js",
-    category: "FW/Library",
+    category: "FrontEnd",
     experience: "1year",
+    mastery: "░░░░░░░░░░",
   },
   {
     skill: "Astro",
-    category: "FW/Library",
+    category: "FrontEnd",
     experience: "1year",
+    mastery: "░░░░░░░░░░",
   },
   {
     skill: "Nuxt.js",
-    category: "FW/Library",
+    category: "FrontEnd",
     experience: "2month",
+    mastery: "░░░░░░",
   },
   {
     skill: "Electron",
-    category: "FW/Library",
+    category: "FrontEnd",
     experience: "1year",
+    mastery: "░░░░░░",
   },
   {
     skill: "Gatsby.js",
-    category: "FW/Library",
+    category: "FrontEnd",
     experience: "6month",
+    mastery: "░░░░",
   },
-  { skill: "GSAP", category: "FW/Library", experience: "1year" },
+  {
+    skill: "GSAP",
+    category: "FrontEnd",
+    experience: "1year",
+    mastery: "░░░░░░",
+  },
   {
     skill: "Three.js",
-    category: "FW/Library",
+    category: "FrontEnd",
     experience: "1year",
+    mastery: "░░░░░░",
   },
   {
     skill: "WebGL",
-    category: "FW/Library",
+    category: "FrontEnd",
     experience: "2month",
+    mastery: "░░░░",
   },
   {
     skill: "ReactRouter",
-    category: "FW/Library",
+    category: "FrontEnd",
     experience: "1month",
+    mastery: "░░░░░░",
   },
   {
     skill: "Vite/Webpack",
-    category: "FW/Library",
+    category: "FrontEnd",
     experience: "2.5year",
-  }, // ビルドツールとして「other」も可
-
-  // DB & API
-  { skill: "GraphQL", category: "DB", experience: "6month" },
-  { skill: "Prisma", category: "DB", experience: "6month" },
-  { skill: "Firebase", category: "DB", experience: "1year" },
-  { skill: "NeonDB", category: "DB", experience: "2month" },
-
-  // CSS (UIライブラリ含む)
-  { skill: "CSS monthdules", category: "CSS", experience: "1year" },
-  { skill: "TailwindCSS", category: "CSS", experience: "1year" },
-  { skill: "vanilla-extract", category: "CSS", experience: "1year" },
-  { skill: "PandaCSS", category: "CSS", experience: "1year" },
-  { skill: "MUI (v5)", category: "CSS", experience: "1year" },
-  { skill: "RadixUI", category: "CSS", experience: "1year" },
-  { skill: "shadcn/ui", category: "CSS", experience: "1year" },
-
-  // OS
-  { skill: "Windows", category: "OS", experience: "5year" },
-  { skill: "Arch Linux", category: "OS", experience: "3month" },
-
-  // other (ツール、CI/CDなど)
-  { skill: "Playwright", category: "other", experience: "3month" },
-  { skill: "VSCode", category: "other", experience: "4year" },
-  { skill: "Neovim", category: "other", experience: "1year" },
-  { skill: "Git/Github", category: "other", experience: "4year" },
-  { skill: "MS 365", category: "other", experience: "2year" },
-  { skill: "Cursor", category: "other", experience: "6month" },
-  { skill: "Figma", category: "other", experience: "3year" },
-  { skill: "Adobe illustrator", category: "other", experience: "1year" },
-  { skill: "Adobe Photoshop", category: "other", experience: "1year" },
+    mastery: "░░░░░░",
+  },
+  { skill: "GraphQL", category: "DB", experience: "6month", mastery: "░░░░░" },
+  { skill: "Prisma", category: "DB", experience: "6month", mastery: "░░░░░" },
+  { skill: "Firebase", category: "DB", experience: "1year", mastery: "░░░░░" },
+  { skill: "Neondb", category: "DB", experience: "2month", mastery: "░░░░" },
+  {
+    skill: "Tailwindcss",
+    category: "CSS",
+    experience: "1year",
+    mastery: "░░░░░░░░░░",
+  },
+  {
+    skill: "vanilla-extract",
+    category: "CSS",
+    experience: "1year",
+    mastery: "░░░░░░░░░░░",
+  },
+  {
+    skill: "Pandacss",
+    category: "CSS",
+    experience: "1year",
+    mastery: "░░░░░░░░░░░",
+  },
+  { skill: "MUI (v5)", category: "CSS", experience: "1year", mastery: "░░░░" },
+  {
+    skill: "RadixUI",
+    category: "CSS",
+    experience: "1year",
+    mastery: "░░░░░░░░░░",
+  },
+  {
+    skill: "shadcn/ui",
+    category: "CSS",
+    experience: "1year",
+    mastery: "░░░░░░░░░░",
+  },
+  {
+    skill: "Windows",
+    category: "OS",
+    experience: "5year",
+    mastery: "░░░░░░░░",
+  },
+  {
+    skill: "Arch Linux",
+    category: "OS",
+    experience: "3month",
+    mastery: "░░",
+  },
+  {
+    skill: "Playwright",
+    category: "Others",
+    experience: "3month",
+    mastery: "░░░░░░░",
+  },
+  {
+    skill: "VSCode",
+    category: "Others",
+    experience: "4year",
+    mastery: "░░░░░░░░",
+  },
+  {
+    skill: "Neovim",
+    category: "Others",
+    experience: "1year",
+    mastery: "░░░░░░░░",
+  },
+  {
+    skill: "Git/Github",
+    category: "Others",
+    experience: "4year",
+    mastery: "░░░░░░░",
+  },
+  {
+    skill: "MS 365",
+    category: "Others",
+    experience: "2year",
+    mastery: "░░░░░░",
+  },
+  {
+    skill: "Cursor",
+    category: "Others",
+    experience: "6month",
+    mastery: "░░░░",
+  },
+  {
+    skill: "Figma",
+    category: "Others",
+    experience: "3year",
+    mastery: "░░░░░░░░",
+  },
+  {
+    skill: "Adobe illustrator",
+    category: "Others",
+    experience: "1year",
+    mastery: "░░░░░░",
+  },
+  {
+    skill: "Adobe Photoshop",
+    category: "Others",
+    experience: "1year",
+    mastery: "░░░░░",
+  },
 ];
 
-// スキルをカテゴリごとにグループ化
-const groupedSkills = allSkills.reduce(
-  (acc, currentSkill) => {
-    const category = currentSkill.category;
-    if (!acc[category]) {
-      acc[category] = [];
-    }
-    acc[category].push(currentSkill);
-    return acc;
-  },
-  {} as Record<string, SkillData[]>,
-);
-
-// ターミナルのプロンプト情報
 const user = "guest";
 const host = "portfolio.dev";
 const promptText = `${user}@${host}:~$`; // 変数名を prompt から promptText に変更 (Astroの予約語との衝突回避)
 const commandText = "show_skills --format=table"; // 変数名を command から commandText に変更
 
-/**
- * 文字列を指定された長さに右パディングする関数
- */
-function padRight(str: string, length: number, char: string = " "): string {
-  return str + char.repeat(Math.max(0, length - str.length));
-}
+const skills = allSkills.reduce<Record<string, typeof allSkills>>(
+  (acc, skill) => {
+    const category = skill.category;
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(skill);
+    return acc;
+  },
+  {} as Record<string, typeof allSkills>,
+);
 
-/**
- * 指定されたカテゴリのスキル一覧テーブルを生成する関数
- */
-function generateTableForCategory(
-  categoryName: string,
-  skills: SkillData[],
-): string[] {
-  const output: string[] = [];
-  output.push(`\nCategory: ${categoryName}`);
+// (任意) カテゴリの表示順を定義したい場合
+const categoryOrder = ["FrontEnd", "DB", "CSS", "OS", "Others"];
 
-  const headerSkill = "Skill";
-  const headerExperience = "";
-
-  let maxSkillLength = headerSkill.length;
-  let maxExperienceLength = headerExperience.length;
-
-  skills.forEach((skill) => {
-    if (skill.skill.length > maxSkillLength)
-      maxSkillLength = skill.skill.length;
-    if (skill.experience.length > maxExperienceLength)
-      maxExperienceLength = skill.experience.length;
-  });
-
-  maxSkillLength += 2;
-  maxExperienceLength += 2;
-
-  const topBorder = `┌${"─".repeat(maxSkillLength)}┬${"─".repeat(maxExperienceLength)}┐`;
-  const headerSeparator = `├${"─".repeat(maxSkillLength)}┼${"─".repeat(maxExperienceLength)}┤`;
-  const bottomBorder = `└${"─".repeat(maxSkillLength)}┴${"─".repeat(maxExperienceLength)}┘`;
-
-  output.push(topBorder);
-  output.push(
-    `│${padRight(` ${headerSkill}`, maxSkillLength)}│${padRight(` ${headerExperience}`, maxExperienceLength)}│`,
-  );
-  output.push(headerSeparator);
-
-  skills.forEach((skill) => {
-    output.push(
-      `│${padRight(` ${skill.skill}`, maxSkillLength)}│${padRight(` ${skill.experience}`, maxExperienceLength)}│`,
-    );
-  });
-
-  output.push(bottomBorder);
-  return output;
-}
-
-const tableOutputLines: string[] = [];
-for (const category in groupedSkills) {
-  tableOutputLines.push(
-    ...generateTableForCategory(category, groupedSkills[category]),
-  );
-}
+const displayCategories = categoryOrder.filter((category) => skills[category]);
 
 const terminalWindowStyles = css({
-  backgroundColor: "secondary/50",
+  backgroundColor: "background",
   borderRadius: "2xl",
   color: "popoverForeground",
   // boxShadow: "0px 0px 5px 4px rgba(255, 255, 255, 0.2)",
@@ -221,15 +285,18 @@ const buttonsContainerStyles = css({
 const titleStyles = css({
   textAlign: "center",
   flexGrow: 1,
-  color: "scondaryForeground",
+  marginLeft: -10,
+  color: "primary",
 });
 
 const terminalBodyStyles = css({
   padding: "2",
   height: "full",
   maxHeight: "480px",
+  display: "grid",
+  gap: 4,
   md: {
-    maxHeight: "290px",
+    maxHeight: "388px",
   },
   overflowY: "auto",
   overscrollBehavior: "contain",
@@ -275,31 +342,81 @@ const commandTextStyles = {
 };
 
 const outputStyles = {
-  marginTop: "2",
+  display: "grid",
+  w: "2/3",
+  gap: 8,
+  pl: 4,
 };
 
-const preStyles = {
-  whiteSpace: "pre-wrap",
-  lineHeight: "tight",
-  fontFamily: "depa",
-  color: "primary",
-};
+const cursorStyles = css({
+  fontSize: "sm",
+  color: "blue.200",
+  opacity: "0",
+  animationName: "fadeInOut",
+  animationDuration: "1.2s",
+  animationTimingFunction: "step-end",
+  animationIterationCount: "infinite",
+});
 
-const keyframes = defineKeyframes({
-  blinkAnimation: {
-    "0%": { backgroundColor: "tranparent" },
-    "50%": { backgroundColor: "gray.12" },
-    "100%": { backgroundColor: "transparent" },
+const skillGrid = css({
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  w: "full",
+  rowGap: 2,
+  py: 2,
+  borderBottom: "1px dashed token(colors.foreground)",
+});
+
+const skillHead = css({
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr 1fr",
+  w: "full",
+  rowGap: 2,
+  borderTop: "1px dashed token(colors.foreground)",
+  borderBottom: "1px dashed token(colors.foreground)",
+  py: 2,
+});
+
+const skillGridTitleStyle = css({
+  w: "full",
+  h: "full",
+  px: 2,
+
+  borderLeft: "1px solid token(colors.foreground)",
+  _first: {
+    borderLeft: "1px solid token(colors.foreground)",
+  },
+  _last: {
+    borderRight: "1px solid token(colors.foreground)",
+  },
+  "&:nth-of-type(even)": {
+    borderRight: "none",
   },
 });
 
-const cursorStyles = css({
-  display: "inline-block",
-  backgroundColor: "gray.12",
-  width: "0.5em",
-  height: "1em",
-  verticalAlign: "middle",
-  animation: `${keyframes.blinkAnimation} 1s step-end infinite`,
+const skillGridItemStyle = css({
+  w: "full",
+  h: "full",
+  display: "flex",
+
+  borderLeft: "1px solid token(colors.foreground)",
+  px: 2,
+
+  _first: {
+    borderLeft: "1px solid token(colors.foreground)",
+  },
+  _last: {
+    borderRight: "1px solid token(colors.foreground)",
+  },
+  "&:nth-of-type(even)": {
+    borderRight: "none",
+  },
+});
+
+const masteryStyle = css({
+  w: "full",
+  border: "1px solid token(colors.foreground)",
+  mx: 2,
 });
 ---
 
@@ -323,12 +440,38 @@ const cursorStyles = css({
     </div>
 
     <div class={css(outputStyles)}>
-      {tableOutputLines.map((line) => <pre class={css(preStyles)}>{line}</pre>)}
+      {
+        displayCategories.map((categoryName) => (
+          <div>
+            <div class={skillHead}>
+              <div class={skillGridTitleStyle}>Skill</div>
+              <div class={skillGridTitleStyle}>Experience</div>
+              <div class={skillGridTitleStyle}>Mastery</div>
+            </div>
+
+            <div class={skillGrid}>
+              {skills[categoryName].map((item) => (
+                <div
+                  class={css({
+                    display: "flex",
+                  })}
+                >
+                  <div class={skillGridItemStyle}>{item.skill}</div>
+                  <div class={skillGridItemStyle}>{item.experience}</div>
+                  <div class={`${skillGridItemStyle} `}>
+                    <span class={masteryStyle}>{item.mastery}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
     </div>
     <div class={css(promptLineStyles, promptLineStylesMt4)}>
       {/* 複数のスタイルを結合 */}
       <span class={css(promptTextStyles)}>{promptText}</span>
-      <span class={cursorStyles}></span>
+      <span class={cursorStyles}>▮</span>
     </div>
   </div>
 </div>
