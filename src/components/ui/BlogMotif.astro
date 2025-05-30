@@ -1,28 +1,49 @@
 ---
 import { css } from "styled-system/css";
-const bColor = "border";
----
 
-<div
-  class={css({
-    border: "1px solid",
-    borderColor: bColor,
-    borderRadius: "xl",
-    w: "240px",
-    aspectRatio: "square",
-    display: "grid",
-    gridTemplate: `
+const bColor = "border";
+
+const container = css({
+  border: "1px solid",
+  borderColor: bColor,
+  borderRadius: "xl",
+  w: "240px",
+  aspectRatio: "square",
+  display: "grid",
+  position: "relative",
+  overflow: "hidden",
+  cursor: "pointer",
+  transition: "background-color 0.3s ease",
+  bgColor: "red",
+  _before: {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "lightcoral",
+    filter: "brightness(1.2) hue-rotate(45deg)",
+    clipPath: "circle(30px at var(--mouse-x) var(--mouse-y))",
+    zIndex: 1,
+  },
+  gridTemplate: `
 							"h h h h" 0.2fr
 							"m m m s"  1fr							
 							"f f f f"  0.1fr / 1fr 1fr 1fr 1fr
 						`,
-    "& div": {
-      w: "full",
-      h: "full",
-      borderColor: bColor,
-    },
-  })}
->
+  "& div": {
+    w: "full",
+    h: "full",
+    borderColor: bColor,
+  },
+});
+---
+
+<script is:inline>
+  const $follower = document.getElementById<HTMLDivElement>("motif");
+</script>
+<div class={container} id="motif">
   <div class={css({ gridArea: "h", borderBottom: "1px solid" })}></div>
   <div
     class={css({

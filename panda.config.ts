@@ -31,7 +31,7 @@ export default defineConfig({
     },
     "--gradient-end": {
       syntax: "<color>",
-      initialValue: "#4ecdc4",
+      initialValue: "j#4ecdc4",
       inherits: false,
     },
     "--gradient-position": {

@@ -417,10 +417,15 @@ const masteryStyle = css({
   w: "full",
   border: "1px solid token(colors.foreground)",
   mx: 2,
+  color: "foreground",
+  transition: "color .3s ease .2s",
+  _groupHover: {
+    color: "primary",
+  },
 });
 ---
 
-<div class={terminalWindowStyles}>
+<div class={terminalWindowStyles} role="group">
   <div class={terminalHeaderStyles}>
     <div class={buttonsContainerStyles}>
       <span class={css(buttonStyles, { borderColor: "chart5" })}></span>
