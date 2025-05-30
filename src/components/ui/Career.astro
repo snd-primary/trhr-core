@@ -1,9 +1,10 @@
 ---
+import { defineKeyframes } from "@pandacss/dev";
 import { css, cva } from "styled-system/css";
 const experiences = [
   {
     year: "2021年～",
-    title: "フリーランスとしてWebの世界に入門",
+    title: "Free lance",
     description:
       "Webサイトのマークアップ/デザイン/運用に携わる。この時は,WordPressサイトのパフォーマンス改善、Next.jsやAstroを用いたJamstack構成のサイト開発を強みにしていました。",
   },
@@ -26,15 +27,18 @@ const timelineItemStyle = cva({
     position: "relative",
     paddingLeft: { base: "22px", md: "18px" },
     marginBottom: "12px",
+    color: "primary",
+    fontSize: "sm",
+
     _before: {
       // タイムラインの縦線
       content: "''",
       position: "absolute",
       left: { base: "4px", md: "5px" },
-      top: "3px",
+      top: "11px",
       width: "2px",
       height: "calc(100% + 8px)",
-      backgroundColor: "foreground",
+      backgroundColor: "border",
     },
   },
   variants: {
@@ -49,48 +53,124 @@ const timelineItemStyle = cva({
     },
   },
 });
-
-// タイムラインマーカーのスタイル
-const timelineMarkerStyle = css({
-  position: "absolute",
-  left: "0px",
-  top: "3px",
-  width: { base: "10px", md: "12px" },
-  height: { base: "10px", md: "12px" },
-  borderRadius: "50%",
-  backgroundColor: "background",
-  border: "2px solid",
-  borderColor: "foreground",
-});
-
-// 経歴コンテンツエリアのスタイル
-const timelineContentStyle = css({
-  padding: { base: "6px 8px", md: "8px 10px" },
-  borderRadius: "sm",
-  boxShadow: "xs",
-});
+const DURATION = 0.3;
 
 // 年のスタイル
 const timelineYearStyle = css({
   display: "block",
   fontWeight: "bold",
+  fontSize: "sm",
+
+  _groupHover: {},
 });
 
-// タイトルのスタイル
-const timelineTitleStyle = css({
-  fontWeight: "semibold",
-  color: "secondaryForeground/80",
-  fontSize: "sm",
-  p: 1,
+// タイムラインマーカーのスタイル
+const timelineMarkerStyle = css({
+  position: "absolute",
+  transitionProperty: "width, left, top, borderColor, background",
+  transitionDuration: `${DURATION}s`,
+  transitionTimingFunction: "ease",
+  left: "0px",
+  top: "11px",
+  width: { base: "10px", md: "12px" },
+  aspectRatio: "square",
+  borderRadius: "50%",
+  backgroundColor: "background",
+  border: "2px solid",
+  borderColor: " token(colors.border)",
+  _groupHover: {
+    width: { base: "10px", md: "24px" },
+    left: -1.5,
+    top: 1.5,
+    borderColor: " token(colors.primary)",
+    background: "primary",
+  },
 });
 
-// 説明文のスタイル
-const timelineDescriptionStyle = css({
+const timelineInner = css({
+  w: "fit-content",
+  transition: "all 0.2s ease",
+});
+
+// コンテンツエリアのスタイル
+const timelineContentStyle = css({
+  padding: { base: "6px 8px", md: "8px 4px" },
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  transition: "padding 0.3s ease",
+  gap: 1,
+  _groupHover: {
+    pl: 3,
+  },
+});
+
+//タイトルと文章を包含するdivのスタイル
+const expWrapperStyle = css({
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  w: "fit-content",
+  height: "24px",
+  gap: 2,
+  position: "relative",
+  background: "background",
+  borderRadius: "xl",
+  transitionProperty: "padding, height, width, background",
+  transitionDuration: `0.4s`,
+  transitionTimingFunction: "ease",
+  _groupHover: {
+    _before: {
+      "--gradient-angle": "225deg",
+      "--gradient-start": "#ff9a9e",
+      "--gradient-end": "#fecfef",
+    },
+    pb: 3,
+    px: 3,
+    pt: 2,
+    height: "full",
+    width: "full",
+    background: "transparent",
+  },
+  _before: {
+    content: "''",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    w: "full",
+    h: "full",
+    zIndex: -1,
+    borderRadius: "xl",
+    // CSSカスタムプロパティの定義
+    "--gradient-angle": "45deg",
+    "--gradient-start": "token(colors.border)",
+    "--gradient-end": "token(colors.border)",
+    // 背景とトランジション
+    background:
+      "linear-gradient(var(--gradient-angle), var(--gradient-start), var(--gradient-end))",
+    transition:
+      "--gradient-angle 0.8s ease, --gradient-start 0.6s ease, --gradient-end 0.6s ease",
+  },
+});
+
+//タイトル
+const expTitleStyle = css({
   fontSize: "sm",
-  border: "1px solid",
-  borderColor: "border",
-  borderRadius: "xs",
-  p: 2,
+  transition: `font-size ${DURATION} ease`,
+  position: "relative",
+  display: "block",
+  _groupHover: {
+    fontSize: "xl",
+  },
+});
+
+//説明文
+const expDescriptionStyle = css({
+  visibility: "hidden",
+  opacity: 0,
+  transition: "opacity 0.4s ease visibility 0.4s ease",
+  _groupHover: {
+    visibility: "visible",
+    opacity: 1,
+  },
 });
 ---
 
@@ -98,7 +178,6 @@ const timelineDescriptionStyle = css({
   class={css({
     w: "full",
     h: "full",
-    // color: "primary",
   })}
 >
   <div>
@@ -109,12 +188,17 @@ const timelineDescriptionStyle = css({
             class={timelineItemStyle({
               isLast: index === experiences.length - 1,
             })}
+            role="group"
           >
-            <div class={timelineMarkerStyle} />
-            <div class={timelineContentStyle}>
-              <span class={timelineYearStyle}>{exp.year}</span>
-              <h4 class={timelineTitleStyle}>[ {exp.title} ]</h4>
-              <p class={timelineDescriptionStyle}>{exp.description}</p>
+            <div class={timelineInner}>
+              <div class={timelineMarkerStyle} />
+              <div class={timelineContentStyle}>
+                <span class={timelineYearStyle}>{exp.year}</span>
+                <div class={expWrapperStyle}>
+                  <h4 class={expTitleStyle}>{exp.title}</h4>
+                  <p class={expDescriptionStyle}>{exp.description}</p>
+                </div>
+              </div>
             </div>
           </div>
         ))

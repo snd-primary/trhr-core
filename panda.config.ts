@@ -12,6 +12,35 @@ export default defineConfig({
   // Files to exclude
   exclude: [],
 
+  conditions: {
+    extend: {
+      groupHover: "[role=group]:where(:hover, [data-hover]) &",
+    },
+  },
+
+  globalVars: {
+    "--gradient-angle": {
+      syntax: "<angle>",
+      initialValue: "0deg",
+      inherits: false,
+    },
+    "--gradient-start": {
+      syntax: "<color>",
+      initialValue: "#ff6b6b",
+      inherits: false,
+    },
+    "--gradient-end": {
+      syntax: "<color>",
+      initialValue: "#4ecdc4",
+      inherits: false,
+    },
+    "--gradient-position": {
+      syntax: "<percentage>",
+      initialValue: "0%",
+      inherits: false,
+    },
+  },
+
   // Useful for theme customization
   theme: {
     extend: {
@@ -24,7 +53,8 @@ export default defineConfig({
           cardForeground: { value: "oklch(0.985 0 0)" },
           popover: { value: "oklch(0.21 0.006 285.885)" },
           popoverForeground: { value: "oklch(0.985 0 0)" },
-          primary: { value: "oklch(0.795 0.184 86.017)" },
+          // primary: { value: "oklch(0.795 0.184 86.017)" },
+          primary: { value: "oklch(0.64 0.17 39.33)" },
           primaryForeground: { value: "oklch(0.421 0.095 57.708)" },
           secondary: { value: "oklch(0.274 0.006 286.033)" },
           secondaryForeground: { value: "oklch(0.985 0 0)" },
