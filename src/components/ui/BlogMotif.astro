@@ -124,60 +124,26 @@ const footerAreaStyles = css({
     borderColor: B_COLOR_HOVERED,
   },
 });
+
+const overlay = css({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  w: "full",
+  h: "full",
+  background: "background/50",
+  backdropBlur: "xl",
+  zIndex: "8",
+  display: "grid",
+  placeItems: "center",
+  placeContent: "center",
+  color: "foreground/70",
+  fontStyle: "italic",
+});
 ---
 
-<script>
-  /*   import { waapi, stagger, WAAPIAnimation } from "animejs";
-
-  const $hoverTrigger = document.getElementById("motif");
-
-  let enterAnimation: WAAPIAnimation | null = null;
-  let leaveAnimation: WAAPIAnimation | null = null;
-
-  const lineElements: NodeListOf<HTMLDivElement> =
-    document.querySelectorAll<HTMLDivElement>(".stagger");
-
-  if ($hoverTrigger) {
-    $hoverTrigger.addEventListener("mouseenter", () => {
-      if (enterAnimation) {
-        enterAnimation.cancel();
-      }
-
-      const options = {
-        translate: `0 -0.8rem`,
-        delay: stagger(50),
-        duration: 300,
-        loop: false,
-        alternate: false,
-        ease: "inOut(2)",
-      };
-      enterAnimation = waapi.animate(".stagger", options);
-    });
-    $hoverTrigger.addEventListener("mouseleave", () => {
-      if (enterAnimation) {
-        enterAnimation.cancel();
-        enterAnimation = null;
-      }
-      if (leaveAnimation) {
-        leaveAnimation.cancel();
-      }
-
-      const options = {
-        translate: `0 0rem`, // 元の位置
-        delay: stagger(50),
-        duration: 300,
-        ease: "inOut(2)",
-      };
-      leaveAnimation = waapi.animate(".stagger", options);
-    });
-  } else {
-    console.warn(
-      'ホバー対象の要素 (id="hover-trigger") が見つかりませんでした。',
-    );
-  } */
-</script>
-
 <div class={`${containerStyles} ${hoveredEase}`} id="motif" role="group">
+  <div class={overlay}>準備中</div>
   <div class={`${headerAreaStyles} ${hoveredEase}`}></div>
 
   <div class={`${mainAreaStyles} ${hoveredEase}`}>

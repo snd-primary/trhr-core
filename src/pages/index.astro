@@ -11,6 +11,7 @@ import SnsLinks from "src/components/ui/SnsLinks.astro";
 import BlogMotif from "src/components/ui/BlogMotif.astro";
 import Abouts from "src/components/ui/Abouts.astro";
 import Career from "src/components/ui/Career.astro";
+import KeyboardMotif from "src/components/ui/KeyboardMotif.astro";
 
 const result = Astro.getActionResult(actions.formAction);
 
@@ -90,7 +91,9 @@ const initialGridStyles = css({
       <BentoItem title="MY SKILLS" area="c4">
         <MySkill />
       </BentoItem>
-      <BentoItem title="WORKS" href="/" area="c5" />
+      <BentoItem title="WORKS" href="/" area="c5">
+        <KeyboardMotif />
+      </BentoItem>
       <BentoItem title="CONTACT" area="c6">
         <ContactUs result={result} submittedData={submittedData} />
       </BentoItem>
