@@ -1,12 +1,192 @@
 ---
 import { ClientRouter } from "astro:transitions";
+
+import {
+  SITE_TITLE,
+  SITE_URL,
+  SITE_DESCRIPTION,
+  SITE_OG_IMAGE,
+  SITE_TWITTER_HANDLE,
+  SITE_AUTHOR,
+} from "../../site/config"; // パスが正しいか確認してください
+
+export interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  ogType?: string; // og:type (e.g., 'website', 'article')
+  canonicalUrl?: string;
+  noindex?: boolean;
+  author?: string;
+  publishDate?: string; // 記事の公開日 (ISO 8601形式)
+  ogImageAlt?: string; // OGP画像のaltテキスト
+}
+
+const {
+  title: pageTitle,
+  description: pageDescription,
+  ogImage: pageOgImage,
+  ogType = "website",
+  canonicalUrl: pageCanonicalUrl,
+  noindex = false,
+  author: pageAuthor,
+  publishDate,
+  ogImageAlt,
+} = Astro.props;
+
+const astroSite = Astro.site;
+if (!astroSite) {
+  console.warn(
+    "Astro.site is not configured. Please set the `site` property in your astro.config.mjs. Falling back to SITE_URL from config for some URLs, but this may not be ideal.",
+  );
+}
+const siteBaseUrl = astroSite ? astroSite.toString() : SITE_URL;
+
+// SEO Title
+const seoTitle = pageTitle ? `${pageTitle} | ${SITE_TITLE}` : SITE_TITLE;
+
+// Meta Description
+const seoDescription = pageDescription || SITE_DESCRIPTION;
+
+// Canonical URL
+const canonical = pageCanonicalUrl
+  ? new URL(pageCanonicalUrl, siteBaseUrl).href
+  : new URL(Astro.url.pathname, siteBaseUrl).href;
+
+// OGP Image
+const ogImageUrl = pageOgImage
+  ? new URL(pageOgImage, siteBaseUrl).href
+  : new URL(SITE_OG_IMAGE, siteBaseUrl).href;
+const ogImageSecureUrl = ogImageUrl.startsWith("https://")
+  ? ogImageUrl
+  : undefined;
+
+// Author
+const currentAuthor = pageAuthor || SITE_AUTHOR;
+
+// Structured Data (JSON-LD) - 例: WebSite and WebPage
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_TITLE,
+  url: siteBaseUrl,
+  ...(typeof SITE_TWITTER_HANDLE === "string" && SITE_TWITTER_HANDLE
+    ? {
+        sameAs: [`https://twitter.com/${"trhr_core"}`],
+      }
+    : {}),
+};
+
+const webpageSchema = {
+  "@context": "https://schema.org",
+  "@type": ogType === "article" ? "Article" : "WebPage",
+  name: seoTitle,
+  description: seoDescription,
+  url: canonical,
+  isPartOf: {
+    "@id": `${siteBaseUrl}#website`,
+  },
+  ...(ogImageSecureUrl && {
+    image: {
+      "@type": "ImageObject",
+      url: ogImageSecureUrl,
+      ...(ogImageAlt && { caption: ogImageAlt }),
+    },
+  }),
+  ...(currentAuthor && {
+    author: {
+      "@type": "Person",
+      name: currentAuthor,
+    },
+  }),
+  ...(publishDate && ogType === "article" && { datePublished: publishDate }),
+  ...(publishDate && ogType === "article" && { dateModified: publishDate }), // 必要に応じて更新日も
+};
 ---
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>{seoTitle}</title>
+  <meta name="description" content={seoDescription} />
+  <meta name="author" content={currentAuthor} />
+
+  {/* Robots Meta Tag */}
+  {
+    noindex ? (
+      <meta name="robots" content="noindex, nofollow" />
+    ) : (
+      <meta name="robots" content="index, follow" />
+    )
+  }
+
+  <link rel="sitemap" href="/sitemap-index.xml" />
+
+  {/* Canonical URL */}
+  <link rel="canonical" href={canonical} />
+
+  {/* Open Graph / Facebook */}
+  <meta property="og:title" content={seoTitle} />
+  <meta property="og:description" content={seoDescription} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:site_name" content={SITE_TITLE} />
+  <meta property="og:image" content={ogImageUrl} />
+
+  {
+    ogImageSecureUrl && (
+      <meta property="og:image:secure_url" content={ogImageSecureUrl} />
+    )
+  }
+  <meta property="og:image:width" content="1200" />
+  {/* 推奨サイズ */}
+  <meta property="og:image:height" content="630" />
+  {/* 推奨サイズ */}
+  {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
+  <meta property="og:type" content={ogType} />
+  {
+    ogType === "article" && publishDate && (
+      <meta property="article:published_time" content={publishDate} />
+    )
+  }
+  {
+    ogType === "article" && currentAuthor && (
+      <meta property="article:author" content={currentAuthor} />
+    )
+  }
+
+  {/* Twitter */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={seoTitle} />
+  <meta name="twitter:description" content={seoDescription} />
+  <meta name="twitter:image" content={ogImageUrl} />
+  {ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt} />}
+  {
+    SITE_TWITTER_HANDLE && (
+      <meta name="twitter:site" content={SITE_TWITTER_HANDLE} />
+    )
+  }
+  {
+    /* {SITE_TWITTER_HANDLE && <meta name="twitter:creator" content={SITE_TWITTER_HANDLE} />} */
+  }
+
+  {/* Favicon (例) - publicディレクトリに配置してください */}
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="generator" content={Astro.generator} />
-  <title>TRHR</title>
+  <link rel="alternate icon" href="/favicon.ico" sizes="any" />
+  {/* .icoはanyサイズ */}
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#1a1a3a" />
+  {/* サイトのテーマカラー */}
+
+  {/* JSON-LD Structured Data */}
+  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(webpageSchema)} />
+
   <ClientRouter />
+
+  {/* Astroが自動的に挿入するスタイルやスクリプトなど */}
+  <slot />
 </head>

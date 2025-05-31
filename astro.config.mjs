@@ -1,10 +1,16 @@
 // @ts-check
-import { defineConfig, fontProviders } from "astro/config";
+import { defineConfig } from "astro/config";
 
-import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
+
+import cloudflare from "@astrojs/cloudflare";
+
+const siteUrl = "https://trhr-core.dev";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react()],
+  site: siteUrl,
   output: "server",
+  integrations: [sitemap()],
+  adapter: cloudflare(),
 });
