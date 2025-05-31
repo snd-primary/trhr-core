@@ -91,6 +91,7 @@ export default defineConfig({
         },
         fonts: {
           depa: { value: '"DepartureMono", monospace' },
+          yuji: { value: '"YujiSyuku", "Hiragino Kaku Gothic ProN"' },
           global: {
             value:
               '"DepartureMono", "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif',
@@ -127,6 +128,14 @@ export default defineConfig({
           "0%": { opacity: "0" },
           "50%": { opacity: "1" },
           "100%": { opacity: "0" },
+        },
+        textFlicker: {
+          "0%": {
+            textShadow: "1px 0 0 #ea36af, -2px 0 0 #75fa69",
+          },
+          "100%": {
+            textShadow: "4px 0.5px 4px #ea36af, -3px -0.5px 2px #75fa69",
+          },
         },
       },
     },

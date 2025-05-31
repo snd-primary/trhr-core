@@ -4,9 +4,28 @@ import { css } from "styled-system/css";
 const container = css({
   w: "full",
   h: "full",
-  border: "1px solid token(colors.border)",
   display: "grid",
+  placeItems: "center",
+  placeContent: "center",
+});
+
+const text = css({
+  textShadow: "0.6rem 0 0.6rem #ea36af, -0.125rem 0 0.6rem #75fa69",
+  animationName: "textFlicker",
+  animationIterationCount: "infinite",
+  animationDirection: "alternate",
+  animationDuration: "0.02s",
+  fontSize: "8xl",
+  color: "primary",
+  fontFamily: "yuji",
+  transition: "filter 0.2s ease",
+  filter: "initial",
+  _hover: {
+    filter: "invert(1)",
+  },
 });
 ---
 
-<div class={container}></div>
+<div class={container}>
+  <a href="/works" class={text}>仕事</a>
+</div>

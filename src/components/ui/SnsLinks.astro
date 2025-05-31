@@ -6,13 +6,20 @@ import RssIcon from "public/icon/rss.svg";
 import { css } from "styled-system/css";
 
 const iconToRender = [
-  { component: GithubIcon, props: { href: "/" } },
-  { component: XIcon, props: { href: "/" } },
-  { component: InstagramIcon, props: { href: "/" } },
+  { component: GithubIcon, props: { href: "https://github.com/snd-primary" } },
+  { component: XIcon, props: { href: "https://x.com/trhr_core" } },
+  {
+    component: InstagramIcon,
+    props: { href: "https://www.instagram.com/1149trx/" },
+  },
   { component: RssIcon, props: { href: "/" } },
 ];
 const iconStyle = css({
   stroke: "foreground",
+  transition: "stroke 0.2s ease",
+  _groupHover: {
+    stroke: "primary",
+  },
 });
 
 const container = css({
@@ -27,7 +34,7 @@ const container = css({
     iconToRender.map((item) => {
       const Component = item.component;
       return (
-        <a href={item.props.href}>
+        <a href={item.props.href} role="group">
           <Component width={48} height={48} class={iconStyle} />
         </a>
       );
