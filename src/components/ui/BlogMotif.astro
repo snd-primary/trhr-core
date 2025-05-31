@@ -1,11 +1,20 @@
 ---
 import { css } from "styled-system/css";
 
-const bColor = "border";
+// スタイル定義を定数に切り出す
 
-const container = css({
+const B_COLOR_INITIAL = "border";
+const B_COLOR_HOVERED = "primary";
+
+const hoveredEase = css({
+  transitionProperty: "all",
+  transitionDuration: "0.3s",
+  transitionTimingFunction: "ease",
+});
+
+const containerStyles = css({
   border: "1px solid",
-  borderColor: bColor,
+  borderColor: B_COLOR_INITIAL,
   borderRadius: "xl",
   w: "240px",
   aspectRatio: "square",
@@ -14,102 +23,178 @@ const container = css({
   overflow: "hidden",
   cursor: "pointer",
   transition: "background-color 0.3s ease",
-  bgColor: "red",
-  _before: {
-    content: '""',
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "lightcoral",
-    filter: "brightness(1.2) hue-rotate(45deg)",
-    clipPath: "circle(30px at var(--mouse-x) var(--mouse-y))",
-    zIndex: 1,
-  },
   gridTemplate: `
-							"h h h h" 0.2fr
-							"m m m s"  1fr							
-							"f f f f"  0.1fr / 1fr 1fr 1fr 1fr
-						`,
-  "& div": {
+ "h h h h" 0.2fr
+ "m m m s" 1fr
+ "f f f f" 0.1fr / 1fr 1fr 1fr 1fr
+`,
+  _hover: {
+    borderColor: B_COLOR_HOVERED,
+  },
+  "& > div": {
     w: "full",
     h: "full",
-    borderColor: bColor,
+    borderColor: B_COLOR_INITIAL,
+  },
+});
+
+const headerAreaStyles = css({
+  gridArea: "h",
+  borderBottom: "1px solid",
+  borderColor: B_COLOR_INITIAL,
+  _groupHover: {
+    borderColor: B_COLOR_HOVERED,
+  },
+});
+
+const mainAreaStyles = css({
+  gridArea: "m",
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  gridTemplateRows: "1fr 1.1fr",
+  gap: 1,
+  padding: 2,
+});
+
+const mainTopContentStyles = css({
+  "--color-initial": "colors.border",
+  w: "full",
+  h: "full",
+  border: "1px solid",
+  borderColor: B_COLOR_INITIAL,
+  borderRadius: "xl",
+  background: `
+	radial-gradient(circle, transparent 20%, token(colors.background) 20%, token(colors.background) 80%, transparent 80%, transparent),
+	radial-gradient(circle, transparent 20%, token(colors.background) 20%, token(colors.background) 80%, transparent 80%, transparent) 12px 12px,
+	linear-gradient(var(--color-initial) 5px, transparent 1px) 0 -1px,
+	linear-gradient(90deg, var(--color-initial) 1px, token(colors.background/0) 1px) -1px 0
+`,
+  backgroundSize: "24px 24px, 24px 24px, 12px 12px, 12px 12px",
+  _groupHover: {
+    borderColor: B_COLOR_HOVERED,
+    "--color-initial": "colors.primary",
+  },
+});
+
+const mainBottomContentStyles = css({
+  w: "full",
+  h: "full",
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  gridTemplateRows: "5fr 4fr 3fr 2fr 1fr",
+  gap: 1,
+
+  "& > span": {
+    w: "full",
+    display: "block",
+    borderRadius: "sm",
+    background: B_COLOR_INITIAL,
+
+    _groupHover: {
+      background: B_COLOR_HOVERED,
+    },
+  },
+});
+
+const sidebarAreaStyles = css({
+  gridArea: "s",
+  display: "grid",
+  gap: 2,
+  padding: 1,
+
+  "& > span": {
+    w: "full",
+    h: "full",
+    border: "1px solid",
+    borderColor: B_COLOR_INITIAL,
+    borderRadius: "lg",
+
+    _groupHover: {
+      borderColor: B_COLOR_HOVERED,
+    },
+  },
+});
+
+const footerAreaStyles = css({
+  gridArea: "f",
+  borderTop: "1px solid",
+  borderColor: B_COLOR_INITIAL,
+
+  _groupHover: {
+    borderColor: B_COLOR_HOVERED,
   },
 });
 ---
 
-<script is:inline>
-  const $follower = document.getElementById<HTMLDivElement>("motif");
+<script>
+  /*   import { waapi, stagger, WAAPIAnimation } from "animejs";
+
+  const $hoverTrigger = document.getElementById("motif");
+
+  let enterAnimation: WAAPIAnimation | null = null;
+  let leaveAnimation: WAAPIAnimation | null = null;
+
+  const lineElements: NodeListOf<HTMLDivElement> =
+    document.querySelectorAll<HTMLDivElement>(".stagger");
+
+  if ($hoverTrigger) {
+    $hoverTrigger.addEventListener("mouseenter", () => {
+      if (enterAnimation) {
+        enterAnimation.cancel();
+      }
+
+      const options = {
+        translate: `0 -0.8rem`,
+        delay: stagger(50),
+        duration: 300,
+        loop: false,
+        alternate: false,
+        ease: "inOut(2)",
+      };
+      enterAnimation = waapi.animate(".stagger", options);
+    });
+    $hoverTrigger.addEventListener("mouseleave", () => {
+      if (enterAnimation) {
+        enterAnimation.cancel();
+        enterAnimation = null;
+      }
+      if (leaveAnimation) {
+        leaveAnimation.cancel();
+      }
+
+      const options = {
+        translate: `0 0rem`, // 元の位置
+        delay: stagger(50),
+        duration: 300,
+        ease: "inOut(2)",
+      };
+      leaveAnimation = waapi.animate(".stagger", options);
+    });
+  } else {
+    console.warn(
+      'ホバー対象の要素 (id="hover-trigger") が見つかりませんでした。',
+    );
+  } */
 </script>
-<div class={container} id="motif">
-  <div class={css({ gridArea: "h", borderBottom: "1px solid" })}></div>
-  <div
-    class={css({
-      gridArea: "m",
-      display: "grid",
-      gridTemplateColumns: "1fr",
-      gridTemplateRows: "1fr 1.1fr",
-      gap: 1,
-      padding: 2,
-    })}
-  >
-    <div
-      class={css({
-        w: "full",
-        h: "full",
-        border: "1px solid",
-        borderRadius: "xl",
-        background: `
-    radial-gradient(circle, transparent 20%, token(colors.background) 20%, token(colors.background) 80%, transparent 80%, transparent),
-    radial-gradient(circle, transparent 20%, token(colors.background) 20%, token(colors.background) 80%, transparent 80%, transparent) 12px 12px,
-    linear-gradient(token(colors.border) 5px, transparent 1px) 0 -1px,
-    linear-gradient(90deg, token(colors.border) 1px, token(colors.background/0) 1px) -1px 0
-  `,
-        backgroundSize: "24px 24px, 24px 24px, 12px 12px, 12px 12px",
-      })}
-    >
-    </div>
-    <div
-      class={css({
-        w: "full",
-        display: "grid",
-        gridTemplateColumns: "1fr",
-        gridTemplateRows: "5fr 4fr 3fr 2fr 1fr",
-        gap: 1,
-        "& > span": {
-          w: "full",
-          display: "block",
-          borderRadius: "sm",
-          background: bColor,
-        },
-      })}
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
+
+<div class={`${containerStyles} ${hoveredEase}`} id="motif" role="group">
+  <div class={`${headerAreaStyles} ${hoveredEase}`}></div>
+
+  <div class={`${mainAreaStyles} ${hoveredEase}`}>
+    <div class={`${mainTopContentStyles} ${hoveredEase} stagger`}></div>
+
+    <div class={`${mainBottomContentStyles} ${hoveredEase}`}>
+      <span class="stagger"></span>
+      <span class="stagger"></span>
+      <span class="stagger"></span>
+      <span class="stagger"></span>
+      <span class="stagger"></span>
     </div>
   </div>
-  <div
-    class={css({
-      gridArea: "s",
-      display: "grid",
-      gridTemplateColumns: "1fr",
-      gap: 2,
-      padding: 1,
-      "& > span": {
-        w: "full",
-        h: "full",
-        border: "1px solid",
-        borderColor: bColor,
-        borderRadius: "lg",
-      },
-    })}
-  >
+
+  <div class={sidebarAreaStyles}>
     <span></span>
   </div>
-  <div class={css({ gridArea: "f", borderTop: "1px solid" })}></div>
+
+  <div class={footerAreaStyles}></div>
 </div>
