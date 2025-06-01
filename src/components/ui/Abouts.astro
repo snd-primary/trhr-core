@@ -9,8 +9,19 @@ const container = css({
   placeContent: "center",
   placeItems: "center",
   gap: 6,
-  p: 4,
   w: "full",
+  "& p": {
+    // fontSize: "sm",
+  },
+});
+
+const skills = css({
+  color: "transparent",
+  display: "block",
+  w: "fit-content",
+  backgroundImage:
+    "linear-gradient(45deg, oklch(0.9 0.26 137.21), oklch(0.84 0.12 220.66))",
+  backgroundClip: "text",
 });
 ---
 
@@ -41,15 +52,14 @@ const container = css({
       gap: "2",
     })}
   >
-    <p
-      class={css({
-        fontFamily: "global",
-      })}
-    >
-      TRHRは、フリーランスのフロントエンドエンジニアです。Webサイト・アプリの開発を中心にお仕事募集中です！
-      最近個人開発にもチャレンジしています。
+    <p>
+      TRHRは、フリーランスのフロントエンドエンジニアです。<br
+      />Webサイト・アプリの開発を中心にお仕事募集中です！
+      <br />最近個人開発にもチャレンジしています。
     </p>
-    <p>好きな技術：[TS,React,Solid.js,Next.js,Astro...]</p>
-    <p>興味のある技術：[WebGL,Cloudflare,GCP,AI関連全般]</p>
+    <div class={skills}>
+      <p>CORESKILL:[TS,React,Solid.js,Next.js,Astro...]</p>
+      <p>INTERESTED：[WebGL,Cloudflare,GCP,AI関連全般]</p>
+    </div>
   </div>
 </div>

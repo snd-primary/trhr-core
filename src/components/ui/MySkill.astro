@@ -1,132 +1,131 @@
 ---
 // src/components/ui/MySkill.astro
 import { css } from "styled-system/css"; // Pandacssのcss関数とkeyframesをインポート
-import { defineKeyframes } from "@pandacss/dev";
 
 const allSkills = [
   {
     skill: "JavaScript",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "4.5year",
     mastery: "░░░░░░░░░░░░",
   },
   {
     skill: "TypeScript",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "2year",
     mastery: "░░░░░░░░░",
   },
   {
     skill: "Node.js",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "1.5year",
     mastery: "░░░░░░░░",
   },
   {
     skill: "PowerShell",
-    category: "FrontEnd",
+    category: "Others",
     experience: "2year",
     mastery: "░░░░░░",
   },
   {
     skill: "PHP",
-    category: "FrontEnd",
+    category: "Backend",
     experience: "2year",
     mastery: "░░░░░░",
   },
   {
     skill: "VBA",
-    category: "FrontEnd",
+    category: "Others",
     experience: "1year",
     mastery: "░░░░░░",
   },
   {
     skill: "C++",
-    category: "FrontEnd",
+    category: "Backend",
     experience: "6month",
     mastery: "░░░",
   },
   {
     skill: "HTML",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "5year",
     mastery: "░░░░░░░░░░░░░",
   },
   {
     skill: "css",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "5year",
     mastery: "░░░░░░░░░░░░░",
   },
   {
     skill: "Scss",
-    category: "FrontEnd",
+    category: "CSS",
     experience: "3year",
     mastery: "░░░░░░░░░░░░",
   },
   {
     skill: "React",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "2.5year",
     mastery: "░░░░░░░░░░░",
   },
   {
     skill: "Next.js",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "1year",
     mastery: "░░░░░░░░░░",
   },
   {
     skill: "Astro",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "1year",
     mastery: "░░░░░░░░░░",
   },
   {
     skill: "Nuxt.js",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "2month",
     mastery: "░░░░░░",
   },
   {
     skill: "Electron",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "1year",
     mastery: "░░░░░░",
   },
   {
     skill: "Gatsby.js",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "6month",
     mastery: "░░░░",
   },
   {
     skill: "GSAP",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "1year",
     mastery: "░░░░░░",
   },
   {
     skill: "Three.js",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "1year",
     mastery: "░░░░░░",
   },
   {
     skill: "WebGL",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "2month",
     mastery: "░░░░",
   },
   {
     skill: "ReactRouter",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "1month",
     mastery: "░░░░░░",
   },
   {
     skill: "Vite/Webpack",
-    category: "FrontEnd",
+    category: "Frontend",
     experience: "2.5year",
     mastery: "░░░░░░",
   },
@@ -220,22 +219,23 @@ const allSkills = [
     mastery: "░░░░░░░░",
   },
   {
-    skill: "Adobe illustrator",
+    skill: "Illustrator",
     category: "Others",
     experience: "1year",
     mastery: "░░░░░░",
   },
   {
-    skill: "Adobe Photoshop",
+    skill: "Photoshop",
     category: "Others",
     experience: "1year",
     mastery: "░░░░░",
   },
 ];
 
-const user = "guest";
+/* const user = "guest";
 const host = "portfolio.dev";
-const promptText = `${user}@${host}:~$`; // 変数名を prompt から promptText に変更 (Astroの予約語との衝突回避)
+const promptText = `${user}@${host}:~$`; // 変数名を prompt から promptText に変更 (Astroの予約語との衝突回避) */
+const promptText = `PS C:\\MINDOWS\\system32>`;
 const commandText = "show_skills --format=table"; // 変数名を command から commandText に変更
 
 const skills = allSkills.reduce<Record<string, typeof allSkills>>(
@@ -250,10 +250,18 @@ const skills = allSkills.reduce<Record<string, typeof allSkills>>(
   {} as Record<string, typeof allSkills>,
 );
 
-// (任意) カテゴリの表示順を定義したい場合
-const categoryOrder = ["FrontEnd", "DB", "CSS", "OS", "Others"];
+const categoryOrder = [
+  { name: "Frontend", emoji: "🧋" },
+  { name: "CSS", emoji: "🎏" },
+  { name: "Backend", emoji: "📮" },
+  { name: "DB", emoji: "💾" },
+  { name: "OS", emoji: "⌨️" },
+  { name: "Others", emoji: "🍱" },
+];
 
-const displayCategories = categoryOrder.filter((category) => skills[category]);
+const displayCategories = categoryOrder.filter(
+  (category) => skills[category.name],
+);
 
 const terminalWindowStyles = css({
   backgroundColor: "background",
@@ -269,6 +277,7 @@ const terminalWindowStyles = css({
 });
 
 const terminalHeaderStyles = css({
+  background: "background",
   display: "flex",
   alignItems: "center",
   padding: "2",
@@ -286,10 +295,16 @@ const titleStyles = css({
   textAlign: "center",
   flexGrow: 1,
   marginLeft: -10,
-  color: "primary",
+  // color: "",
 });
 
 const terminalBodyStyles = css({
+  background: "background",
+  transition: "background 0.2s ease",
+  _hover: {
+    backgroundColor: "oklch(0.62 0.11 235.02 / 0.01)",
+  },
+
   padding: "2",
   height: "full",
   maxHeight: "480px",
@@ -333,12 +348,12 @@ const promptLineStylesMt4 = {
 };
 
 const promptTextStyles = {
-  color: "blue.500",
+  color: "foreground",
 };
 
 const commandTextStyles = {
   marginLeft: "2",
-  color: "blue.200",
+  color: "yellow.400",
 };
 
 const outputStyles = {
@@ -419,9 +434,6 @@ const masteryStyle = css({
   mx: 2,
   color: "foreground",
   transition: "color .3s ease .2s",
-  _groupHover: {
-    color: "primary",
-  },
 });
 ---
 
@@ -435,7 +447,7 @@ const masteryStyle = css({
       <span class={css(buttonStyles, { borderColor: "chart2" })}></span>
       {/* bg-green-500 */}
     </div>
-    <div class={titleStyles}>My Skills - bash</div>
+    <div class={titleStyles}>My Skills - 縺ィ繧ゅ□縺</div>
   </div>
 
   <div class={terminalBodyStyles}>
@@ -447,27 +459,44 @@ const masteryStyle = css({
     <div class={css(outputStyles)}>
       {
         displayCategories.map((categoryName) => (
-          <div>
-            <div class={skillHead}>
-              <div class={skillGridTitleStyle}>Skill</div>
-              <div class={skillGridTitleStyle}>Experience</div>
-              <div class={skillGridTitleStyle}>Mastery</div>
-            </div>
+          <div class={css({ display: "grid", gap: 3 })}>
+            <span
+              class={css({
+                fontSize: "3xl",
+                pl: 2,
+                pt: 1,
+                ml: -3,
+                w: "fit-content",
+                display: "flex",
+                gap: 1,
+                alignItems: "center",
+              })}
+            >
+              <span>{categoryName.name}</span>
+              <span>{categoryName.emoji}</span>
+            </span>
+            <div>
+              <div class={skillHead}>
+                <div class={skillGridTitleStyle}>Skill</div>
+                <div class={skillGridTitleStyle}>Experience</div>
+                <div class={skillGridTitleStyle}>Mastery</div>
+              </div>
 
-            <div class={skillGrid}>
-              {skills[categoryName].map((item) => (
-                <div
-                  class={css({
-                    display: "flex",
-                  })}
-                >
-                  <div class={skillGridItemStyle}>{item.skill}</div>
-                  <div class={skillGridItemStyle}>{item.experience}</div>
-                  <div class={`${skillGridItemStyle} `}>
-                    <span class={masteryStyle}>{item.mastery}</span>
+              <div class={skillGrid}>
+                {skills[categoryName.name].map((item) => (
+                  <div
+                    class={css({
+                      display: "flex",
+                    })}
+                  >
+                    <div class={skillGridItemStyle}>{item.skill}</div>
+                    <div class={skillGridItemStyle}>{item.experience}</div>
+                    <div class={`${skillGridItemStyle} `}>
+                      <span class={masteryStyle}>{item.mastery}</span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         ))
