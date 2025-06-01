@@ -1,0 +1,11 @@
+-- Migration number: 0001 	 2025-06-01T05:05:59.251Z
+
+DROP TABLE IF EXISTS Contact;
+
+CREATE TABLE Contact (
+  id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  message TEXT,
+  createdAt TEXT DEFAULT CURRENT_TIMESTAMP
+);

@@ -11,4 +11,12 @@
   "observability": {
     "enabled": true,
   },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "contact-form-trhr",
+      "database_id": "4d782d8f-11b8-41d9-8559-7079599f5453",
+      "migrations_dir": "migrations",
+    },
+  ],
 }

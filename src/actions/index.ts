@@ -1,4 +1,5 @@
 import { defineAction } from "astro:actions";
+import { db, Contact } from "astro:db";
 import { z } from "astro:schema";
 
 const formActionSchema = z.object({
@@ -23,11 +24,26 @@ export const server = {
     accept: "form",
     input: formActionSchema,
     handler: async ({ name, email, message }) => {
-      return {
-        success: true,
-        message: `${name}さん、お問い合わせありがとうございます！`,
-        data: { name, email, message, timestamp: new Date().toISOString() },
-      };
+      try {
+        await db.insert(Contact).values({
+          name,
+          email,
+          message,
+        });
+        return {
+          success: true,
+          message: `${name}さん、お問い合わせありがとうございます！`,
+          data: { name, email, message, timestamp: new Date().toISOString() },
+        };
+      } catch (error) {
+        console.error("データベースへの保存中にエラーが発生しました:", error);
+        return {
+          success: false,
+          message:
+            "メッセージの送信中にエラーが発生しました。もう一度お試しください。",
+          // エラーの詳細をクライアントに返す場合は注意してください
+        };
+      }
     },
   }),
 };
