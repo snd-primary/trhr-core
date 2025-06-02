@@ -27,4 +27,4 @@ pnpm-debug.log*
 styled-system
 styled-system-studio
 
-.wrangler
+.wrangler/
