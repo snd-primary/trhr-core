@@ -1,0 +1,19 @@
+{
+  "name": "trhr_portfolio",
+  "main": "./dist/_worker.js/index.js",
+  "compatibility_date": "2025-05-31",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "kv_namespaces": [
+    {
+      "binding": "TEST",
+      "id": "87c4bd0cd112485583c96f3ae6030ff0"
+    }
+  ]
+}

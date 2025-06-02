@@ -17,6 +17,8 @@ export default defineConfig({
   adapter: cloudflare({
     platformProxy: {
       enabled: true,
+      configPath: "./wrangler.json",
     },
+    sessionKVBindingName: "TEST",
   }),
 });
