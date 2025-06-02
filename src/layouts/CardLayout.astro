@@ -1,6 +1,7 @@
 ---
 import { css, type RecipeVariantProps } from "styled-system/css";
 import { cva } from "styled-system/css/cva.mjs";
+import { cq } from "styled-system/patterns";
 
 const gridAreaVariants = cva({
   base: {},
@@ -43,7 +44,7 @@ export type gridAreaVariantsType = RecipeVariantProps<typeof gridAreaVariants>;
 
 const { title, area, href } = Astro.props;
 
-const container = css({
+const containerStyle = css({
   border: "1px solid",
   borderColor: "border",
 
@@ -65,7 +66,9 @@ const container = css({
 });
 ---
 
-<section class={`${container} ${gridAreaVariants({ areas: area })}`}>
+<section
+  class={`${containerStyle} ${gridAreaVariants({ areas: area })} ${cq()}`}
+>
   <h2
     class={css({
       fontSize: { base: "4xl", md: "4xl" },

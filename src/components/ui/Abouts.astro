@@ -8,7 +8,7 @@ const container = css({
   gridTemplate: `
 	"image" 1fr
 	"name" 0.4fr
-	"desc" 0.7fr /  1fr
+	"desc" 0.7fr / 1fr
 	`,
   md: {
     gridTemplate: `
@@ -46,21 +46,19 @@ const headingStyle = css({
 
 const skills = css({
   color: "foreground",
-  // color: "transparent",
   display: "block",
   w: "fit-content",
-  /*   backgroundImage:
-    "linear-gradient(45deg, oklch(0.9 0.26 137.21), oklch(0.84 0.12 220.66))", */
   backgroundClip: "text"
 });
 
 const textStyle = css({
   display: "grid",
   placeContent: "center",
-  placeItems: "center",
+  placeItems: { base: "center", "@/sm": "start" },
   gap: "2",
   gridArea: "desc",
   fontSize: { base: "medium", md: "sm" },
+  wordBreak: "break-all",
 
   w: "full",
   h: "full",
@@ -71,7 +69,7 @@ const textStyle = css({
 ---
 
 <div class={container}>
-  <Image class={imageStyle} src={MyImg} alt={"プロフィール画像"} />
+  <!-- <Image class={imageStyle} src={MyImg} alt={"プロフィール画像"} /> -->
   <div class={headingStyle}>
     <h3
       class={css({
@@ -93,9 +91,5 @@ const textStyle = css({
       TRHRは、フリーランスのフロントエンドエンジニアです。Webサイト・アプリの開発を中心にお仕事募集中。
       <br />最近個人開発にもチャレンジしています。
     </p>
-    <div class={skills}>
-      <p>CORESKILL:[TS,React,Solid.js,Next.js,Astro...]</p>
-      <p>INTERESTED：[WebGL,Cloudflare,AI関連全般...]</p>
-    </div>
   </div>
 </div>

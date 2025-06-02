@@ -36,26 +36,32 @@ const itemHeight = 350;
 const row = 3;
 const initialGridStyles = css({
   display: "grid",
-  gridTemplateColumns: "1fr",
-  gridTemplateRows: "auto",
-  gridTemplateAreas: `
-    "c1"  
-    "c8" 
-    "c5" 
-    "c2" 
-    "c4" 
-    "c7" 
-    "c6" 
+  gridTemplate: `
+    "c1" auto 
+    "c8" auto
+    "c5" auto
+    "c2" auto
+    "c4" auto
+    "c7" auto
+    "c6" auto / 1fr
   `,
-  md: {
+  lg: {
+    gridTemplate: `
+    "c1 c1" auto
+    "c8 c8" auto
+    "c5 c2" auto
+    "c4 c4"  auto 
+    "c7 c6"  auto / 1fr 1fr`,
+    gap: 3
+  },
+  xl: {
     gridTemplate: `
     "c1 c1 c8 c8" 270px
     "c1 c1 c8 c8" 250px
     "c4 c4 c4 c2" 550px
     "c5 c6 c6 c6"  310px 
     "c7 c6 c6 c6"  310px / 1fr 1fr 1fr 1fr
-  `,
-    gap: 3
+  `
   },
   width: "full",
   height: `calc(${row} * ${itemHeight})`,

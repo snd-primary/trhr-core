@@ -310,8 +310,7 @@ const terminalBodyStyles = css({
 
   height: "full",
   maxHeight: { base: "480px", md: "388px" },
-  minWidth: "500px",
-  maxWidth: { base: "550px", md: "full" },
+  maxWidth: { base: "full", sm: "full" },
 
   display: "grid",
   gap: 4,
@@ -390,7 +389,7 @@ const skillGrid = css({
 
 const skillHead = css({
   display: "grid",
-  gridTemplateColumns: "1fr 1fr 1fr",
+  gridTemplateColumns: "repeat(3, minmax(160px, 250px))",
   w: "full",
   rowGap: 2,
   borderTop: "1px dashed token(colors.foreground)",
