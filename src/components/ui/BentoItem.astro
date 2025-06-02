@@ -7,31 +7,31 @@ const gridAreaVariants = cva({
   variants: {
     areas: {
       c1: {
-        gridArea: "c1",
+        gridArea: "c1"
       },
       c2: {
-        gridArea: "c2",
+        gridArea: "c2"
       },
       c3: {
-        gridArea: "c3",
+        gridArea: "c3"
       },
       c4: {
-        gridArea: "c4",
+        gridArea: "c4"
       },
       c5: {
-        gridArea: "c5",
+        gridArea: "c5"
       },
       c6: {
-        gridArea: "c6",
+        gridArea: "c6"
       },
       c7: {
-        gridArea: "c7",
+        gridArea: "c7"
       },
       c8: {
-        gridArea: "c8",
-      },
-    },
-  },
+        gridArea: "c8"
+      }
+    }
+  }
 });
 interface Props {
   title: string;
@@ -54,22 +54,21 @@ const container = css({
   md: {
     px: 4,
     pt: 4,
-    pb: 2,
+    pb: 2
   },
   gap: 6,
   display: "grid",
   gridTemplateColumns: "1fr",
   gridTemplateRows: "min-content 1fr min-content",
   alignContent: "flex-start",
-  borderRadius: "4xl",
+  borderRadius: "4xl"
 });
 ---
 
 <section class={`${container} ${gridAreaVariants({ areas: area })}`}>
   <h2
     class={css({
-      fontSize: "2xl",
-      md: { fontSize: "4xl" },
+      fontSize: { base: "4xl", md: "4xl" },
       fontWeight: "bold",
       display: "inline-block",
       width: "fit-content",
@@ -78,7 +77,7 @@ const container = css({
       borderColor: "border",
       background: "background",
       px: 6,
-      py: 1,
+      py: 1
     })}
   >
     {title}
@@ -91,7 +90,7 @@ const container = css({
       placeContent: "center",
       placeItems: "center",
       gridTemplateColumns: "1fr",
-      gridTemplateRows: "1fr",
+      gridTemplateRows: "1fr"
     })}
   >
     <slot />
@@ -104,7 +103,7 @@ const container = css({
           marginX: "auto",
           fontSize: "sm",
           paddingTop: 4,
-          color: "primary",
+          color: "primary"
         })}
       />
     )

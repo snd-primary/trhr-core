@@ -1,25 +1,24 @@
 ---
 import { css, cva } from "styled-system/css";
-import { token } from "styled-system/tokens"; // token関数をインポート
 
 const experiences = [
   {
     year: "2021年～",
     title: "Free lance",
     description:
-      "Webサイトのマークアップ/デザイン/運用に携わる。この時は,WordPressサイトのパフォーマンス改善、Next.jsやAstroを用いたJamstack構成のサイト開発を強みにしていました。",
+      "Webサイトのマークアップ/デザイン/運用に携わる。この時は,WordPressサイトのパフォーマンス改善、Next.jsやAstroを用いたJamstack構成のサイト開発を強みにしていました。"
   },
   {
     year: "2023年11月～2025年4月",
     title: "金融系システムのUI/UXエンジニア",
     description:
-      "チームでの開発を経験したくなり、開発会社に入社。レガシーなUI/UX開発基盤のモダンWeb化プロジェクトに参画。これまでに培った知識を活かし、フロントエンドの技術選定やCSS設計を主導しました。",
+      "チームでの開発を経験したくなり、開発会社に入社。レガシーなUI/UX開発基盤のモダンWeb化プロジェクトに参画。これまでに培った知識を活かし、フロントエンドの技術選定やCSS設計を主導しました。"
   },
   {
     year: "現在",
     title: "フリーランスエンジニア",
-    description: "個人開発＋受託開発の２軸で活動中。",
-  },
+    description: "個人開発＋受託開発の２軸で活動中。"
+  }
 ];
 
 // --- 定数 ---
@@ -32,7 +31,7 @@ const ANIMATION_TIMING_GRADIENT = "ease"; // グラデーション変化のイ�
 const timelineItem = cva({
   base: {
     position: "relative",
-    paddingLeft: { base: "22px", md: "18px" }, // マーカーと縦線のためのスペース
+    paddingLeft: { base: "9px", md: "18px" }, // マーカーと縦線のためのスペース
     marginBottom: "12px",
     color: "foreground", // デフォルトのテキストカラー（コンポーネント内で上書き可能）
     fontSize: "sm",
@@ -45,8 +44,8 @@ const timelineItem = cva({
       top: "11px", // マーカーの中心に合わせるための目安
       width: "2px",
       height: "calc(100% + 8px)", // 次のアイテムとの間隔を埋める
-      backgroundColor: "border",
-    },
+      backgroundColor: "border"
+    }
   },
   variants: {
     isLast: {
@@ -54,42 +53,39 @@ const timelineItem = cva({
         marginBottom: "0",
         _before: {
           // 最後のアイテムは縦線を短く調整
-          height: { base: "10px", md: "12px" },
-        },
-      },
-    },
-  },
+          height: { base: "10px", md: "12px" }
+        }
+      }
+    }
+  }
 });
 
 // --- タイムラインマーカー ---
 const timelineMarker = css({
   position: "absolute",
   left: "0px",
-  top: "11px", // timelineItem._before.top と合わせる
+  top: "11px",
   width: { base: "10px", md: "12px" },
   aspectRatio: "square",
   borderRadius: "50%",
-  backgroundColor: "background", // 背景色で塗りつぶし、枠線で円を表現
+  backgroundColor: "background",
   border: "2px solid",
-  borderColor: "primary", // token("colors.border") のようにトークン使用を推奨
+  borderColor: "primary",
   transitionProperty: "width, left, top, borderColor, background",
   transitionDuration: ANIMATION_DURATION_BASE,
   transitionTimingFunction: ANIMATION_TIMING_BASE,
 
   _groupHover: {
-    // ホバー時のマーカーのスタイル
-    width: { base: "10px", md: "24px" }, // サイズを拡大
-    left: "-5.5px",
+    width: { base: "18px", md: "24px" },
+    left: { base: "-3.5px", md: "-5.5px" },
     top: "1.5px",
-    backgroundImage: `linear-gradient(var(--gradient-angle), token(colors.primary), #FF0000)`,
-  },
+    backgroundImage: `linear-gradient(var(--gradient-angle), token(colors.primary), #FF0000)`
+  }
 });
 
 // --- タイムラインインナーコンテンツのコンテナ ---
 const timelineInner = css({
-  w: "fit-content", // 内容に応じた幅
-  // transition: "all 0.2s ease", // 具体的なプロパティを指定する方が望ましい
-  // 今回は expWrapper のアニメーションに影響されなければ不要の可能性
+  w: "fit-content"
 });
 
 // --- タイムラインコンテンツエリア ---
@@ -97,68 +93,57 @@ const timelineContent = css({
   padding: { base: "6px 8px", md: "8px 4px" },
   display: "grid",
   gridTemplateColumns: "1fr",
-  gap: 1, // 年と詳細の間のギャップ
+  gap: 1,
   transition: `padding ${ANIMATION_DURATION_BASE} ${ANIMATION_TIMING_BASE}`,
   _groupHover: {
-    pl: 3, // ホバー時に左パディングを増加
-  },
+    pl: 3
+  }
 });
 
 // --- 年号 ---
 const timelineYear = css({
   display: "block",
   fontWeight: "bold",
-  fontSize: "sm", // timelineItemのfontSizeと合わせる
-  color: "primary",
+  fontSize: "sm",
+  color: "primary"
 });
 
 // --- experienceWrapper を cva レシピとして定義 ---
 const experienceWrapperRecipe = cva({
   base: {
-    // デフォルトは閉じた状態 + ホバーで開くインタラクション
     display: "grid",
-    gap: 0, // 初期gapは0。ホバー時やオープン時に変更
+    gap: 0,
     position: "relative",
     w: "fit-content",
-    maxHeight: "24px", // 初期は閉じている
+    maxHeight: "24px",
     overflow: "hidden",
     background: "background",
+
     borderRadius: "xl",
     border: "2px solid transparent",
-    transitionProperty: "padding, max-height, width, background, gap",
+
+    "--gradient-angle": "225deg",
+    backgroundImage:
+      "linear-gradient(var(--gradient-angle), oklch(0.79 0.15 97.66 / 0.01), oklch(0.67 0.22 38.09 / 0.01))",
+
+    transitionProperty:
+      "padding, max-height, width, background, gap, border, background-image, --gradient-angle",
     transitionDuration: ANIMATION_DURATION_EXPAND,
     transitionTimingFunction: ANIMATION_TIMING_BASE,
-    _before: {
-      // 閉じた状態の::before
-      content: "''",
-      position: "absolute",
-      top: 0,
-      left: 0,
-      w: "full",
-      h: "full",
-      zIndex: -1,
-      border: "2px solid token(colors.border)",
-      borderRadius: "inherit",
-      "--gradient-angle": "45deg",
-      backgroundImage: `linear-gradient(var(--gradient-angle), ${token("colors.border")}, ${token("colors.border")})`,
-      transitionProperty: "--gradient-angle, background-image",
-      transitionDuration: `0.5s, ${ANIMATION_DURATION_EXPAND}`,
-      transitionTimingFunction: `${ANIMATION_TIMING_GRADIENT}, ${ANIMATION_TIMING_BASE}`,
-    },
+
     _groupHover: {
-      // ホバーで開くスタイル
-      maxHeight: "500px", // コンテンツが収まる十分な高さ
+      maxHeight: "500px",
       width: "full",
       pb: 3,
       px: 3,
       pt: 2,
       gap: 2,
-      background: "transparent",
-      _before: {
-        "--gradient-angle": "225deg",
-        backgroundImage: `linear-gradient(var(--gradient-angle), token(colors.primary), #FF0000)`,
-      },
-    },
+      borderColor: "primary",
+
+      "--gradient-angle": "45deg",
+      backgroundImage:
+        "linear-gradient(var(--gradient-angle), oklch(0.79 0.15 97.66), oklch(0.67 0.22 38.09))"
+    }
   },
   variants: {
     isInitiallyOpen: {
@@ -170,77 +155,69 @@ const experienceWrapperRecipe = cva({
         px: 3,
         pt: 2,
         gap: 2,
-        background: "transparent",
-        _before: {
-          "--gradient-angle": "225deg",
-          backgroundImage: `linear-gradient(var(--gradient-angle), token(colors.primary), #FF0000)`,
-        },
-        // 注意: このvariant適用時にも上記のトランジションが働くため、
-        // ページ読み込み時に開くアニメーションが発生します。
-        // これを避けたい場合は、より高度な制御が必要になります（後述）。
-      },
-    },
-  },
+        background: "inherit",
+        borderColor: "primary",
+        backgroundImage:
+          "linear-gradient(var(--gradient-angle), oklch(0.79 0.15 97.66), #ff5200)"
+      }
+    }
+  }
 });
 
 // --- 経験タイトル ---
 const experienceTitle = css({
   fontSize: "sm",
   color: "foreground",
-  position: "relative", // 必要に応じて
-  whiteSpace: "nowrap", // タイトルを1行に保つ
+  position: "relative",
+  whiteSpace: "nowrap",
   transition: `font-size ${ANIMATION_DURATION_BASE} ${ANIMATION_TIMING_BASE}`,
   _groupHover: {
-    fontSize: "xl", // ホバーでフォントサイズを大きく
-  },
+    fontSize: "xl"
+  }
 });
 
 // --- experienceDescription を cva レシピとして定義 ---
 const experienceDescriptionRecipe = cva({
   base: {
-    // デフォルトは隠れた状態 + ホバーで表示インタラクション
     fontSize: "sm",
     visibility: "hidden",
+
     opacity: 0,
-    // ホバーが外れた時のトランジション
+
     transition: `opacity ${ANIMATION_DURATION_EXPAND} ${ANIMATION_TIMING_BASE}, visibility 0s linear ${ANIMATION_DURATION_EXPAND}`,
+
     _groupHover: {
-      // ホバーで表示するスタイル
+      fontSize: "medium",
       visibility: "visible",
       opacity: 1,
-      // ホバー時のトランジション
-      transition: `opacity ${ANIMATION_DURATION_EXPAND} ${ANIMATION_TIMING_BASE}, visibility 0s linear 0s`,
-    },
+      transition: `opacity ${ANIMATION_DURATION_EXPAND} ${ANIMATION_TIMING_BASE}, visibility 0s linear 0s`
+    }
   },
   variants: {
     isInitiallyOpen: {
       true: {
-        // 初期状態で表示されているスタイル
         visibility: "visible",
         opacity: 1,
-        transition: "none", // 初期表示ではトランジションを発生させない (opacityとvisibilityに対して)
-      },
-    },
-  },
+        transition: "none"
+      }
+    }
+  }
 });
 ---
 
 <div
   class={css({
     w: "full",
-    h: "full",
-    // 必要であればここに全体のコンテナスタイルを追加
+    h: "full"
   })}
 >
   <div>
-    {/* このdivは `experiences.map` の親として機能 */}
     <div class={css({ position: "relative" })}>
-      {/* 縦線などの基準点 */}
       {
         experiences.map((exp, index) => (
           <div
             class={timelineItem({
-              isLast: index === experiences.length - 1,
+              isLast: index === experiences.length - 1
             })}
             role="group"
           >
@@ -250,13 +227,13 @@ const experienceDescriptionRecipe = cva({
                 <span class={timelineYear}>{exp.year}</span>
                 <div
                   class={experienceWrapperRecipe({
-                    isInitiallyOpen: index === 0,
+                    isInitiallyOpen: index === 0
                   })}
                 >
                   <h4 class={experienceTitle}>{exp.title}</h4>
                   <p
                     class={experienceDescriptionRecipe({
-                      isInitiallyOpen: index === 0,
+                      isInitiallyOpen: index === 0
                     })}
                   >
                     {exp.description}

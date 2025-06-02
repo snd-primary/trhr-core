@@ -5,61 +5,97 @@ import { css } from "styled-system/css";
 
 const container = css({
   display: "grid",
-  gridTemplateColumns: "1fr",
+  gridTemplate: `
+	"image" 1fr
+	"name" 0.4fr
+	"desc" 0.7fr /  1fr
+	`,
+  md: {
+    gridTemplate: `
+	"image name" 240px
+	"desc desc" 1fr / 240px 1fr
+	`
+  },
   placeContent: "center",
   placeItems: "center",
-  gap: 6,
+  rowGap: 4,
+  columnGap: 4,
+  w: "full"
+});
+
+const imageStyle = css({
+  aspectRatio: "square",
+  borderRadius: "3xl",
+  border: "1px solid token(colors.border)",
+  gridArea: "image",
   w: "full",
-  "& p": {
-    // fontSize: "sm",
-  },
+  h: "full"
+});
+
+const headingStyle = css({
+  w: "full",
+  h: "full",
+  display: "grid",
+  placeContent: "center",
+  placeItems: "center",
+  gridArea: "name",
+  gap: 2,
+  border: "1px solid token(colors.border)",
+  borderRadius: "3xl"
 });
 
 const skills = css({
-  color: "transparent",
+  color: "foreground",
+  // color: "transparent",
   display: "block",
   w: "fit-content",
-  backgroundImage:
-    "linear-gradient(45deg, oklch(0.9 0.26 137.21), oklch(0.84 0.12 220.66))",
-  backgroundClip: "text",
+  /*   backgroundImage:
+    "linear-gradient(45deg, oklch(0.9 0.26 137.21), oklch(0.84 0.12 220.66))", */
+  backgroundClip: "text"
+});
+
+const textStyle = css({
+  display: "grid",
+  placeContent: "center",
+  placeItems: "center",
+  gap: "2",
+  gridArea: "desc",
+  fontSize: { base: "medium", md: "sm" },
+
+  w: "full",
+  h: "full",
+  border: "1px solid token(colors.border)",
+  borderRadius: "3xl",
+  p: 5
 });
 ---
 
 <div class={container}>
-  <Image
-    class={css({
-      aspectRatio: "square",
-      borderRadius: "full",
-      border: "1px solid token(colors.border)",
-    })}
-    src={MyImg}
-    alt={"プロフィール画像"}
-    width={200}
-    height={200}
-  />
-  <h3
-    class={css({
-      fontWeight: "bold",
-      // color: "primary",
-    })}
-  >
-    TRHR&nbsp;(Ari Shinoda)
-  </h3>
-  <div
-    class={css({
-      display: "flex",
-      flexDirection: "column",
-      gap: "2",
-    })}
-  >
+  <Image class={imageStyle} src={MyImg} alt={"プロフィール画像"} />
+  <div class={headingStyle}>
+    <h3
+      class={css({
+        fontWeight: "bold",
+        fontSize: "xl"
+      })}
+    >
+      TRHR&nbsp;(Ari Shinoda)
+    </h3>
+    <span
+      class={css({
+        fontSize: "medium"
+      })}>- Frontend Deveploper<br />- Web designer</span
+    >
+  </div>
+
+  <div class={textStyle}>
     <p>
-      TRHRは、フリーランスのフロントエンドエンジニアです。<br
-      />Webサイト・アプリの開発を中心にお仕事募集中です！
+      TRHRは、フリーランスのフロントエンドエンジニアです。Webサイト・アプリの開発を中心にお仕事募集中。
       <br />最近個人開発にもチャレンジしています。
     </p>
     <div class={skills}>
       <p>CORESKILL:[TS,React,Solid.js,Next.js,Astro...]</p>
-      <p>INTERESTED：[WebGL,Cloudflare,GCP,AI関連全般]</p>
+      <p>INTERESTED：[WebGL,Cloudflare,AI関連全般...]</p>
     </div>
   </div>
 </div>
