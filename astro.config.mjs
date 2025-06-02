@@ -19,6 +19,7 @@ export default defineConfig({
       enabled: true,
       configPath: "./wrangler.json",
     },
+    imageService: "compile",
     sessionKVBindingName: "TEST",
   }),
 });
