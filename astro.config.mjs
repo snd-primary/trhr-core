@@ -14,5 +14,9 @@ export default defineConfig({
   site: siteUrl,
   output: "server",
   integrations: [sitemap(), db()],
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    platformProxy: {
+      enabled: true,
+    },
+  }),
 });

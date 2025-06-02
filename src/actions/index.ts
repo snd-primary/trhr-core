@@ -1,6 +1,6 @@
 import { defineAction } from "astro:actions";
 import { db, Contact } from "astro:db";
-import { z } from "astro:schema";
+import { z } from "astro:content";
 
 const formActionSchema = z.object({
   name: z.preprocess(

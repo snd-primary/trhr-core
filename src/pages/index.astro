@@ -23,12 +23,11 @@ if (Astro.request.method === "POST") {
     submittedData = {
       name: (formData.get("name") as string) || "",
       email: (formData.get("email") as string) || "",
-      message: (formData.get("message") as string) || "",
+      message: (formData.get("message") as string) || ""
     };
   } catch (error) {}
 }
 
-console.log(submittedData);
 if (result && !result.error) {
   return Astro.redirect("/thanks");
 }
@@ -56,11 +55,11 @@ const initialGridStyles = css({
     "c5 c6 c6 c6"  310px 
     "c7 c6 c6 c6"  310px / 1fr 1fr 1fr 1fr
   `,
-    gap: 3,
+    gap: 3
   },
   width: "full",
   height: `calc(${row} * ${itemHeight})`,
-  gap: 4,
+  gap: 4
 });
 ---
 
@@ -74,8 +73,8 @@ const initialGridStyles = css({
       gridTemplateColumns: "1fr",
       gap: "12",
       md: {
-        gap: "4",
-      },
+        gap: "4"
+      }
     })}
   >
     <div class={initialGridStyles}>
