@@ -10,7 +10,7 @@ const experiences = [
   },
   {
     year: "2023年11月～2025年4月",
-    title: "金融系システムのUI/UXエンジニア",
+    title: "金融系シス",
     description:
       "チームでの開発を経験したくなり、開発会社に入社。レガシーなUI/UX開発基盤のモダンWeb化プロジェクトに参画。これまでに培った知識を活かし、フロントエンドの技術選定やCSS設計を主導しました。"
   },
@@ -35,6 +35,7 @@ const timelineItem = cva({
     marginBottom: "12px",
     color: "foreground", // デフォルトのテキストカラー（コンポーネント内で上書き可能）
     fontSize: "sm",
+    w: "full",
 
     // タイムラインの縦線
     _before: {
@@ -105,7 +106,8 @@ const timelineYear = css({
   display: "block",
   fontWeight: "bold",
   fontSize: "sm",
-  color: "primary"
+  color: "primary",
+  userSelect: "none"
 });
 
 // --- experienceWrapper を cva レシピとして定義 ---
@@ -142,7 +144,7 @@ const experienceWrapperRecipe = cva({
 
       "--gradient-angle": "45deg",
       backgroundImage:
-        "linear-gradient(var(--gradient-angle), oklch(0.79 0.15 97.66), oklch(0.67 0.22 38.09))"
+        "linear-gradient(var(--gradient-angle), oklch(0.79 0.15 97.66 / 0.1), oklch(0.67 0.22 38.09 / 0.1))"
     }
   },
   variants: {
@@ -158,7 +160,7 @@ const experienceWrapperRecipe = cva({
         background: "inherit",
         borderColor: "primary",
         backgroundImage:
-          "linear-gradient(var(--gradient-angle), oklch(0.79 0.15 97.66), #ff5200)"
+          "linear-gradient(var(--gradient-angle), oklch(0.79 0.15 97.66 / 0.1), oklch(0.67 0.22 38.09 / 0.1))"
       }
     }
   }
@@ -170,6 +172,7 @@ const experienceTitle = css({
   color: "foreground",
   position: "relative",
   whiteSpace: "nowrap",
+  userSelect: "none",
   transition: `font-size ${ANIMATION_DURATION_BASE} ${ANIMATION_TIMING_BASE}`,
   _groupHover: {
     fontSize: "xl"
@@ -181,6 +184,10 @@ const experienceDescriptionRecipe = cva({
   base: {
     fontSize: "sm",
     visibility: "hidden",
+    wordBreak: "break-all",
+    wordWrap: "break-word",
+    userSelect: "none",
+    w: "full",
 
     opacity: 0,
 
@@ -205,45 +212,36 @@ const experienceDescriptionRecipe = cva({
 });
 ---
 
-<div
-  class={css({
-    w: "full",
-    h: "full"
-  })}
->
-  <div>
-    <div class={css({ position: "relative" })}>
-      {
-        experiences.map((exp, index) => (
-          <div
-            class={timelineItem({
-              isLast: index === experiences.length - 1
-            })}
-            role="group"
-          >
-            <div class={timelineInner}>
-              <div class={timelineMarker} />
-              <div class={timelineContent}>
-                <span class={timelineYear}>{exp.year}</span>
-                <div
-                  class={experienceWrapperRecipe({
-                    isInitiallyOpen: index === 0
-                  })}
-                >
-                  <h4 class={experienceTitle}>{exp.title}</h4>
-                  <p
-                    class={experienceDescriptionRecipe({
-                      isInitiallyOpen: index === 0
-                    })}
-                  >
-                    {exp.description}
-                  </p>
-                </div>
-              </div>
+<div class={css({ position: "relative", w: "full", h: "auto" })}>
+  {
+    experiences.map((exp, index) => (
+      <div
+        class={timelineItem({
+          isLast: index === experiences.length - 1
+        })}
+        role="group"
+      >
+        <div class={timelineInner}>
+          <div class={timelineMarker} />
+          <div class={timelineContent}>
+            <span class={timelineYear}>{exp.year}</span>
+            <div
+              class={experienceWrapperRecipe({
+                isInitiallyOpen: index === 0
+              })}
+            >
+              <h4 class={experienceTitle}>{exp.title}</h4>
+              <p
+                class={`${experienceDescriptionRecipe({
+                  isInitiallyOpen: index === 0
+                })} `}
+              >
+                {exp.description}
+              </p>
             </div>
           </div>
-        ))
-      }
-    </div>
-  </div>
+        </div>
+      </div>
+    ))
+  }
 </div>
