@@ -7,7 +7,7 @@ import {
   SITE_DESCRIPTION,
   SITE_OG_IMAGE,
   SITE_TWITTER_HANDLE,
-  SITE_AUTHOR,
+  SITE_AUTHOR
 } from "../../site/config"; // パスが正しいか確認してください
 
 export interface Props {
@@ -31,13 +31,13 @@ const {
   noindex = false,
   author: pageAuthor,
   publishDate,
-  ogImageAlt,
+  ogImageAlt
 } = Astro.props;
 
 const astroSite = Astro.site;
 if (!astroSite) {
   console.warn(
-    "Astro.site is not configured. Please set the `site` property in your astro.config.mjs. Falling back to SITE_URL from config for some URLs, but this may not be ideal.",
+    "Astro.site is not configured. Please set the `site` property in your astro.config.mjs. Falling back to SITE_URL from config for some URLs, but this may not be ideal."
   );
 }
 const siteBaseUrl = astroSite ? astroSite.toString() : SITE_URL;
@@ -72,9 +72,9 @@ const websiteSchema = {
   url: siteBaseUrl,
   ...(typeof SITE_TWITTER_HANDLE === "string" && SITE_TWITTER_HANDLE
     ? {
-        sameAs: [`https://twitter.com/${"trhr_core"}`],
+        sameAs: [`https://twitter.com/${"trhr_core"}`]
       }
-    : {}),
+    : {})
 };
 
 const webpageSchema = {
@@ -84,23 +84,23 @@ const webpageSchema = {
   description: seoDescription,
   url: canonical,
   isPartOf: {
-    "@id": `${siteBaseUrl}#website`,
+    "@id": `${siteBaseUrl}#website`
   },
   ...(ogImageSecureUrl && {
     image: {
       "@type": "ImageObject",
       url: ogImageSecureUrl,
-      ...(ogImageAlt && { caption: ogImageAlt }),
-    },
+      ...(ogImageAlt && { caption: ogImageAlt })
+    }
   }),
   ...(currentAuthor && {
     author: {
       "@type": "Person",
-      name: currentAuthor,
-    },
+      name: currentAuthor
+    }
   }),
   ...(publishDate && ogType === "article" && { datePublished: publishDate }),
-  ...(publishDate && ogType === "article" && { dateModified: publishDate }), // 必要に応じて更新日も
+  ...(publishDate && ogType === "article" && { dateModified: publishDate }) // 必要に応じて更新日も
 };
 ---
 
@@ -177,7 +177,6 @@ const webpageSchema = {
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-  <link rel="manifest" href="/site.webmanifest" />
   <meta name="theme-color" content="#1a1a3a" />
   {/* サイトのテーマカラー */}
 
