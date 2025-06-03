@@ -3,6 +3,34 @@ import MyImg from "../../assets/about.png";
 import { Image } from "astro:assets";
 import { css } from "styled-system/css";
 
+import GithubIcon from "public/icon/github.svg";
+import InstagramIcon from "public/icon/instagram.svg";
+import XIcon from "public/icon/x.svg";
+import RssIcon from "public/icon/rss.svg";
+
+const iconToRender = [
+  { component: GithubIcon, props: { href: "https://github.com/snd-primary" } },
+  { component: XIcon, props: { href: "https://x.com/trhr_core" } },
+  {
+    component: InstagramIcon,
+    props: { href: "https://www.instagram.com/1149trx/" }
+  },
+  { component: RssIcon, props: { href: "/" } }
+];
+const iconStyle = css({
+  stroke: "foreground",
+  transition: "stroke 0.2s ease",
+  _groupHover: {
+    stroke: "primary"
+  }
+});
+
+const iconGroup = css({
+  display: "flex",
+  alignItems: "center",
+  gap: 6
+});
+
 const container = css({
   display: "grid",
   gridTemplate: `
@@ -10,12 +38,21 @@ const container = css({
 	"name" 0.4fr
 	"desc" 0.4fr / 1fr
 	`,
+
   "@/lg": {
     gridTemplate: `
 	"image name" minmax(240px, 1fr)
 	"desc desc" 0.2fr / minmax(240px, 0.8fr) 1fr
 	`
   },
+
+  "@/2xl": {
+    gridTemplate: `
+	"image name" minmax(100px, 1fr)
+	"image desc" 140px / minmax(240px, 0.9fr) 1fr
+	`
+  },
+
   placeContent: "center",
   placeItems: "center",
   rowGap: 4,
@@ -39,10 +76,13 @@ const headingStyle = css({
   placeContent: "center",
   placeItems: "center",
   gridArea: "name",
-  gap: 2,
+  gap: 8,
   border: "1px solid token(colors.border)",
-  borderRadius: "3xl"
+  borderRadius: "3xl",
+  bgGradient: "cardGradient"
 });
+
+const titleStyle = css({});
 
 const textStyle = css({
   display: "grid",
@@ -52,7 +92,7 @@ const textStyle = css({
   gridArea: "desc",
   fontSize: { base: "medium", md: "sm" },
   wordBreak: "break-all",
-
+  bgGradient: "cardGradient",
   w: "full",
   h: "full",
   border: "1px solid token(colors.border)",
@@ -63,20 +103,35 @@ const textStyle = css({
 
 <div class={container}>
   <Image class={imageStyle} src={MyImg} alt={"プロフィール画像"} />
+
   <div class={headingStyle}>
-    <h3
-      class={css({
-        fontWeight: "bold",
-        fontSize: "xl"
-      })}
-    >
-      TRHR&nbsp;(Ari Shinoda)
-    </h3>
-    <span
-      class={css({
-        fontSize: "medium"
-      })}>- Frontend Deveploper<br />- Web designer</span
-    >
+    <div class={titleStyle}>
+      <h3
+        class={css({
+          fontWeight: "bold",
+          fontSize: "xl"
+        })}
+      >
+        TRHR&nbsp;(Ari Shinoda)
+      </h3>
+      <span
+        class={css({
+          fontSize: "medium"
+        })}>- Frontend Deveploper<br />- Web designer</span
+      >
+    </div>
+    <div class={iconGroup}>
+      {
+        iconToRender.map((item) => {
+          const Component = item.component;
+          return (
+            <a href={item.props.href} role="group">
+              <Component width={36} height={36} class={iconStyle} />
+            </a>
+          );
+        })
+      }
+    </div>
   </div>
 
   <div class={textStyle}>

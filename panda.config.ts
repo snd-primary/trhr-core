@@ -21,7 +21,7 @@ export default defineConfig({
   globalVars: {
     "--gradient-angle": {
       syntax: "<angle>",
-      initialValue: "0deg",
+      initialValue: "225deg",
       inherits: false,
     },
     "--gradient-start": {
@@ -88,6 +88,12 @@ export default defineConfig({
           z30: { value: 30 },
           z40: { value: 40 },
           z50: { value: 50 },
+        },
+        gradients: {
+          cardGradient: {
+            value:
+              "linear-gradient(to right, oklch(0.79 0.15 97.66 / 0.1), oklch(0.67 0.22 38.09 / 0.1))",
+          },
         },
         fonts: {
           depa: { value: '"DepartureMono", monospace' },
