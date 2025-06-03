@@ -15,7 +15,7 @@ const iconToRender = [
     component: InstagramIcon,
     props: { href: "https://www.instagram.com/1149trx/" }
   },
-  { component: RssIcon, props: { href: "/" } }
+  { component: RssIcon, props: { href: "/rss.xml" } }
 ];
 const iconStyle = css({
   stroke: "foreground",
@@ -62,7 +62,7 @@ const container = css({
 
 const imageStyle = css({
   aspectRatio: "square",
-  borderRadius: "3xl",
+  // borderRadius: "3xl",
   border: "1px solid token(colors.border)",
   gridArea: "image",
   w: "full",
@@ -78,7 +78,7 @@ const headingStyle = css({
   gridArea: "name",
   gap: 8,
   border: "1px solid token(colors.border)",
-  borderRadius: "3xl",
+  // borderRadius: "3xl",
   bgGradient: "cardGradient"
 });
 
@@ -96,7 +96,7 @@ const textStyle = css({
   w: "full",
   h: "full",
   border: "1px solid token(colors.border)",
-  borderRadius: "3xl",
+  // borderRadius: "3xl",
   p: 5
 });
 ---

@@ -9,13 +9,13 @@ const B_COLOR_HOVERED = "primary";
 const hoveredEase = css({
   transitionProperty: "all",
   transitionDuration: "0.3s",
-  transitionTimingFunction: "ease",
+  transitionTimingFunction: "ease"
 });
 
 const containerStyles = css({
   border: "1px solid",
   borderColor: B_COLOR_INITIAL,
-  borderRadius: "xl",
+  // borderRadius: "xl",
   w: "240px",
   aspectRatio: "square",
   display: "grid",
@@ -29,13 +29,13 @@ const containerStyles = css({
  "f f f f" 0.1fr / 1fr 1fr 1fr 1fr
 `,
   _hover: {
-    borderColor: B_COLOR_HOVERED,
+    borderColor: B_COLOR_HOVERED
   },
   "& > div": {
     w: "full",
     h: "full",
-    borderColor: B_COLOR_INITIAL,
-  },
+    borderColor: B_COLOR_INITIAL
+  }
 });
 
 const headerAreaStyles = css({
@@ -43,8 +43,8 @@ const headerAreaStyles = css({
   borderBottom: "1px solid",
   borderColor: B_COLOR_INITIAL,
   _groupHover: {
-    borderColor: B_COLOR_HOVERED,
-  },
+    borderColor: B_COLOR_HOVERED
+  }
 });
 
 const mainAreaStyles = css({
@@ -53,7 +53,7 @@ const mainAreaStyles = css({
   gridTemplateColumns: "1fr",
   gridTemplateRows: "1fr 1.1fr",
   gap: 1,
-  padding: 2,
+  padding: 2
 });
 
 const mainTopContentStyles = css({
@@ -62,7 +62,7 @@ const mainTopContentStyles = css({
   h: "full",
   border: "1px solid",
   borderColor: B_COLOR_INITIAL,
-  borderRadius: "xl",
+  // borderRadius: "xl",
   background: `
 	radial-gradient(circle, transparent 20%, token(colors.background) 20%, token(colors.background) 80%, transparent 80%, transparent),
 	radial-gradient(circle, transparent 20%, token(colors.background) 20%, token(colors.background) 80%, transparent 80%, transparent) 12px 12px,
@@ -72,8 +72,8 @@ const mainTopContentStyles = css({
   backgroundSize: "24px 24px, 24px 24px, 12px 12px, 12px 12px",
   _groupHover: {
     borderColor: B_COLOR_HOVERED,
-    "--color-initial": "colors.primary",
-  },
+    "--color-initial": "colors.primary"
+  }
 });
 
 const mainBottomContentStyles = css({
@@ -87,13 +87,13 @@ const mainBottomContentStyles = css({
   "& > span": {
     w: "full",
     display: "block",
-    borderRadius: "sm",
+    // borderRadius: "sm",
     background: B_COLOR_INITIAL,
 
     _groupHover: {
-      background: B_COLOR_HOVERED,
-    },
-  },
+      background: B_COLOR_HOVERED
+    }
+  }
 });
 
 const sidebarAreaStyles = css({
@@ -107,12 +107,12 @@ const sidebarAreaStyles = css({
     h: "full",
     border: "1px solid",
     borderColor: B_COLOR_INITIAL,
-    borderRadius: "lg",
+    // borderRadius: "lg",
 
     _groupHover: {
-      borderColor: B_COLOR_HOVERED,
-    },
-  },
+      borderColor: B_COLOR_HOVERED
+    }
+  }
 });
 
 const footerAreaStyles = css({
@@ -121,8 +121,8 @@ const footerAreaStyles = css({
   borderColor: B_COLOR_INITIAL,
 
   _groupHover: {
-    borderColor: B_COLOR_HOVERED,
-  },
+    borderColor: B_COLOR_HOVERED
+  }
 });
 
 const overlay = css({
@@ -138,7 +138,7 @@ const overlay = css({
   placeItems: "center",
   placeContent: "center",
   color: "foreground/70",
-  fontStyle: "italic",
+  fontStyle: "italic"
 });
 ---
 
