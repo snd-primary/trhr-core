@@ -25,23 +25,23 @@ const pageStyles = css({
   fontFamily: "sans-serif",
   display: "grid",
   gridTemplateColumns: "1fr",
-  gap: 8,
+  gap: 8
 });
 
 const titleStyles = css({
   fontSize: { base: "2xl", md: "3xl" },
   fontWeight: "bold",
   letterSpacing: "tight",
-  lineHeight: "shorter",
+  lineHeight: "shorter"
 });
 
 const dateStyles = css({
-  fontSize: "sm",
+  fontSize: "sm"
 });
 
 const tagsContainerStyles = css({
   display: "flex",
-  gap: 4,
+  gap: 4
 });
 
 const imageStyles = css({
@@ -50,7 +50,7 @@ const imageStyles = css({
   objectFit: "cover",
   borderRadius: "3xl",
   border: "1px solid token(colors.border)",
-  boxShadow: "2xl",
+  boxShadow: "2xl"
 });
 
 const contentStyles = css({
@@ -62,38 +62,38 @@ const contentStyles = css({
     fontWeight: "bold",
     mt: "10",
     mb: "5",
-    lineHeight: "tight",
+    lineHeight: "tight"
   },
   "& h2": {
     fontSize: "xl",
     fontWeight: "semibold",
     mt: "8",
     mb: "4",
-    lineHeight: "tight",
+    lineHeight: "tight"
   },
   "& h3": {
     fontSize: "lg",
     fontWeight: "semibold",
     mt: "6",
     mb: "3",
-    lineHeight: "tight",
+    lineHeight: "tight"
   },
   "& h4": {
     fontSize: "md",
     fontWeight: "semibold",
     mt: "5",
     mb: "2",
-    lineHeight: "tight",
+    lineHeight: "tight"
   },
   "& p": { marginBottom: "1.25rem" },
   "& a": {
     color: "token(colors.blue.600)",
     textDecoration: "underline",
-    _hover: { color: "token(colors.blue.800)", textDecorationThickness: "2px" },
+    _hover: { color: "token(colors.blue.800)", textDecorationThickness: "2px" }
   },
   "& ul, & ol": {
     paddingLeft: "1.5rem",
-    listStylePosition: "outside",
+    listStylePosition: "outside"
   },
   "& li": { marginBottom: "0.5rem" },
   "& li::marker": { color: "token(colors.gray.500)" },
@@ -103,7 +103,7 @@ const contentStyles = css({
     fontStyle: "italic",
     color: "token(colors.gray.700)",
     backgroundColor: "token(colors.blue.50)",
-    borderRadius: "sm",
+    borderRadius: "sm"
   },
   "& pre": {
     backgroundColor: "token(colors.gray.800)",
@@ -112,7 +112,7 @@ const contentStyles = css({
     borderRadius: "md",
     overflowX: "auto",
     fontSize: "sm",
-    lineHeight: "1.5",
+    lineHeight: "1.5"
   },
   "& code": {
     fontFamily: "monospace",
@@ -121,40 +121,40 @@ const contentStyles = css({
     padding: "0.15rem 0.3rem",
     borderRadius: "sm",
     fontSize: "0.875em",
-    wordBreak: "break-all",
+    wordBreak: "break-all"
   },
   "& pre code": {
     backgroundColor: "transparent",
     color: "inherit",
     padding: "0",
     fontSize: "inherit",
-    fontFamily: "inherit",
+    fontFamily: "inherit"
   },
   "& hr": {
     borderColor: "token(colors.gray.300)",
-    borderTopWidth: "1px",
+    borderTopWidth: "1px"
   },
   "& table": {
     width: "100%",
     borderCollapse: "collapse",
     fontSize: "sm",
-    textAlign: "left",
+    textAlign: "left"
   },
   "& th, & td": {
     border: "1px solid token(colors.gray.300)",
-    padding: "0.5rem 0.75rem",
+    padding: "0.5rem 0.75rem"
   },
   "& th": {
     backgroundColor: "token(colors.gray.100)",
     fontWeight: "semibold",
-    color: "token(colors.gray.700)",
+    color: "token(colors.gray.700)"
   },
   "& img": {
     maxWidth: "100%",
     height: "auto",
     borderRadius: "md",
-    boxShadow: "sm",
-  },
+    boxShadow: "sm"
+  }
 });
 
 const button = css({
@@ -170,14 +170,14 @@ const button = css({
   color: "inherit",
   _hover: {
     outline: "1px double token(colors.primary)",
-    color: "primary",
-  },
+    color: "primary"
+  }
 });
 
 const header = css({
   display: "grid",
   gridTemplateColumns: "1fr",
-  gap: 3,
+  gap: 3
 });
 ---
 
@@ -195,7 +195,7 @@ const header = css({
           new Date(work.data.date).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
-            day: "numeric",
+            day: "numeric"
           })
         }
       </p>
@@ -218,7 +218,7 @@ const header = css({
         paddingTop: 12,
         w: "full",
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "center"
       })}
     >
       <a href="/works" class={button}>一覧に戻る</a>

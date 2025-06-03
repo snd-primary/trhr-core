@@ -8,12 +8,12 @@ const container = css({
   gridTemplate: `
 	"image" 1fr
 	"name" 0.4fr
-	"desc" 0.7fr / 1fr
+	"desc" 0.4fr / 1fr
 	`,
-  md: {
+  "@/lg": {
     gridTemplate: `
-	"image name" 240px
-	"desc desc" 1fr / 240px 1fr
+	"image name" minmax(240px, 1fr)
+	"desc desc" 0.2fr / minmax(240px, 0.8fr) 1fr
 	`
   },
   placeContent: "center",
@@ -44,17 +44,10 @@ const headingStyle = css({
   borderRadius: "3xl"
 });
 
-const skills = css({
-  color: "foreground",
-  display: "block",
-  w: "fit-content",
-  backgroundClip: "text"
-});
-
 const textStyle = css({
   display: "grid",
   placeContent: "center",
-  placeItems: { base: "center", "@/sm": "start" },
+  placeItems: { base: "center", "@/lg": "start" },
   gap: "2",
   gridArea: "desc",
   fontSize: { base: "medium", md: "sm" },
