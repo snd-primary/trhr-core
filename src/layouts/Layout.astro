@@ -19,8 +19,8 @@ const container = css({
   maxWidth: "breakpoint-2xl",
   w: "full",
   md: {
-    px: "12",
-  },
+    px: "12"
+  }
 });
 ---
 
@@ -32,6 +32,7 @@ const container = css({
       background: "background",
       color: "foreground",
       fontFamily: "global",
+      lineHeight: "relaxed"
     })}
   >
     <div class={container}>
@@ -40,7 +41,7 @@ const container = css({
         class={css({
           w: "full",
           maxWidth: "full",
-          h: "full",
+          h: "full"
         })}
       >
         <slot />

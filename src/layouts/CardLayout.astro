@@ -34,6 +34,7 @@ const gridAreaVariants = cva({
     }
   }
 });
+
 interface Props {
   title: string;
   href?: string;
@@ -45,23 +46,23 @@ export type gridAreaVariantsType = RecipeVariantProps<typeof gridAreaVariants>;
 const { title, area, href } = Astro.props;
 
 const containerStyle = css({
-  border: "1px solid",
-  borderColor: "border",
+  border: "1px solid token(colors.border)",
 
   w: "full",
   h: "full",
   fontFamily: "depa",
-  p: 4,
+  p: 3,
   md: {
     px: 4,
     pt: 4,
     pb: 2
   },
-  gap: 6,
+  gap: { base: 7, sm: 6 },
   display: "grid",
   gridTemplateColumns: "1fr",
   gridTemplateRows: "min-content 1fr min-content",
   alignContent: "flex-start",
+  justifyItems: { base: "center", sm: "flex-start" },
   borderRadius: "4xl"
 });
 ---
@@ -81,7 +82,8 @@ const containerStyle = css({
       background: "background",
       userSelect: "none",
       px: 6,
-      py: 1
+
+      py: { base: 0, sm: 1 }
     })}
   >
     {title}

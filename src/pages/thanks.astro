@@ -7,6 +7,7 @@ const button = css({
   pt: 2,
   pb: 3,
   width: "fit-content",
+  marginTop: 6,
   textAlign: "center",
   borderRadius: "full",
   border: "1px solid token(colors.border)",
@@ -16,7 +17,19 @@ const button = css({
   _hover: {
     outline: "1px double token(colors.primary)",
     color: "primary"
-  }
+  },
+  background: "secondary"
+});
+
+const messageStyle = css({
+  display: "grid",
+  textAlign: "left",
+  justifyItems: "flex-end",
+  w: "full",
+  gap: 4,
+  p: 6,
+  border: "1px solid token(colors.border)",
+  borderRadius: "3xl"
 });
 ---
 
@@ -26,21 +39,31 @@ const button = css({
       w: "full",
       h: "full",
       display: "grid",
-      placeItems: "center",
+      placeItems: "start",
       placeContent: "center",
-      gap: 12
+      gap: 12,
+      p: 4
     })}
   >
-    <h1
-      class={css({
-        fontSize: "2xl",
-        fontWeight: "bold",
-        mb: "4"
-      })}
-    >
-      お問い合わせありがとうございました
-    </h1>
-
-    <a href="/" class={button}>トップページ</a>
+    <div class={messageStyle}>
+      <h1
+        class={css({
+          fontSize: "4xl",
+          fontWeight: "bold",
+          mb: "4",
+          w: "full"
+        })}
+      >
+        THANK YOU!!!
+      </h1>
+      <div>
+        <p>お問い合わせいただき、ありがとうございます！</p>
+        <p>内容を確認のうえ、2営業日以内にご連絡いたします。</p>
+        <p>
+          恐れ入りますが、今しばらくお待ちいただけますようお願い申し上げます。
+        </p>
+      </div>
+      <a href="/" class={button}>BACK TO HOME</a>
+    </div>
   </main>
 </Layout>

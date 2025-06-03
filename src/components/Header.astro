@@ -1,5 +1,10 @@
 ---
 import { css } from "styled-system/css";
+
+const titleTextStyle = css({
+  fontSize: "1.5rem",
+  fontWeight: "bold"
+});
 ---
 
 <header
@@ -11,31 +16,16 @@ import { css } from "styled-system/css";
     left: 0,
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     background: "background/30",
     backdropFilter: "blur(12px)",
-    zIndex: "z50"
+    borderBottom: "1px dashed token(colors.border)",
+    borderTop: "1px dashed token(colors.border)",
+    zIndex: "z50",
+    marginTop: "1"
   })}
 >
   <a href="/" class={css({ textDecoration: "none", color: "inherit" })}>
-    <h1 class={css({ fontSize: "1.5rem", fontWeight: "bold" })}>Site Title</h1>
+    <h1 class={titleTextStyle}>TRHR PORTFOLIO</h1>
   </a>
-  <nav>
-    <ul class={css({ listStyle: "none", display: "flex", gap: "1rem" })}>
-      <li>
-        <a
-          href="/about"
-          class={css({
-            textDecoration: "none",
-            color: "token(colors.blue.600)",
-            _hover: {
-              textDecoration: "underline",
-              color: "token(colors.blue.800)"
-            }
-          })}
-        >
-        </a>
-      </li>
-    </ul>
-  </nav>
 </header>
