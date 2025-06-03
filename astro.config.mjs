@@ -19,7 +19,7 @@ export default defineConfig({
       enabled: true,
       configPath: "./wrangler.json",
     },
-    imageService: "compile",
+    imageService: "cloudflare",
     sessionKVBindingName: "TEST",
   }),
 });
