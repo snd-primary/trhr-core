@@ -1,0 +1,71 @@
+---
+import { css } from "styled-system/css";
+import Layout from "./Layout.astro";
+
+const mainPageStyles = css({
+  width: "full",
+  margin: "0 auto",
+  padding: { base: "4", md: "6" },
+  display: "flex",
+  flexDirection: "column",
+  gap: { base: "6", md: "8" }
+});
+
+const pageTitleStyles = css({
+  fontSize: { base: "2xl", md: "3xl" },
+  fontWeight: "bold",
+  textAlign: "center",
+  marginBottom: { base: "4", md: "6" },
+  letterSpacing: "tight"
+});
+
+const containerStyle = css({
+  w: "full",
+  h: "full",
+  display: "grid"
+});
+---
+
+<Layout title="My Works - Portfolio">
+  <main class={mainPageStyles}>
+    <h1 class={pageTitleStyles}>Explore My Portfolio</h1>
+    <div class={containerStyle}>
+      <slot />
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* グローバルなCSSファイルやコンポーネントの <style> タグ内 */
+  ::view-transition-old(article-image-*) {
+    animation: 0.5s ease-out old-image-animation;
+    /* object-fit: cover; など、遷移中のスタイルを指定 */
+  }
+
+  ::view-transition-new(article-image-*) {
+    animation: 0.5s ease-in new-image-animation;
+    /* object-fit: cover; など、遷移中のスタイルを指定 */
+  }
+
+  @keyframes old-image-animation {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+  }
+
+  @keyframes new-image-animation {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+</style>

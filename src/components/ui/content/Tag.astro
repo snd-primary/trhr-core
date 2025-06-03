@@ -8,9 +8,9 @@ const workTagStyles = css({
   borderRadius: "full",
   fontSize: "xs",
   fontWeight: "medium",
-  pt: 1.5,
-  pb: 2,
-  px: 4,
+  pt: 1,
+  pb: 1,
+  px: 4
 });
 
 interface Props {
@@ -20,4 +20,4 @@ interface Props {
 const { tag } = Astro.props;
 ---
 
-<span class={workTagStyles}>{tag}</span>
+<span class={workTagStyles}>#{tag}</span>

@@ -53,22 +53,22 @@ const inputBaseStyle = css({
   transition: "all ease .2s",
   outline: "1px solid token(colors.primary/0)",
   "&:focus": {
-    outline: "1px solid token(colors.primary)",
-  },
+    outline: "1px solid token(colors.primary)"
+  }
 });
 
 const inputStyle = css({
-  borderColor: "border",
+  borderColor: "border"
 });
 
 const inputErrorStyle = css({
-  borderColor: "destructive",
+  borderColor: "destructive"
 });
 
 const labelStyle = css({
   fontSize: "sm",
   marginBottom: "2",
-  display: "block",
+  display: "block"
 });
 
 const errorStyle = css({
@@ -76,12 +76,12 @@ const errorStyle = css({
   fontSize: "sm",
   position: "absolute",
   bottom: -6,
-  right: "0",
+  right: "0"
 });
 
 const formStyle = css({
   display: "grid",
-  gap: 14,
+  gap: 14
 });
 
 const buttonStyle = css({
@@ -106,12 +106,19 @@ const buttonStyle = css({
   gap: 1,
   _hover: {
     outline: "2px solid token(colors.primary)",
-    color: "primary",
-  },
+    color: "primary"
+  }
 });
 ---
 
-<div class={css({ maxWidth: "md", width: "full" })}>
+<div class={css({ maxWidth: "md", width: "full", display: "grid", gap: 6 })}>
+  <p
+    class={css({
+      fontSize: "sm"
+    })}
+  >
+    Webサイト・アプリ開発のご用命、その他ご用件がございましたら、以下フォームよりお気軽にお問い合わせください。
+  </p>
   <form method="POST" action={actions.formAction} novalidate class={formStyle}>
     <div class={css({ display: "grid", gap: 8 })}>
       <!-- 名前フィールド -->
@@ -158,7 +165,7 @@ const buttonStyle = css({
         <textarea
           class={`${css({
             minHeight: "24",
-            resize: "none",
+            resize: "none"
           })} ${inputBaseStyle} ${hasFieldError("message") ? inputErrorStyle : inputStyle}`}
           name="message"
           id="message"
@@ -175,7 +182,7 @@ const buttonStyle = css({
     <div
       class={css({
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "center"
       })}
     >
       <button type="submit" class={buttonStyle}>

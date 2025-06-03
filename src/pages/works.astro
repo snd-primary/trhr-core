@@ -1,50 +1,43 @@
 ---
-import Layout from "src/layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import { css } from "styled-system/css";
 import { Image } from "astro:assets";
 import Tag from "src/components/ui/content/Tag.astro";
+import WorksLayout from "src/layouts/WorksLayout.astro";
 
 const allWorks = await getCollection("works");
-
-const mainPageStyles = css({
-  width: "full",
-  margin: "0 auto",
-  padding: { base: "4", md: "6" },
-  display: "flex",
-  flexDirection: "column",
-  gap: { base: "6", md: "8" }
-});
-
-const pageTitleStyles = css({
-  fontSize: { base: "2xl", md: "3xl" },
-  fontWeight: "bold",
-  textAlign: "center",
-  marginBottom: { base: "4", md: "6" },
-  letterSpacing: "tight"
-});
 
 const worksGridStyles = css({
   display: "grid",
   gridTemplateColumns: "1fr",
   md: { gridTemplateColumns: "1fr 1fr 1fr" },
-  gap: { base: "4", md: "4" },
+  gap: { base: 0.5, md: "0.5" },
   listStyle: "none",
-  padding: "4"
+  border: "1px solid token(colors.primaryForeground)",
+  background: "primaryForeground"
 });
 
 const workCardStyles = css({
   display: "grid",
   gridTemplateColumns: "1fr",
   gridTemplateRows: "1fr 0.5fr",
-  borderRadius: "3xl",
+  placeContent: "center",
+  placeItems: "center",
   overflow: "hidden",
   textDecoration: "none",
   boxShadow: "none",
+  background: "background",
   position: "relative",
-  border: "1px solid token(colors.border)",
   transition:
     "box-shadow 0.3s ease, transform 0.2s ease, border-color 0.2s ease"
+});
+
+const blankCardStyles = css({
+  w: "full",
+  h: "full",
+  background: "background",
+  backgroundImage:
+    "linear-gradient(to bottom right, transparent calc(50% - 1px), token(colors.primaryForeground) calc(50% - 1px) , token(colors.primaryForeground) calc(50% + 1px) , transparent calc(50% + 1px))"
 });
 
 const workImageContainerStyles = css({
@@ -54,6 +47,7 @@ const workImageContainerStyles = css({
 });
 
 const workImageStyles = css({
+  borderBottom: "1px solid token(colors.primaryForeground)",
   width: "full",
   height: "full",
   objectFit: "cover",
@@ -68,7 +62,7 @@ const workContentStyles = css({
 });
 
 const workTitleStyles = css({
-  fontSize: "lg",
+  fontSize: "medium",
   fontWeight: "semibold",
   marginBottom: "0.5rem",
   transition: "color 0.2s ease-in-out",
@@ -94,10 +88,8 @@ const noWorksMessageStyles = css({
 });
 ---
 
-<Layout title="My Works - Portfolio">
-  <main class={mainPageStyles}>
-    <h1 class={pageTitleStyles}>Explore My Portfolio</h1>
-
+<WorksLayout title="My Works - Portfolio">
+  <div class={css({ display: "grid", w: "full", h: "full" })}>
     {
       allWorks.length === 0 ? (
         <p class={noWorksMessageStyles}>
@@ -108,7 +100,7 @@ const noWorksMessageStyles = css({
         <div class={worksGridStyles}>
           {allWorks.map((work) => (
             <a
-              href={`/works/work1`}
+              href={`/works/${work.id}`}
               class={workCardStyles}
               aria-label={`View details for ${work.data.title}`}
             >
@@ -117,6 +109,7 @@ const noWorksMessageStyles = css({
                   src={work.data.image}
                   alt={`Thumbnail for ${work.data.title}`}
                   class={workImageStyles}
+                  transition:name={`article-image-${work.id}`}
                 />
               </div>
               <div class={workContentStyles}>
@@ -134,8 +127,9 @@ const noWorksMessageStyles = css({
               </div>
             </a>
           ))}
+          {allWorks.length % 3 !== 0 && <div class={blankCardStyles} />}
         </div>
       )
     }
-  </main>
-</Layout>
+  </div>
+</WorksLayout>

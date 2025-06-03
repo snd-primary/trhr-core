@@ -4,6 +4,7 @@ import Layout from "src/layouts/Layout.astro";
 import { css } from "styled-system/css";
 import { Image } from "astro:assets";
 import Tag from "../../components/ui/content/Tag.astro";
+import WorksLayout from "src/layouts/WorksLayout.astro";
 
 const { id } = Astro.params;
 if (id === undefined) {
@@ -181,12 +182,13 @@ const header = css({
 });
 ---
 
-<Layout title={"asdf"}>
+<WorksLayout title={"asdf"}>
   <article class={pageStyles}>
     <Image
       src={work.data.image}
       alt={`Cover image for ${work.data.title}`}
       class={imageStyles}
+      transition:name=`article-image-${work.id}`
     />
     <header class={header}>
       <h1 class={titleStyles}>{work.data.title}</h1>
@@ -224,4 +226,4 @@ const header = css({
       <a href="/works" class={button}>一覧に戻る</a>
     </div>
   </article>
-</Layout>
+</WorksLayout>
