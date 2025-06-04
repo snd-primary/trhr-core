@@ -1,7 +1,5 @@
 ---
 import { css } from "styled-system/css";
-
-const titleTextStyle = css({});
 ---
 
 <header
@@ -18,10 +16,14 @@ const titleTextStyle = css({});
     backdropFilter: "blur(12px)",
     borderBottom: "1px solid token(colors.border)",
     zIndex: "z50",
-    marginTop: "1"
+    marginTop: "1",
+    transition: "color 0.2s ease",
+    _hover: {
+      color: "primary"
+    }
   })}
 >
   <a href="/" class={css({ textDecoration: "none", color: "inherit" })}>
-    <h1 class={titleTextStyle}>TRHR PORTFOLIO</h1>
+    <h1>TRHR PORTFOLIO</h1>
   </a>
 </header>
