@@ -8,14 +8,13 @@ const mainPageStyles = css({
   padding: { base: "4", md: "6" },
   display: "flex",
   flexDirection: "column",
-  gap: { base: "6", md: "8" }
+  gap: { base: 6, md: 8 }
 });
 
 const pageTitleStyles = css({
   fontSize: { base: "2xl", md: "3xl" },
   fontWeight: "bold",
   textAlign: "center",
-  marginBottom: { base: "4", md: "6" },
   letterSpacing: "tight"
 });
 
@@ -24,11 +23,17 @@ const containerStyle = css({
   h: "full",
   display: "grid"
 });
+
+interface Props {
+  pageTitle: string;
+}
+
+const { pageTitle = "Works" } = Astro.props;
 ---
 
 <Layout title="My Works - Portfolio">
   <main class={mainPageStyles}>
-    <h1 class={pageTitleStyles}>Explore My Portfolio</h1>
+    <h1 class={pageTitleStyles}>{pageTitle}</h1>
     <div class={containerStyle}>
       <slot />
     </div>
@@ -36,21 +41,19 @@ const containerStyle = css({
 </Layout>
 
 <style>
-  /* グローバルなCSSファイルやコンポーネントの <style> タグ内 */
   ::view-transition-old(article-image-*) {
     animation: 0.5s ease-out old-image-animation;
-    /* object-fit: cover; など、遷移中のスタイルを指定 */
   }
 
   ::view-transition-new(article-image-*) {
     animation: 0.5s ease-in new-image-animation;
-    /* object-fit: cover; など、遷移中のスタイルを指定 */
   }
 
   @keyframes old-image-animation {
     from {
       opacity: 1;
       transform: scale(1);
+      box-shadow: 0px 0px 48px 2px oklch(0.36 0.06 63.83 / 0.3);
     }
     to {
       opacity: 0;
@@ -63,14 +66,11 @@ const containerStyle = css({
     from {
       opacity: 0;
       transform: scale(0.8);
-
-      box-shadow: 0px 0px 48px 2px oklch(0.36 0.06 63.83 / 0.3);
       box-shadow: none;
     }
     to {
       opacity: 1;
       transform: scale(1);
-
       box-shadow: 0px 0px 48px 2px oklch(0.36 0.06 63.83 / 0.3);
     }
   }

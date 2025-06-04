@@ -118,14 +118,12 @@ const experienceWrapperRecipe = cva({
     w: "fit-content",
     maxHeight: "24px",
     overflow: "hidden",
-    background: "background",
+    background: "transparent",
 
     borderRadius: "xs",
     border: "1px solid transparent",
 
     "--gradient-angle": "225deg",
-    backgroundImage:
-      "linear-gradient(var(--gradient-angle), oklch(0.79 0.15 97.66 / 0.01), oklch(0.67 0.22 38.09 / 0.01))",
 
     transitionProperty:
       "padding, max-height, width, background, gap, border, background-image, --gradient-angle",
@@ -142,8 +140,8 @@ const experienceWrapperRecipe = cva({
       borderColor: "border",
 
       "--gradient-angle": "45deg",
-      backgroundImage:
-        "linear-gradient(var(--gradient-angle), oklch(0.79 0.15 97.66 / 0.1), oklch(0.67 0.22 38.09 / 0.1))"
+      bgGradient:
+        "linear-gradient(var(--gradient-angle), var(--gradient-color-first), var(--gradient-color-second))"
     }
   },
   variants: {

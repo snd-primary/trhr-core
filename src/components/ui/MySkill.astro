@@ -264,10 +264,7 @@ const displayCategories = categoryOrder.filter(
 );
 
 const terminalWindowStyles = css({
-  backgroundColor: "background",
-  // borderRadius: "2xl",
   color: "popoverForeground",
-  // boxShadow: "0px 0px 5px 4px rgba(255, 255, 255, 0.2)",
   border: "1px solid",
   borderColor: "border",
   fontSize: "sm",
@@ -299,12 +296,12 @@ const titleStyles = css({
 });
 
 const terminalBodyStyles = css({
-  background: "background",
+  bgGradient: "cardGradient",
   transition: "background 0.2s ease",
 
-  _hover: {
+  /*   _hover: {
     backgroundColor: "oklch(0.62 0.11 235.02 / 0.01)"
-  },
+  }, */
 
   padding: "2",
 
@@ -438,7 +435,10 @@ const masteryStyle = css({
   border: "1px solid token(colors.foreground)",
   mx: 2,
   color: "foreground",
-  transition: "color .3s ease .2s"
+  transition: "color .3s ease .2s",
+  _groupHover: {
+    color: "primary"
+  }
 });
 ---
 

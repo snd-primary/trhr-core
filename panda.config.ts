@@ -39,6 +39,8 @@ export default defineConfig({
       initialValue: "0%",
       inherits: false,
     },
+    "--gradient-color-first": "oklch(0.79 0.15 97.66 / 0.1)",
+    "--gradient-color-second": "oklch(0.67 0.22 38.09 / 0.1)",
   },
 
   // Useful for theme customization
@@ -48,7 +50,7 @@ export default defineConfig({
         colors: {
           customGradient: { value: "var(--hdr-gradient)" },
           background: { value: "oklch(0.141 0.005 285.823)" },
-          foreground: { value: "oklch(0.985 0 0)" },
+          foreground: { value: "oklch(0.885 0 0)" },
           card: { value: "oklch(0.21 0.006 285.885)" },
           cardForeground: { value: "oklch(0.985 0 0)" },
           popover: { value: "oklch(0.21 0.006 285.885)" },
@@ -79,7 +81,7 @@ export default defineConfig({
           sidebarAccent: { value: "oklch(0.274 0.006 286.033)" },
           sidebarAccentForeground: { value: "oklch(0.985 0 0)" },
           sidebarBorder: { value: "oklch(1 0 0 / 10%)" },
-          sidebarRing: { value: "oklch(0.554 0.135 66.442)" },
+          sidebarRing: { value: "lch(0.554 0.135 66.442)" },
         },
         zIndex: {
           initial: { value: 0 },
@@ -92,7 +94,7 @@ export default defineConfig({
         gradients: {
           cardGradient: {
             value:
-              "linear-gradient(to right, oklch(0.79 0.15 97.66 / 0.1), oklch(0.67 0.22 38.09 / 0.1))",
+              "linear-gradient(to right, var(--gradient-color-first), var(--gradient-color-second))",
           },
         },
         fonts: {

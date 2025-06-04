@@ -9,18 +9,25 @@ const allWorks = await getCollection("works");
 
 const worksGridStyles = css({
   display: "grid",
-  gridTemplateColumns: "1fr",
-  md: { gridTemplateColumns: "1fr 1fr 1fr" },
+  gridTemplateColumns: {
+    base: "1fr",
+    md: "repeat(2, 1fr)",
+    lg: "repeat(3, 1fr)"
+  },
   gap: { base: 0.5, md: "0.5" },
   listStyle: "none",
   border: "1px solid token(colors.primaryForeground)",
-  background: "primaryForeground"
+  background: "primaryForeground",
+  w: "full",
+  h: "full"
 });
 
 const workCardStyles = css({
   display: "grid",
+  w: "full",
+  h: "full",
   gridTemplateColumns: "1fr",
-  gridTemplateRows: "1fr 0.5fr",
+  gridTemplateRows: "1fr 0.7fr",
   placeContent: "center",
   placeItems: "center",
   overflow: "hidden",
@@ -42,6 +49,7 @@ const blankCardStyles = css({
 
 const workImageContainerStyles = css({
   width: "full",
+  h: "full",
   aspectRatio: "video",
   overflow: "hidden"
 });
@@ -58,7 +66,9 @@ const workContentStyles = css({
   padding: "1rem",
   display: "flex",
   flexDirection: "column",
-  flexGrow: "1"
+  flexGrow: "1",
+  w: "full",
+  h: "full"
 });
 
 const workTitleStyles = css({
@@ -86,10 +96,21 @@ const noWorksMessageStyles = css({
   padding: "2rem",
   fontSize: "lg"
 });
+
+const linkButtonStyle = css({
+  textDecoration: "underline",
+  transition: "color 0.2s ease",
+  color: "foreground",
+  w: "block",
+  m: "0 auto",
+  _hover: {
+    color: "primary"
+  }
+});
 ---
 
-<WorksLayout title="My Works - Portfolio">
-  <div class={css({ display: "grid", w: "full", h: "full" })}>
+<WorksLayout pageTitle="My Works">
+  <div class={css({ display: "grid", w: "full", h: "full", gap: 8 })}>
     {
       allWorks.length === 0 ? (
         <p class={noWorksMessageStyles}>
@@ -127,9 +148,20 @@ const noWorksMessageStyles = css({
               </div>
             </a>
           ))}
-          {allWorks.length % 3 !== 0 && <div class={blankCardStyles} />}
+          {(() => {
+            const remainder = allWorks.length % 3;
+            if (remainder !== 0) {
+              const blanksToRender = 3 - remainder;
+              // blanksToRender の数だけ空白カードを生成
+              return Array.from({ length: blanksToRender }).map((_, index) => (
+                <div class={blankCardStyles} />
+              ));
+            }
+            return null; // 余りが0の場合は何もレンダリングしない
+          })()}
         </div>
       )
     }
+    <a href="/" class={linkButtonStyle}>↵ back to home</a>
   </div>
 </WorksLayout>

@@ -57,34 +57,36 @@ const containerStyle = css({
     pt: 4,
     pb: 2
   },
-  gap: { base: 7, sm: 6 },
+  gap: { base: 7, sm: 4 },
   display: "grid",
   gridTemplateColumns: "1fr",
   gridTemplateRows: "min-content 1fr min-content",
   alignContent: "flex-start",
-  justifyItems: { base: "center", sm: "flex-start" }
+  justifyItems: { base: "center", sm: "flex-start" },
+  background: "secondary/40"
+});
+
+const headingStyle = css({
+  fontSize: { base: "4xl", md: "4xl" },
+  fontWeight: "bold",
+  display: "inline-block",
+  width: "fit-content",
+  border: "1px solid",
+  borderColor: "border",
+  userSelect: "none",
+  backdropBlur: "3xl",
+  px: 6,
+  textShadow: "3px 3px  token(colors.secondary)",
+  borderRadius: "full",
+
+  py: { base: 0, sm: 1 }
 });
 ---
 
 <section
   class={`${containerStyle} ${gridAreaVariants({ areas: area })} ${cq()}`}
 >
-  <h2
-    class={css({
-      fontSize: { base: "4xl", md: "4xl" },
-      fontWeight: "bold",
-      display: "inline-block",
-      width: "fit-content",
-      // borderRadius: "20px",
-      border: "1px solid",
-      borderColor: "border",
-      background: "background",
-      userSelect: "none",
-      px: 6,
-
-      py: { base: 0, sm: 1 }
-    })}
-  >
+  <h2 class={headingStyle}>
     {title}
   </h2>
   <div

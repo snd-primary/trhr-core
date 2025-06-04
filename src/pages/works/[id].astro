@@ -48,7 +48,8 @@ const tagsContainerStyles = css({
 const imageStyles = css({
   width: "100%",
   maxHeight: "400px",
-  objectFit: "cover"
+  objectFit: "cover",
+  border: "1px solid token(colors.primaryForeground)"
 });
 
 const contentStyles = css({
@@ -179,7 +180,7 @@ const header = css({
 });
 ---
 
-<WorksLayout title={"asdf"}>
+<WorksLayout pageTitle={work.data.title}>
   <article class={pageStyles}>
     <Image
       src={work.data.image}
