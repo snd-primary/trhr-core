@@ -1,10 +1,10 @@
 ---
 import { getEntry, render } from "astro:content";
-import Layout from "src/layouts/Layout.astro";
 import { css } from "styled-system/css";
 import { Image } from "astro:assets";
-import Tag from "../../components/ui/content/Tag.astro";
 import WorksLayout from "src/layouts/WorksLayout.astro";
+import Tag from "src/components/ui/content/Tag.astro";
+import { customImageTransition } from "src/util/customImageTransition";
 
 const { id } = Astro.params;
 if (id === undefined) {
@@ -19,40 +19,63 @@ if (work === undefined) {
 
 const { Content } = await render(work);
 
-const pageStyles = css({
-  maxWidth: "800px",
-  margin: "0 auto",
-  padding: { base: "1rem", md: "2rem" },
-  fontFamily: "sans-serif",
+//header styles
+const header = css({
+  w: "full",
   display: "grid",
-  gridTemplateColumns: "1fr",
-  gap: 8
+  gridTemplate: `
+	"title title" auto
+	"date tags" auto / 1fr 1fr
+	`,
+  gap: 3,
+  background: "primaryForeground",
+
+  p: 2
 });
 
 const titleStyles = css({
   fontSize: { base: "2xl", md: "3xl" },
   fontWeight: "bold",
   letterSpacing: "tight",
-  lineHeight: "shorter"
-});
-
-const dateStyles = css({
-  fontSize: "sm"
+  lineHeight: "shorter",
+  gridArea: "title"
 });
 
 const tagsContainerStyles = css({
-  display: "flex",
-  gap: 4
+  gridArea: "tags",
+  w: "full",
+  h: "full",
+  textAlign: "right"
 });
 
+const dateStyles = css({
+  fontSize: "sm",
+  gridArea: "date"
+});
+
+//thumbnail images
 const imageStyles = css({
   width: "100%",
-  maxHeight: "400px",
   objectFit: "cover",
+  backgroundPosition: "center",
+  aspectRatio: "video",
   border: "1px solid token(colors.primaryForeground)"
 });
 
+const pageStyles = css({
+  maxWidth: "full",
+  w: "full",
+  margin: "0 auto",
+  padding: { base: "1rem", md: "2rem" },
+  fontFamily: "sans-serif",
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  justifyContent: "center",
+  gap: 2
+});
+
 const contentStyles = css({
+  w: "full",
   lineHeight: "1.75",
   wordBreak: "break-word",
   "& > :first-child": { marginTop: "0 !important" },
@@ -61,7 +84,17 @@ const contentStyles = css({
     fontWeight: "bold",
     mt: "10",
     mb: "5",
-    lineHeight: "tight"
+    ml: "8",
+    lineHeight: "tight",
+    position: "relative",
+    _before: {
+      content: '"##"',
+      position: "absolute",
+      left: -8,
+      top: 0,
+      fontSize: "2xl",
+      color: "foreground"
+    }
   },
   "& h2": {
     fontSize: "xl",
@@ -86,9 +119,10 @@ const contentStyles = css({
   },
   "& p": { marginBottom: "1.25rem" },
   "& a": {
-    color: "token(colors.blue.600)",
+    color: "token(colors.primary)",
     textDecoration: "underline",
-    _hover: { color: "token(colors.blue.800)", textDecorationThickness: "2px" }
+    fontStyle: "italic",
+    _hover: { color: "token(colors.chart3)", textDecorationThickness: "2px" }
   },
   "& ul, & ol": {
     paddingLeft: "1.5rem",
@@ -173,10 +207,12 @@ const button = css({
   }
 });
 
-const header = css({
+const contentContainer = css({
+  w: "full",
+  maxW: "full",
   display: "grid",
-  gridTemplateColumns: "1fr",
-  gap: 3
+  gap: "8",
+  fontFamily: "global"
 });
 ---
 
@@ -187,41 +223,44 @@ const header = css({
       alt={`Cover image for ${work.data.title}`}
       class={imageStyles}
       transition:name=`article-image-${work.id}`
+      transition:animate={customImageTransition}
     />
-    <header class={header}>
-      <h1 class={titleStyles}>{work.data.title}</h1>
-      <p class={dateStyles}>
-        Published on: {
-          new Date(work.data.date).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-          })
+    <div class={contentContainer}>
+      <header class={header}>
+        <h1 class={titleStyles}>{work.data.title}</h1>
+        <p class={dateStyles}>
+          PUBLISHED AT: {
+            new Date(work.data.date).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric"
+            })
+          }
+        </p>
+        {
+          work.data.tags && work.data.tags.length > 0 && (
+            <div class={tagsContainerStyles}>
+              {work.data.tags.map((tag) => (
+                <Tag tag={tag} />
+              ))}
+            </div>
+          )
         }
-      </p>
-      {
-        work.data.tags && work.data.tags.length > 0 && (
-          <div class={tagsContainerStyles}>
-            {work.data.tags.map((tag) => (
-              <Tag tag={tag} />
-            ))}
-          </div>
-        )
-      }
-    </header>
+      </header>
 
-    <div class={contentStyles}>
-      <Content />
-    </div>
-    <div
-      class={css({
-        paddingTop: 12,
-        w: "full",
-        display: "flex",
-        justifyContent: "center"
-      })}
-    >
-      <a href="/works" class={button}>一覧に戻る</a>
+      <div class={contentStyles}>
+        <Content />
+      </div>
+      <div
+        class={css({
+          paddingTop: 12,
+          w: "full",
+          display: "flex",
+          justifyContent: "center"
+        })}
+      >
+        <a href="/works" class={button}>一覧に戻る</a>
+      </div>
     </div>
   </article>
 </WorksLayout>

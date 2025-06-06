@@ -6,8 +6,7 @@ date: 2025-06-04
 tags: ["PWA", "Next.js", "i18n"]
 ---
 
-# ポモドーロタイマーアプリ「Iteract」を作った(編集中...)
+(編集中・・・)
+zennにアプリの技術構成や制作過程をアップしているので、ひとまずそちらをご覧ください。
 
-zennにアプリの技術構成や制作過程をアップしているので、良ければ見て行ってください。
-
-[かっこいいポモドーロタイマー「Iteract」を公開しました on zenn.dev](https://zenn.dev/siino/articles/c2ba7b064f2938)
+[-> かっこいいポモドーロタイマー「Iteract」を公開しました on zenn.dev](https://zenn.dev/siino/articles/c2ba7b064f2938)

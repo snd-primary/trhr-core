@@ -4,6 +4,7 @@ import { css } from "styled-system/css";
 import { Image } from "astro:assets";
 import Tag from "src/components/ui/content/Tag.astro";
 import WorksLayout from "src/layouts/WorksLayout.astro";
+import { customImageTransition } from "src/util/customImageTransition";
 
 const allWorks = await getCollection("works");
 
@@ -44,7 +45,7 @@ const blankCardStyles = css({
   h: "full",
   background: "background",
   backgroundImage:
-    "linear-gradient(to bottom right, transparent calc(50% - 1px), token(colors.primaryForeground) calc(50% - 1px) , token(colors.primaryForeground) calc(50% + 1px) , transparent calc(50% + 1px))"
+    "linear-gradient(to bottom right, transparent calc(50% - 1px), token(colors.primaryForeground/50) calc(50% - 1px) , token(colors.primaryForeground/50) calc(50% + 1px) , transparent calc(50% + 1px))"
 });
 
 const workImageContainerStyles = css({
@@ -131,6 +132,7 @@ const linkButtonStyle = css({
                   alt={`Thumbnail for ${work.data.title}`}
                   class={workImageStyles}
                   transition:name={`article-image-${work.id}`}
+                  transition:animate={customImageTransition}
                 />
               </div>
               <div class={workContentStyles}>
