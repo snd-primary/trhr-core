@@ -45,6 +45,20 @@ export type gridAreaVariantsType = RecipeVariantProps<typeof gridAreaVariants>;
 
 const { title, area, href } = Astro.props;
 
+const liquidGlassWrapper = css({
+  position: "relative",
+  overflow: "hidden",
+  cursor: "pointer"
+});
+
+const liquidGlassEffectt = css({
+  position: "absolute",
+  zIndex: "0",
+  inset: 0,
+  backdropFilter: "blur(3px)",
+  filter: "url(#glass-distortion)"
+});
+
 const containerStyle = css({
   border: "1px solid token(colors.border)",
 
@@ -62,8 +76,7 @@ const containerStyle = css({
   gridTemplateColumns: "1fr",
   gridTemplateRows: "min-content 1fr min-content",
   alignContent: "flex-start",
-  justifyItems: { base: "center", sm: "flex-start" },
-  background: "secondary/40"
+  justifyItems: { base: "center", sm: "flex-start" }
 });
 
 const headingStyle = css({
