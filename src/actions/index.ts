@@ -1,6 +1,5 @@
 import { defineAction } from "astro:actions";
 import { z } from "astro:content";
-import { EmailMessage } from "cloudflare:email";
 import { createMimeMessage } from "mimetext";
 
 const formActionSchema = z.object({
@@ -20,6 +19,36 @@ const formActionSchema = z.object({
   ),
 });
 
+async function sendNotificationEmail(
+  sendEmail: SendEmail,
+  name: string,
+  email: string,
+  message: string,
+) {
+  const { EmailMessage } = await import("cloudflare:email");
+
+  const msg = createMimeMessage();
+  msg.setSender({ name: "Contact Form", addr: "noreply@trhr-core.dev" });
+  msg.setRecipient("snd.webdev@gmail.com");
+  msg.setSubject(`お問い合わせ: ${name}さんより`);
+  msg.addMessage({
+    contentType: "text/plain",
+    data: [
+      `名前: ${name}`,
+      `メール: ${email}`,
+      `メッセージ:`,
+      message,
+    ].join("\n"),
+  });
+
+  const emailMessage = new EmailMessage(
+    "noreply@trhr-core.dev",
+    "snd.webdev@gmail.com",
+    msg.asRaw(),
+  );
+  await sendEmail.send(emailMessage);
+}
+
 export const server = {
   formAction: defineAction({
     accept: "form",
@@ -33,26 +62,11 @@ export const server = {
           .bind(name, email, message)
           .run();
 
-        const msg = createMimeMessage();
-        msg.setSender({ name: "Contact Form", addr: "noreply@trhr-core.dev" });
-        msg.setRecipient("snd.webdev@gmail.com");
-        msg.setSubject(`お問い合わせ: ${name}さんより`);
-        msg.addMessage({
-          contentType: "text/plain",
-          data: [
-            `名前: ${name}`,
-            `メール: ${email}`,
-            `メッセージ:`,
-            message,
-          ].join("\n"),
-        });
-
-        const emailMessage = new EmailMessage(
-          "noreply@trhr-core.dev",
-          "snd.webdev@gmail.com",
-          msg.asRaw(),
-        );
-        await SEND_EMAIL.send(emailMessage);
+        try {
+          await sendNotificationEmail(SEND_EMAIL, name, email, message);
+        } catch (emailError) {
+          console.error("メール送信に失敗しました:", emailError);
+        }
 
         return {
           success: true,
