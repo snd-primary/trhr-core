@@ -41,15 +41,15 @@ const container = css({
 
   "@/lg": {
     gridTemplate: `
-	"image name" minmax(240px, 1fr)
+	"image name" minmax(200px, 1fr)
 	"desc desc" 0.2fr / minmax(240px, 0.8fr) 1fr
 	`
   },
 
   "@/2xl": {
     gridTemplate: `
-	"image name" minmax(100px, 1fr)
-	"image desc" 140px / minmax(240px, 0.9fr) 1fr
+	"image name" 1fr
+	"image desc" 1fr / minmax(240px, 1fr) 1fr
 	`
   },
 
@@ -62,11 +62,10 @@ const container = css({
 
 const imageStyle = css({
   aspectRatio: "square",
-  // borderRadius: "3xl",
   border: "1px solid token(colors.border)",
   gridArea: "image",
   w: "full",
-  h: "full"
+  h: "auto"
 });
 
 const headingStyle = css({
@@ -135,9 +134,12 @@ const textStyle = css({
 
   <div class={textStyle}>
     <p>
-      はじめまして、フロントエンドエンジニアのTRHRと申します。<br />
-      Webサイト制作からこの業界に入門し、現在はNext.js等フルスタックなFWを用いたWeb開発や、UI/UX設計に携わっています。
-      好きなCSSライブラリはPandaCSSです。
+      こんにちは、ソフトウェアエンジニアのAriShinodaです。
+      React,Vue(TypeScript),CSSを軸にしたフロントエンドが主戦場ですが、CI/CD整備からシステム全体の設計まで一通り手を動かしてきました。
+      <br />
+      最近はAIを使いながら一人でフルスタックなアプリケーションを開発していくことに興味があります。
+      <br />
+      また、個人的な趣味としてWebAudioやWebGLを触るのが好きです。技術と表現が重なる領域を探るのが楽しみの一つです。
     </p>
   </div>
 </div>
