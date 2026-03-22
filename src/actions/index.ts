@@ -1,6 +1,7 @@
 import { defineAction } from "astro:actions";
-import { db, Contact } from "astro:db";
 import { z } from "astro:content";
+import { EmailMessage } from "cloudflare:email";
+import { createMimeMessage } from "mimetext";
 
 const formActionSchema = z.object({
   name: z.preprocess(
@@ -23,13 +24,36 @@ export const server = {
   formAction: defineAction({
     accept: "form",
     input: formActionSchema,
-    handler: async ({ name, email, message }) => {
+    handler: async ({ name, email, message }, context) => {
+      const { DB, SEND_EMAIL } = context.locals.runtime.env;
       try {
-        await db.insert(Contact).values({
-          name,
-          email,
-          message,
+        await DB.prepare(
+          "INSERT INTO Contact (name, email, message) VALUES (?, ?, ?)",
+        )
+          .bind(name, email, message)
+          .run();
+
+        const msg = createMimeMessage();
+        msg.setSender({ name: "Contact Form", addr: "noreply@trhr-core.dev" });
+        msg.setRecipient("snd.webdev@gmail.com");
+        msg.setSubject(`お問い合わせ: ${name}さんより`);
+        msg.addMessage({
+          contentType: "text/plain",
+          data: [
+            `名前: ${name}`,
+            `メール: ${email}`,
+            `メッセージ:`,
+            message,
+          ].join("\n"),
         });
+
+        const emailMessage = new EmailMessage(
+          "noreply@trhr-core.dev",
+          "snd.webdev@gmail.com",
+          msg.asRaw(),
+        );
+        await SEND_EMAIL.send(emailMessage);
+
         return {
           success: true,
           message: `${name}さん、お問い合わせありがとうございます！`,
@@ -41,7 +65,6 @@ export const server = {
           success: false,
           message:
             "メッセージの送信中にエラーが発生しました。もう一度お試しください。",
-          // エラーの詳細をクライアントに返す場合は注意してください
         };
       }
     },

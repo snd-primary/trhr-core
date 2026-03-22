@@ -1,19 +1,34 @@
 {
-  "name": "trhr_portfolio",
-  "main": "./dist/_worker.js/index.js",
-  "compatibility_date": "2025-05-31",
-  "compatibility_flags": ["nodejs_compat"],
-  "assets": {
-    "binding": "ASSETS",
-    "directory": "./dist"
-  },
-  "observability": {
-    "enabled": true
-  },
-  "kv_namespaces": [
-    {
-      "binding": "TEST",
-      "id": "87c4bd0cd112485583c96f3ae6030ff0"
-    }
-  ]
+	"name": "trhr_portfolio",
+	"main": "./dist/_worker.js/index.js",
+	"compatibility_date": "2025-05-31",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"assets": {
+		"binding": "ASSETS",
+		"directory": "./dist"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"kv_namespaces": [
+		{
+			"binding": "TEST",
+			"id": "87c4bd0cd112485583c96f3ae6030ff0"
+		}
+	],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "trhr-contact-db",
+			"database_id": "f96d30d7-002d-46d8-969d-d170be6aae4e"
+		}
+	],
+	"send_email": [
+		{
+			"name": "SEND_EMAIL",
+			"destination_address": "snd.webdev@gmail.com"
+		}
+	]
 }

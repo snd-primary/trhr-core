@@ -5,21 +5,22 @@
   "scripts": {
     "prepare": "panda codegen",
     "dev": "astro dev",
-    "build": "astro build --remote",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.5.3",
-    "@astrojs/db": "^0.15.0",
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.4.0",
     "astro": "^5.8.1",
+    "mimetext": "^3.0.28",
     "zod": "^3.25.7"
   },
   "devDependencies": {
     "@pandacss/dev": "^0.53.6",
     "prettier": "3.5.3",
-    "prettier-plugin-astro": "0.14.1"
+    "prettier-plugin-astro": "0.14.1",
+    "wrangler": "^4.76.0"
   }
 }
