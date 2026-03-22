@@ -12,7 +12,7 @@ const experiences = [
     year: "2023年9月～2025年4月",
     title: "SE/PG",
     description:
-      "金融業界のレガシーなUI/UX開発基盤を、モダンWebにリプレイスするプロジェクトに参画。フロントエンドの技術選定やCSS設計を主導。"
+      "チーム開発を経験。金融業界のレガシーなUI/UX開発基盤を、モダンWebにリプレイスするプロジェクトに参画。フロントエンドの技術選定やCSS設計を主導。"
   },
   {
     year: "現在",
@@ -80,7 +80,7 @@ const timelineMarker = css({
     width: { base: "18px", md: "24px" },
     left: { base: "-3.5px", md: "-5.5px" },
     top: "1.5px",
-    backgroundImage: `linear-gradient(var(--gradient-angle), token(colors.primary), #FF0000)`
+    backgroundImage: `linear-gradient(var(--gradient-angle), token(colors.primary), token(colors.ring))`
   }
 });
 
@@ -158,7 +158,7 @@ const experienceWrapperRecipe = cva({
         background: "inherit",
         borderColor: "border",
         backgroundImage:
-          "linear-gradient(var(--gradient-angle), oklch(0.79 0.15 97.66 / 0.1), oklch(0.67 0.22 38.09 / 0.1))"
+          "linear-gradient(var(--gradient-angle), var(--gradient-color-first), var(--gradient-color-second))"
       }
     }
   }

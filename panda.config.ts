@@ -26,12 +26,12 @@ export default defineConfig({
     },
     "--gradient-start": {
       syntax: "<color>",
-      initialValue: "#ff6b6b",
+      initialValue: "#6b9fff",
       inherits: false,
     },
     "--gradient-end": {
       syntax: "<color>",
-      initialValue: "j#4ecdc4",
+      initialValue: "#4e9ddc",
       inherits: false,
     },
     "--gradient-position": {
@@ -39,8 +39,8 @@ export default defineConfig({
       initialValue: "0%",
       inherits: false,
     },
-    "--gradient-color-first": "oklch(0.79 0.15 97.66 / 0.1)",
-    "--gradient-color-second": "oklch(0.67 0.22 38.09 / 0.1)",
+    "--gradient-color-first": "oklch(0.72 0.15 245 / 0.1)",
+    "--gradient-color-second": "oklch(0.60 0.18 265 / 0.1)",
   },
 
   // Useful for theme customization
@@ -56,8 +56,8 @@ export default defineConfig({
           popover: { value: "oklch(0.21 0.006 285.885)" },
           popoverForeground: { value: "oklch(0.985 0 0)" },
           // primary: { value: "oklch(0.795 0.184 86.017)" },
-          primary: { value: "oklch(0.64 0.17 39.33)" },
-          primaryForeground: { value: "oklch(0.421 0.095 57.708)" },
+          primary: { value: "oklch(0.64 0.17 250)" },
+          primaryForeground: { value: "oklch(0.90 0.04 245)" },
           secondary: { value: "oklch(0.274 0.006 286.033)" },
           secondaryForeground: { value: "oklch(0.985 0 0)" },
           muted: { value: "oklch(0.274 0.006 286.033)" },
@@ -68,7 +68,7 @@ export default defineConfig({
           border: { value: "oklch(1 0 0 / 20%)" },
           // border: { value: "oklch(0.445 0.184 98.047)" },
           input: { value: "oklch(1 0 0 / 15%)" },
-          ring: { value: "oklch(0.554 0.135 66.442)" },
+          ring: { value: "oklch(0.554 0.135 250)" },
           chart1: { value: "oklch(0.488 0.243 264.376)" },
           chart2: { value: "oklch(0.696 0.17 162.48)" },
           chart3: { value: "oklch(0.769 0.188 70.08)" },
@@ -76,12 +76,12 @@ export default defineConfig({
           chart5: { value: "oklch(0.645 0.246 16.439)" },
           sidebar: { value: "oklch(0.21 0.006 285.885)" },
           sidebarForeground: { value: "oklch(0.985 0 0)" },
-          sidebarPrimary: { value: "oklch(0.795 0.184 86.047)" },
-          sidebarPrimaryForeground: { value: "oklch(0.421 0.095 57.708)" },
+          sidebarPrimary: { value: "oklch(0.70 0.17 250)" },
+          sidebarPrimaryForeground: { value: "oklch(0.90 0.04 245)" },
           sidebarAccent: { value: "oklch(0.274 0.006 286.033)" },
           sidebarAccentForeground: { value: "oklch(0.985 0 0)" },
           sidebarBorder: { value: "oklch(1 0 0 / 10%)" },
-          sidebarRing: { value: "lch(0.554 0.135 66.442)" },
+          sidebarRing: { value: "oklch(0.554 0.135 250)" },
         },
         zIndex: {
           initial: { value: 0 },
@@ -139,10 +139,10 @@ export default defineConfig({
         },
         textFlicker: {
           "0%": {
-            textShadow: "1px 0 0 #ea36af, -2px 0 0 #75fa69",
+            textShadow: "1px 0 0 #3690ea, -2px 0 0 #69b4fa",
           },
           "100%": {
-            textShadow: "4px 0.5px 4px #ea36af, -3px -0.5px 2px #75fa69",
+            textShadow: "4px 0.5px 4px #3690ea, -3px -0.5px 2px #69b4fa",
           },
         },
       },

@@ -39,9 +39,9 @@ const initialGridStyles = css({
   gridTemplate: `
     "c1" auto 
     "c8" auto
+    "c4" auto
     "c5" auto
     "c2" auto
-    "c4" auto
     "c7" auto
     "c6" auto / 1fr
   `,
@@ -50,7 +50,7 @@ const initialGridStyles = css({
     "c1 c1" 1fr
     "c8 c8" auto
     "c5 c2" auto
-    "c4 c4"  auto 
+    "c4 c4"  800px  
     "c7 c6"  auto / 1fr 1fr`,
     gap: 3
   },
@@ -58,7 +58,7 @@ const initialGridStyles = css({
     gridTemplate: `
     "c1 c1 c8 c8" 350px
     "c1 c1 c8 c8" 250px
-    "c4 c4 c4 c2" 550px
+    "c4 c4 c4 c2" 800px
     "c5 c6 c6 c6"  310px 
     "c7 c6 c6 c6"  380px / 1fr 1fr 1fr 1fr
   `
@@ -108,4 +108,47 @@ const initialGridStyles = css({
       </CardLayout>
     </div>
   </main>
+  <div
+    id="loading-overlay"
+    class={css({
+      position: "fixed",
+      inset: 0,
+      zIndex: 50,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      bg: "background/80",
+      backdropFilter: "blur(4px)",
+      opacity: 0,
+      pointerEvents: "none",
+      transition: "opacity 0.3s ease",
+      "&[data-visible]": {
+        opacity: 1,
+        pointerEvents: "auto"
+      }
+    })}
+  >
+    <div
+      class={css({
+        w: "10",
+        h: "10",
+        border: "3px solid token(colors.border)",
+        borderTopColor: "primary",
+        borderRadius: "50%",
+        animation: "spin 0.8s linear infinite"
+      })}
+    >
+    </div>
+  </div>
+  <script>
+    document.addEventListener("astro:page-load", () => {
+      const form = document.querySelector("form");
+      const overlay = document.getElementById("loading-overlay");
+      if (!form || !overlay) return;
+
+      form.addEventListener("submit", () => {
+        overlay.dataset.visible = "";
+      });
+    });
+  </script>
 </Layout>
