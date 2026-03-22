@@ -33,12 +33,9 @@ async function sendNotificationEmail(
   msg.setSubject(`お問い合わせ: ${name}さんより`);
   msg.addMessage({
     contentType: "text/plain",
-    data: [
-      `名前: ${name}`,
-      `メール: ${email}`,
-      `メッセージ:`,
-      message,
-    ].join("\n"),
+    data: [`名前: ${name}`, `メール: ${email}`, `メッセージ:`, message].join(
+      "\n",
+    ),
   });
 
   const emailMessage = new EmailMessage(

@@ -8,6 +8,13 @@ const siteUrl = "https://trhr-core.dev";
 export default defineConfig({
   site: siteUrl,
   output: "server",
+  vite: {
+    build: {
+      rollupOptions: {
+        external: ["cloudflare:email"],
+      },
+    },
+  },
   integrations: [sitemap()],
   adapter: cloudflare({
     platformProxy: {
