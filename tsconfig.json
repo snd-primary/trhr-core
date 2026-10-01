@@ -3,11 +3,8 @@
   "include": [".astro/types.d.ts", "**/*", "src", "styled-system"],
   "exclude": ["dist"],
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "react",
     "baseUrl": "./",
     "strictNullChecks": true,
-    "allowJs": true,
-    "types": ["@cloudflare/workers-types"]
+    "allowJs": true
   }
 }

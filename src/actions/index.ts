@@ -1,5 +1,6 @@
 import { defineAction } from "astro:actions";
-import { z } from "astro:content";
+import { z } from "astro/zod";
+import { env } from "cloudflare:workers";
 import { createMimeMessage } from "mimetext";
 
 const formActionSchema = z.object({
@@ -9,7 +10,7 @@ const formActionSchema = z.object({
   ),
   email: z.preprocess(
     (val) => val || "",
-    z.string().email({ message: "有効なメールアドレスを入力してください" }),
+    z.email({ message: "有効なメールアドレスを入力してください" }),
   ),
   message: z.preprocess(
     (val) => val || "",
@@ -50,8 +51,8 @@ export const server = {
   formAction: defineAction({
     accept: "form",
     input: formActionSchema,
-    handler: async ({ name, email, message }, context) => {
-      const { DB, SEND_EMAIL } = context.locals.runtime.env;
+    handler: async ({ name, email, message }) => {
+      const { DB, SEND_EMAIL } = env;
       try {
         await DB.prepare(
           "INSERT INTO Contact (name, email, message) VALUES (?, ?, ?)",
