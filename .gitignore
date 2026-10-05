@@ -28,3 +28,5 @@ styled-system
 styled-system-studio
 
 .wrangler/
+# wrangler generated types
+worker-configuration.d.ts

@@ -4,24 +4,30 @@
   "version": "0.0.1",
   "scripts": {
     "prepare": "panda codegen",
-    "dev": "astro dev",
-    "build": "astro build",
+    "types": "wrangler types",
+    "dev": "wrangler types && astro dev",
+    "build": "wrangler types && astro build",
     "preview": "astro preview",
     "deploy": "astro build && wrangler deploy",
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.5.3",
-    "@astrojs/rss": "^4.0.11",
-    "@astrojs/sitemap": "^3.4.0",
-    "astro": "^5.8.1",
-    "mimetext": "^3.0.28",
-    "zod": "^3.25.7"
+    "@astrojs/cloudflare": "^14.3.3",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.5",
+    "mimetext": "^3.0.28"
   },
   "devDependencies": {
-    "@pandacss/dev": "^0.53.6",
-    "prettier": "3.5.3",
-    "prettier-plugin-astro": "0.14.1",
-    "wrangler": "^4.76.0"
+    "@astrojs/check": "^0.9.10",
+    "@pandacss/dev": "^2.0.0",
+    "@pandacss/preset-base": "^2.0.0",
+    "@pandacss/preset-panda": "^2.0.0",
+    "@pandacss/vite": "^2.0.0",
+    "@types/node": "^26.6.3",
+    "prettier": "3.9.9",
+    "prettier-plugin-astro": "1.1.0",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.144.0"
   }
 }

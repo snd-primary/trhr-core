@@ -1,6 +1,6 @@
 {
 	"name": "trhr_portfolio",
-	"main": "./dist/_worker.js/index.js",
+	"main": "@astrojs/cloudflare/entrypoints/server",
 	"compatibility_date": "2025-05-31",
 	"compatibility_flags": [
 		"nodejs_compat"
@@ -12,12 +12,6 @@
 	"observability": {
 		"enabled": true
 	},
-	"kv_namespaces": [
-		{
-			"binding": "TEST",
-			"id": "87c4bd0cd112485583c96f3ae6030ff0"
-		}
-	],
 	"d1_databases": [
 		{
 			"binding": "DB",
