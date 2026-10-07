@@ -3,7 +3,9 @@ import "../index.css";
 import { css } from "../../styled-system/css";
 import Header from "src/components/Header.astro";
 import Footer from "src/components/Footer.astro";
-import Head from "src/components/Head.astro";
+import Head, { type Props as HeadProps } from "src/components/Head.astro";
+
+type Props = HeadProps;
 
 const container = css({
   display: "grid",
@@ -26,7 +28,7 @@ const container = css({
 
 <!doctype html>
 <html lang="ja-JP">
-  <Head />
+  <Head {...Astro.props} />
   <body
     class={css({
       color: "foreground",
@@ -62,19 +64,35 @@ const container = css({
               baseFrequency="0.001 0.005"
               numOctaves="1"
               seed="17"
-              result="turbulence"></feTurbulence>
+              result="turbulence"
+            ></feTurbulence>
             <!-- Liked Seeds: 5, 14, 17 -->
 
             <feComponentTransfer in="turbulence" result="mapped">
-              <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5"
+              <feFuncR
+                type="gamma"
+                amplitude="1"
+                exponent="10"
+                offset="0.5"
               ></feFuncR>
-              <feFuncG type="gamma" amplitude="0" exponent="1" offset="0"
+              <feFuncG
+                type="gamma"
+                amplitude="0"
+                exponent="1"
+                offset="0"
               ></feFuncG>
-              <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5"
+              <feFuncB
+                type="gamma"
+                amplitude="0"
+                exponent="1"
+                offset="0.5"
               ></feFuncB>
             </feComponentTransfer>
 
-            <feGaussianBlur in="turbulence" stdDeviation="3" result="softMap"
+            <feGaussianBlur
+              in="turbulence"
+              stdDeviation="3"
+              result="softMap"
             ></feGaussianBlur>
 
             <feSpecularLighting
@@ -95,14 +113,16 @@ const container = css({
               k2="1"
               k3="1"
               k4="0"
-              result="litImage"></feComposite>
+              result="litImage"
+            ></feComposite>
 
             <feDisplacementMap
               in="SourceGraphic"
               in2="softMap"
               scale="200"
               xChannelSelector="R"
-              yChannelSelector="G"></feDisplacementMap>
+              yChannelSelector="G"
+            ></feDisplacementMap>
           </filter>
         </svg>
         <slot />

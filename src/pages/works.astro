@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import { css } from "styled-system/css";
 import { Image } from "astro:assets";
 import Tag from "src/components/ui/content/Tag.astro";
-import WorksLayout from "src/layouts/WorksLayout.astro";
+import PageLayout from "src/layouts/PageLayout.astro";
 import { customImageTransition } from "src/util/customImageTransition";
 
 const allWorks = await getCollection("works");
@@ -110,60 +110,60 @@ const linkButtonStyle = css({
 });
 ---
 
-<WorksLayout pageTitle="My Works">
+<PageLayout pageTitle="Works" wide>
   <div class={css({ display: "grid", w: "full", h: "full", gap: 8 })}>
-    {
-      allWorks.length === 0 ? (
-        <p class={noWorksMessageStyles}>
-          It looks like there are no works to display at the moment. Please
-          check back soon!
-        </p>
-      ) : (
-        <div class={worksGridStyles}>
-          {allWorks.map((work) => (
-            <a
-              href={`/works/${work.id}`}
-              class={workCardStyles}
-              aria-label={`View details for ${work.data.title}`}
-            >
-              <div class={workImageContainerStyles}>
-                <Image
-                  src={work.data.image}
-                  alt={`Thumbnail for ${work.data.title}`}
-                  class={workImageStyles}
-                  transition:name={`article-image-${work.id}`}
-                  transition:animate={customImageTransition}
-                />
+    {allWorks.length === 0 ? (
+      <p class={noWorksMessageStyles}>
+        It looks like there are no works to display at the moment. Please check
+        back soon!
+      </p>
+    ) : (
+      <div class={worksGridStyles}>
+        {allWorks.map((work) => (
+          <a
+            href={`/works/${work.id}`}
+            class={workCardStyles}
+            aria-label={`View details for ${work.data.title}`}
+          >
+            <div class={workImageContainerStyles}>
+              <Image
+                src={work.data.image}
+                alt={`Thumbnail for ${work.data.title}`}
+                class={workImageStyles}
+                transition:name={`article-image-${work.id}`}
+                transition:animate={customImageTransition}
+              />
+            </div>
+            <div class={workContentStyles}>
+              <h2 class={workTitleStyles}>{work.data.title}</h2>
+              <p class={workDescriptionStyles}>
+                {work.data.description.length > 100
+                  ? work.data.description.slice(0, 97) + "..."
+                  : work.data.description}
+              </p>
+              <div class={workTagsContainerStyles}>
+                {work.data.tags.map((tag) => (
+                  <Tag tag={tag} />
+                ))}
               </div>
-              <div class={workContentStyles}>
-                <h2 class={workTitleStyles}>{work.data.title}</h2>
-                <p class={workDescriptionStyles}>
-                  {work.data.description.length > 100
-                    ? work.data.description.slice(0, 97) + "..."
-                    : work.data.description}
-                </p>
-                <div class={workTagsContainerStyles}>
-                  {work.data.tags.map((tag) => (
-                    <Tag tag={tag} />
-                  ))}
-                </div>
-              </div>
-            </a>
-          ))}
-          {(() => {
-            const remainder = allWorks.length % 3;
-            if (remainder !== 0) {
-              const blanksToRender = 3 - remainder;
-              // blanksToRender の数だけ空白カードを生成
-              return Array.from({ length: blanksToRender }).map((_, index) => (
-                <div class={blankCardStyles} />
-              ));
-            }
-            return null; // 余りが0の場合は何もレンダリングしない
-          })()}
-        </div>
-      )
-    }
-    <a href="/" class={linkButtonStyle}>↵ back to home</a>
+            </div>
+          </a>
+        ))}
+        {(() => {
+          const remainder = allWorks.length % 3;
+          if (remainder !== 0) {
+            const blanksToRender = 3 - remainder;
+            // blanksToRender の数だけ空白カードを生成
+            return Array.from({ length: blanksToRender }).map((_, index) => (
+              <div class={blankCardStyles} />
+            ));
+          }
+          return null; // 余りが0の場合は何もレンダリングしない
+        })()}
+      </div>
+    )}
+    <a href="/" class={linkButtonStyle}>
+      ↵ back to home
+    </a>
   </div>
-</WorksLayout>
+</PageLayout>

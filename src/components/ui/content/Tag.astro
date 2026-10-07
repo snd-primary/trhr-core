@@ -11,11 +11,25 @@ const workTagStyles = css({
   px: 2
 });
 
+const linkStyles = css({
+  textDecoration: "none",
+  transition: "color 0.2s ease",
+  _hover: { color: "primary" }
+});
+
 interface Props {
   tag: string;
+  // 指定するとタグページへのリンクになる
+  href?: string;
 }
 
-const { tag } = Astro.props;
+const { tag, href } = Astro.props;
 ---
 
-<span class={workTagStyles}>#{tag}</span>
+{href ? (
+  <a href={href} class={`${workTagStyles} ${linkStyles}`}>
+    #{tag}
+  </a>
+) : (
+  <span class={workTagStyles}>#{tag}</span>
+)}

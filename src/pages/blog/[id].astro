@@ -1,0 +1,162 @@
+---
+import { render } from "astro:content";
+import { Image } from "astro:assets";
+import { css } from "styled-system/css";
+import PageLayout from "src/layouts/PageLayout.astro";
+import Tag from "src/components/ui/content/Tag.astro";
+import { formatDate, getPosts, type Post } from "src/lib/content";
+import { proseStyles } from "src/styles/prose";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, i) => ({
+    params: { id: post.id },
+    // 一覧は新しい順なので、ひとつ前(i - 1)が「次の記事」
+    props: { post, newer: posts[i - 1], older: posts[i + 1] }
+  }));
+}
+
+interface Props {
+  post: Post;
+  newer?: Post;
+  older?: Post;
+}
+
+const { post, newer, older } = Astro.props;
+const { Content, headings } = await render(post);
+const { title, description, date, updated, image, tags, draft } = post.data;
+
+const headerStyles = css({
+  display: "grid",
+  gap: 3,
+  pb: 6,
+  borderBottom: "1px solid token(colors.border)"
+});
+
+const titleStyles = css({
+  fontSize: { base: "2xl", md: "3xl" },
+  fontWeight: "bold",
+  letterSpacing: "tight",
+  lineHeight: "shorter"
+});
+
+const metaStyles = css({
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "center",
+  gap: 2,
+  fontSize: "xs",
+  color: "mutedForeground"
+});
+
+const imageStyles = css({
+  width: "100%",
+  objectFit: "cover",
+  aspectRatio: "video",
+  border: "1px solid token(colors.border)"
+});
+
+const tocStyles = css({
+  fontSize: "sm",
+  border: "1px solid token(colors.border)",
+  p: 4,
+  "& summary": { cursor: "pointer", color: "mutedForeground" },
+  "& ul": { listStyle: "none", mt: 2, display: "grid", gap: 1 },
+  "& a": {
+    textDecoration: "none",
+    color: "foreground",
+    _hover: { color: "primary" }
+  }
+});
+
+const pagerStyles = css({
+  display: "grid",
+  gridTemplateColumns: { base: "1fr", sm: "1fr 1fr" },
+  gap: 3,
+  pt: 8,
+  borderTop: "1px solid token(colors.border)",
+  fontSize: "sm",
+  "& a": {
+    border: "1px solid token(colors.border)",
+    p: 3,
+    textDecoration: "none",
+    color: "foreground",
+    transition: "border-color 0.2s ease",
+    _hover: { borderColor: "primary" }
+  },
+  "& span": { display: "block", fontSize: "xs", color: "mutedForeground" }
+});
+
+const tocNestedStyles = css({ pl: 4 });
+const alignRightStyles = css({ textAlign: "right" });
+
+const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+---
+
+<PageLayout
+  pageTitle={title}
+  showTitle={false}
+  description={description}
+  ogType="article"
+  publishDate={date.toISOString()}
+  noindex={draft}
+>
+  <article class={css({ display: "grid", gap: 8 })}>
+    <header class={headerStyles}>
+      <h1 class={titleStyles}>{title}</h1>
+      <div class={metaStyles}>
+        <time datetime={date.toISOString()}>{formatDate(date)}</time>
+        {updated && (
+          <span>
+            (更新:
+            <time datetime={updated.toISOString()}>{formatDate(updated)}</time>)
+          </span>
+        )}
+        {draft && <span class={css({ color: "destructive" })}>[DRAFT]</span>}
+        {tags.map((tag) => (
+          <Tag tag={tag} href={`/tags/${encodeURIComponent(tag)}`} />
+        ))}
+      </div>
+    </header>
+
+    {image && <Image src={image} alt="" class={imageStyles} />}
+
+    {tocHeadings.length >= 3 && (
+      <details class={tocStyles}>
+        <summary>目次</summary>
+        <ul>
+          {tocHeadings.map((h) => (
+            <li class={h.depth === 3 ? tocNestedStyles : undefined}>
+              <a href={`#${h.slug}`}>{h.text}</a>
+            </li>
+          ))}
+        </ul>
+      </details>
+    )}
+
+    <div class={proseStyles}>
+      <Content />
+    </div>
+
+    {(newer || older) && (
+      <nav class={pagerStyles} aria-label="前後の記事">
+        {older ? (
+          <a href={`/blog/${older.id}`}>
+            <span>← 前の記事</span>
+            {older.data.title}
+          </a>
+        ) : (
+          <div />
+        )}
+        {newer && (
+          <a href={`/blog/${newer.id}`} class={alignRightStyles}>
+            <span>次の記事 →</span>
+            {newer.data.title}
+          </a>
+        )}
+      </nav>
+    )}
+  </article>
+</PageLayout>

@@ -1,6 +1,6 @@
-export const SITE_TITLE = "TRHR Portfolio";
+export const SITE_TITLE = "TRHR";
 export const SITE_DESCRIPTION =
-  "フロントエンドエンジニア TRHR のポートフォリオサイト";
+  "フロントエンドエンジニア TRHR のブログ。技術記事と日々のメモ。";
 // TODO: サイトの正式なURLに置き換えてください
 export const SITE_URL = "https://trhr-core.dev";
 // この画像は `public` ディレクトリに配置してください。

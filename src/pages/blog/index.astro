@@ -1,0 +1,20 @@
+---
+import { css } from "styled-system/css";
+import PageLayout from "src/layouts/PageLayout.astro";
+import PostList from "src/components/content/PostList.astro";
+import { getPosts } from "src/lib/content";
+
+export const prerender = true;
+
+const posts = await getPosts();
+---
+
+<PageLayout pageTitle="Blog" description="TRHR の技術ブログ記事一覧">
+  {posts.length > 0 ? (
+    <PostList posts={posts} />
+  ) : (
+    <p class={css({ textAlign: "center", color: "mutedForeground" })}>
+      まだ記事がありません。
+    </p>
+  )}
+</PageLayout>
