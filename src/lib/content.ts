@@ -20,8 +20,23 @@ export async function getMemos(): Promise<Memo[]> {
 
 export async function getAllTags(): Promise<string[]> {
   const [posts, memos] = await Promise.all([getPosts(), getMemos()]);
-  const tags = new Set([...posts, ...memos].flatMap((e) => e.data.tags));
-  return [...tags].sort((a, b) => a.localeCompare(b, "ja"));
+  return countTags([...posts, ...memos]).map(({ tag }) => tag);
+}
+
+export interface TagCount {
+  tag: string;
+  count: number;
+}
+
+// エントリ群で使われているタグと件数 (タグ名順)
+export function countTags(entries: { data: { tags: string[] } }[]): TagCount[] {
+  const counts = new Map<string, number>();
+  for (const tag of entries.flatMap((e) => e.data.tags)) {
+    counts.set(tag, (counts.get(tag) ?? 0) + 1);
+  }
+  return [...counts]
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => a.tag.localeCompare(b.tag, "ja"));
 }
 
 // ビルド環境(UTC)に左右されないよう、表示は常にJSTに揃える

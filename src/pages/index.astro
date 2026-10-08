@@ -3,15 +3,20 @@ import { css } from "styled-system/css";
 import PageLayout from "src/layouts/PageLayout.astro";
 import PostList from "src/components/content/PostList.astro";
 import MemoCard from "src/components/content/MemoCard.astro";
-import { getMemos, getPosts } from "src/lib/content";
+import TagList from "src/components/content/TagList.astro";
+import { countTags, getMemos, getPosts } from "src/lib/content";
 
 export const prerender = true;
 
 const LATEST_POSTS = 5;
 const LATEST_MEMOS = 5;
 
-const posts = (await getPosts()).slice(0, LATEST_POSTS);
-const memos = (await getMemos()).slice(0, LATEST_MEMOS);
+const allPosts = await getPosts();
+const allMemos = await getMemos();
+const posts = allPosts.slice(0, LATEST_POSTS);
+const memos = allMemos.slice(0, LATEST_MEMOS);
+// タグはブログとメモで共用
+const tags = countTags([...allPosts, ...allMemos]);
 
 const sectionStyles = css({
   display: "grid",
@@ -95,5 +100,12 @@ const memoListStyles = css({
         <p class={emptyStyles}>まだメモがありません。</p>
       )}
     </section>
+
+    {tags.length > 0 && (
+      <section class={sectionStyles}>
+        <h2 class={sectionTitleStyles}>TAGS</h2>
+        <TagList tags={tags} label="タグ一覧" align="start" />
+      </section>
+    )}
   </div>
 </PageLayout>

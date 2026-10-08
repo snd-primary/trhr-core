@@ -2,11 +2,13 @@
 import { css } from "styled-system/css";
 import PageLayout from "src/layouts/PageLayout.astro";
 import MemoCard from "src/components/content/MemoCard.astro";
-import { getMemos } from "src/lib/content";
+import TagList from "src/components/content/TagList.astro";
+import { countTags, getMemos } from "src/lib/content";
 
 export const prerender = true;
 
 const memos = await getMemos();
+const tags = countTags(memos);
 ---
 
 <PageLayout
@@ -14,15 +16,18 @@ const memos = await getMemos();
   description="思いついたこと、気になること、覚えておきたいことの公開メモ"
   breadcrumbs={[{ label: "MEMO" }]}
 >
-  {memos.length > 0 ? (
-    <div class={css({ display: "grid", gap: 3 })}>
-      {memos.map((memo) => (
-        <MemoCard memo={memo} />
-      ))}
-    </div>
-  ) : (
-    <p class={css({ textAlign: "center", color: "mutedForeground" })}>
-      まだメモがありません。
-    </p>
-  )}
+  <div class={css({ display: "grid", gap: 8 })}>
+    <TagList tags={tags} label="メモのタグ" />
+    {memos.length > 0 ? (
+      <div class={css({ display: "grid", gap: 3 })}>
+        {memos.map((memo) => (
+          <MemoCard memo={memo} />
+        ))}
+      </div>
+    ) : (
+      <p class={css({ textAlign: "center", color: "mutedForeground" })}>
+        まだメモがありません。
+      </p>
+    )}
+  </div>
 </PageLayout>

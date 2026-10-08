@@ -2,11 +2,13 @@
 import { css } from "styled-system/css";
 import PageLayout from "src/layouts/PageLayout.astro";
 import PostList from "src/components/content/PostList.astro";
-import { getPosts } from "src/lib/content";
+import TagList from "src/components/content/TagList.astro";
+import { countTags, getPosts } from "src/lib/content";
 
 export const prerender = true;
 
 const posts = await getPosts();
+const tags = countTags(posts);
 ---
 
 <PageLayout
@@ -14,11 +16,14 @@ const posts = await getPosts();
   description="TRHR の技術ブログ記事一覧"
   breadcrumbs={[{ label: "BLOG" }]}
 >
-  {posts.length > 0 ? (
-    <PostList posts={posts} />
-  ) : (
-    <p class={css({ textAlign: "center", color: "mutedForeground" })}>
-      まだ記事がありません。
-    </p>
-  )}
+  <div class={css({ display: "grid", gap: 8 })}>
+    <TagList tags={tags} label="ブログのタグ" />
+    {posts.length > 0 ? (
+      <PostList posts={posts} />
+    ) : (
+      <p class={css({ textAlign: "center", color: "mutedForeground" })}>
+        まだ記事がありません。
+      </p>
+    )}
+  </div>
 </PageLayout>
