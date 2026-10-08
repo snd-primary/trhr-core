@@ -9,7 +9,11 @@ export const prerender = true;
 const posts = await getPosts();
 ---
 
-<PageLayout pageTitle="Blog" description="TRHR の技術ブログ記事一覧">
+<PageLayout
+  pageTitle="Blog"
+  description="TRHR の技術ブログ記事一覧"
+  breadcrumbs={[{ label: "BLOG" }]}
+>
   {posts.length > 0 ? (
     <PostList posts={posts} />
   ) : (

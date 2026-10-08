@@ -110,7 +110,7 @@ const linkButtonStyle = css({
 });
 ---
 
-<PageLayout pageTitle="Works" wide>
+<PageLayout pageTitle="Works" wide breadcrumbs={[{ label: "WORKS" }]}>
   <div class={css({ display: "grid", w: "full", h: "full", gap: 8 })}>
     {allWorks.length === 0 ? (
       <p class={noWorksMessageStyles}>

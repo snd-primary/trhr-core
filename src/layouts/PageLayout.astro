@@ -1,6 +1,9 @@
 ---
 import { css } from "styled-system/css";
 import Layout from "./Layout.astro";
+import Breadcrumb, {
+  type BreadcrumbItem
+} from "src/components/Breadcrumb.astro";
 import type { Props as HeadProps } from "src/components/Head.astro";
 
 const mainPageStyles = css({
@@ -35,18 +38,22 @@ interface Props extends HeadProps {
   showTitle?: boolean;
   // 読みやすい幅に絞らず、横幅いっぱいに使う (Works一覧など)
   wide?: boolean;
+  // HOME 以降のパンくず。省略するとパンくずを表示しない
+  breadcrumbs?: BreadcrumbItem[];
 }
 
 const {
   pageTitle = "Works",
   showTitle = true,
   wide = false,
+  breadcrumbs,
   ...headProps
 } = Astro.props;
 ---
 
 <Layout title={pageTitle} {...headProps}>
   <main class={wide ? mainPageStyles : `${mainPageStyles} ${narrowStyles}`}>
+    {breadcrumbs && <Breadcrumb items={breadcrumbs} />}
     {showTitle && <h1 class={pageTitleStyles}>{pageTitle}</h1>}
     <div class={containerStyle}>
       <slot />

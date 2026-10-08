@@ -12,6 +12,7 @@ const memos = await getMemos();
 <PageLayout
   pageTitle="Memo"
   description="思いついたこと、気になること、覚えておきたいことの公開メモ"
+  breadcrumbs={[{ label: "MEMO" }]}
 >
   {memos.length > 0 ? (
     <div class={css({ display: "grid", gap: 3 })}>

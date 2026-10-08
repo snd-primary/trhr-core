@@ -103,6 +103,10 @@ const contentContainer = css({
   pageTitle={work.data.title}
   description={work.data.description}
   wide
+  breadcrumbs={[
+    { label: "WORKS", href: "/works" },
+    { label: work.data.title }
+  ]}
 >
   <article class={pageStyles}>
     <Image

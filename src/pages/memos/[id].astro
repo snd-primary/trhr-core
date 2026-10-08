@@ -34,6 +34,7 @@ const description = (memo.body ?? "")
   ogType="article"
   publishDate={memo.data.date.toISOString()}
   noindex={memo.data.draft}
+  breadcrumbs={[{ label: "MEMO", href: "/memos" }, { label: pageTitle }]}
 >
   <div class={css({ display: "grid", gap: 8 })}>
     <MemoCard memo={memo} />

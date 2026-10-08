@@ -23,7 +23,11 @@ const sectionTitleStyles = css({
 });
 ---
 
-<PageLayout pageTitle={`#${tag}`} description={`タグ「${tag}」の記事とメモ`}>
+<PageLayout
+  pageTitle={`#${tag}`}
+  description={`タグ「${tag}」の記事とメモ`}
+  breadcrumbs={[{ label: `#${tag}` }]}
+>
   <div class={css({ display: "grid", gap: 10 })}>
     {posts.length > 0 && (
       <section class={css({ display: "grid", gap: 3 })}>

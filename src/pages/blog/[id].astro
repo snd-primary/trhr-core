@@ -102,6 +102,7 @@ const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
   ogType="article"
   publishDate={date.toISOString()}
   noindex={draft}
+  breadcrumbs={[{ label: "BLOG", href: "/blog" }, { label: title }]}
 >
   <article class={css({ display: "grid", gap: 8 })}>
     <header class={headerStyles}>
