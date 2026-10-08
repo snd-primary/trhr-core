@@ -1,0 +1,103 @@
+---
+import { css } from "styled-system/css";
+import { SITE_URL } from "../../site/config";
+
+export interface BreadcrumbItem {
+  label: string;
+  // 省略すると現在のページとして扱う (末尾の項目は常に現在のページ)
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+
+// 先頭には常に HOME を置く
+const crumbs: BreadcrumbItem[] = [{ label: "HOME", href: "/" }, ...items];
+
+const siteBaseUrl = Astro.site ? Astro.site.toString() : SITE_URL;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: crumbs.map((crumb, i) => {
+    const path = i === crumbs.length - 1 ? Astro.url.pathname : crumb.href;
+    return {
+      "@type": "ListItem",
+      position: i + 1,
+      name: crumb.label,
+      ...(path && { item: new URL(path, siteBaseUrl).href })
+    };
+  })
+};
+
+const listStyles = css({
+  display: "flex",
+  alignItems: "center",
+  gap: 2,
+  listStyle: "none",
+  fontSize: "xs",
+  color: "mutedForeground",
+  minWidth: 0,
+  "& li": {
+    display: "flex",
+    alignItems: "center",
+    gap: 2,
+    flexShrink: 0
+  },
+  // 区切り文字
+  "& li + li::before": {
+    content: '"/"',
+    opacity: 0.5
+  },
+  // 長い記事タイトルは省略表示
+  "& li:last-child": {
+    flexShrink: 1,
+    minWidth: 0
+  }
+});
+
+const linkStyles = css({
+  color: "inherit",
+  textDecoration: "none",
+  transition: "color 0.2s ease",
+  _hover: { color: "primary" }
+});
+
+const currentStyles = css({
+  color: "foreground",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap"
+});
+---
+
+<nav aria-label="パンくずリスト">
+  <ol class={listStyles}>
+    {crumbs.map((crumb, i) => {
+      const isLast = i === crumbs.length - 1;
+      return (
+        <li>
+          {isLast || !crumb.href ? (
+            <span
+              class={currentStyles}
+              aria-current={isLast ? "page" : undefined}
+            >
+              {crumb.label}
+            </span>
+          ) : (
+            <a href={crumb.href} class={linkStyles}>
+              {crumb.label}
+            </a>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(breadcrumbSchema)}
+  />
+</nav>

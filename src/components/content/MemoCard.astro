@@ -1,0 +1,70 @@
+---
+import { render } from "astro:content";
+import { css } from "styled-system/css";
+import Tag from "src/components/ui/content/Tag.astro";
+import { formatDateTime, type Memo } from "src/lib/content";
+import { proseStyles } from "src/styles/prose";
+
+interface Props {
+  memo: Memo;
+}
+
+const { memo } = Astro.props;
+const { Content } = await render(memo);
+
+const cardStyles = css({
+  border: "1px solid token(colors.border)",
+  p: { base: 4, md: 5 },
+  display: "grid",
+  gap: 3
+});
+
+const headerStyles = css({
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "center",
+  gap: 2,
+  fontSize: "xs",
+  color: "mutedForeground"
+});
+
+const permalinkStyles = css({
+  textDecoration: "none",
+  color: "inherit",
+  transition: "color 0.2s ease",
+  _hover: { color: "primary" }
+});
+
+const titleStyles = css({
+  fontSize: "md",
+  fontWeight: "semibold"
+});
+
+// メモは本文が短いので、末尾の余白を詰める
+const bodyStyles = css({
+  fontSize: "sm",
+  "& > :last-child": { marginBottom: 0 }
+});
+
+const draftStyles = css({
+  color: "destructive"
+});
+---
+
+<article class={cardStyles}>
+  <header class={headerStyles}>
+    <a href={`/memos/${memo.id}`} class={permalinkStyles}>
+      <time datetime={memo.data.date.toISOString()}>
+        {formatDateTime(memo.data.date)}
+      </time>
+    </a>
+    {memo.data.draft && <span class={draftStyles}>[DRAFT]</span>}
+    {memo.data.tags.map((tag) => (
+      <Tag tag={tag} href={`/tags/${encodeURIComponent(tag)}`} />
+    ))}
+  </header>
+  {memo.data.title && <h2 class={titleStyles}>{memo.data.title}</h2>}
+  <div class={`${proseStyles} ${bodyStyles}`}>
+    <Content />
+  </div>
+</article>

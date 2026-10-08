@@ -2,9 +2,10 @@
 import { getEntry, render } from "astro:content";
 import { css } from "styled-system/css";
 import { Image } from "astro:assets";
-import WorksLayout from "src/layouts/WorksLayout.astro";
+import PageLayout from "src/layouts/PageLayout.astro";
 import Tag from "src/components/ui/content/Tag.astro";
 import { customImageTransition } from "src/util/customImageTransition";
+import { proseStyles as contentStyles } from "src/styles/prose";
 
 const { id } = Astro.params;
 if (id === undefined) {
@@ -72,122 +73,6 @@ const pageStyles = css({
   gap: 2
 });
 
-const contentStyles = css({
-  w: "full",
-  lineHeight: "1.75",
-  wordBreak: "break-word",
-  "& > :first-child": { marginTop: "0 !important" },
-  "& h1": {
-    fontSize: "2xl",
-    fontWeight: "bold",
-    mt: "10",
-    mb: "5",
-    ml: "8",
-    lineHeight: "tight",
-    position: "relative",
-    _before: {
-      content: '"##"',
-      position: "absolute",
-      left: -8,
-      top: 0,
-      fontSize: "2xl",
-      color: "foreground"
-    }
-  },
-  "& h2": {
-    fontSize: "xl",
-    fontWeight: "semibold",
-    mt: "8",
-    mb: "4",
-    lineHeight: "tight"
-  },
-  "& h3": {
-    fontSize: "lg",
-    fontWeight: "semibold",
-    mt: "6",
-    mb: "3",
-    lineHeight: "tight"
-  },
-  "& h4": {
-    fontSize: "md",
-    fontWeight: "semibold",
-    mt: "5",
-    mb: "2",
-    lineHeight: "tight"
-  },
-  "& p": { marginBottom: "1.25rem" },
-  "& a": {
-    color: "token(colors.primary)",
-    textDecoration: "underline",
-    fontStyle: "italic",
-    _hover: { color: "token(colors.chart3)", textDecorationThickness: "2px" }
-  },
-  "& ul, & ol": {
-    paddingLeft: "1.5rem",
-    listStylePosition: "outside"
-  },
-  "& li": { marginBottom: "0.5rem" },
-  "& li::marker": { color: "token(colors.gray.500)" },
-  "& blockquote": {
-    borderLeft: "4px solid token(colors.blue.300)",
-    padding: "0.75rem 1rem",
-    fontStyle: "italic",
-    color: "token(colors.gray.700)",
-    backgroundColor: "token(colors.blue.50)",
-    borderRadius: "sm"
-  },
-  "& pre": {
-    backgroundColor: "token(colors.gray.800)",
-    color: "token(colors.gray.100)",
-    padding: "1rem",
-    borderRadius: "md",
-    overflowX: "auto",
-    fontSize: "sm",
-    lineHeight: "1.5"
-  },
-  "& code": {
-    fontFamily: "monospace",
-    backgroundColor: "token(colors.gray.100)",
-    color: "token(colors.purple.700)",
-    padding: "0.15rem 0.3rem",
-    borderRadius: "sm",
-    fontSize: "0.875em",
-    wordBreak: "break-all"
-  },
-  "& pre code": {
-    backgroundColor: "transparent",
-    color: "inherit",
-    padding: "0",
-    fontSize: "inherit",
-    fontFamily: "inherit"
-  },
-  "& hr": {
-    borderColor: "token(colors.gray.300)",
-    borderTopWidth: "1px"
-  },
-  "& table": {
-    width: "100%",
-    borderCollapse: "collapse",
-    fontSize: "sm",
-    textAlign: "left"
-  },
-  "& th, & td": {
-    border: "1px solid token(colors.gray.300)",
-    padding: "0.5rem 0.75rem"
-  },
-  "& th": {
-    backgroundColor: "token(colors.gray.100)",
-    fontWeight: "semibold",
-    color: "token(colors.gray.700)"
-  },
-  "& img": {
-    maxWidth: "100%",
-    height: "auto",
-    borderRadius: "md",
-    boxShadow: "sm"
-  }
-});
-
 const button = css({
   px: 6,
   pt: 2,
@@ -214,7 +99,15 @@ const contentContainer = css({
 });
 ---
 
-<WorksLayout pageTitle={work.data.title}>
+<PageLayout
+  pageTitle={work.data.title}
+  description={work.data.description}
+  wide
+  breadcrumbs={[
+    { label: "WORKS", href: "/works" },
+    { label: work.data.title }
+  ]}
+>
   <article class={pageStyles}>
     <Image
       src={work.data.image}
@@ -227,23 +120,20 @@ const contentContainer = css({
       <header class={header}>
         <h1 class={titleStyles}>{work.data.title}</h1>
         <p class={dateStyles}>
-          PUBLISHED AT: {
-            new Date(work.data.date).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric"
-            })
-          }
+          PUBLISHED AT:{" "}
+          {new Date(work.data.date).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          })}
         </p>
-        {
-          work.data.tags && work.data.tags.length > 0 && (
-            <div class={tagsContainerStyles}>
-              {work.data.tags.map((tag) => (
-                <Tag tag={tag} />
-              ))}
-            </div>
-          )
-        }
+        {work.data.tags && work.data.tags.length > 0 && (
+          <div class={tagsContainerStyles}>
+            {work.data.tags.map((tag) => (
+              <Tag tag={tag} />
+            ))}
+          </div>
+        )}
       </header>
 
       <div class={contentStyles}>
@@ -257,8 +147,10 @@ const contentContainer = css({
           justifyContent: "center"
         })}
       >
-        <a href="/works" class={button}>一覧に戻る</a>
+        <a href="/works" class={button}>
+          一覧に戻る
+        </a>
       </div>
     </div>
   </article>
-</WorksLayout>
+</PageLayout>

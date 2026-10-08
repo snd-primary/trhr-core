@@ -1,0 +1,54 @@
+---
+import { css } from "styled-system/css";
+import PageLayout from "src/layouts/PageLayout.astro";
+import MemoCard from "src/components/content/MemoCard.astro";
+import { formatDateTime, getMemos, type Memo } from "src/lib/content";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const memos = await getMemos();
+  return memos.map((memo) => ({ params: { id: memo.id }, props: { memo } }));
+}
+
+interface Props {
+  memo: Memo;
+}
+
+const { memo } = Astro.props;
+
+// タイトルのないメモは日時をページタイトルにする
+const pageTitle = memo.data.title ?? `Memo ${formatDateTime(memo.data.date)}`;
+// description には本文の冒頭を使う
+const description = (memo.body ?? "")
+  .replace(/[#>*_`\[\]()!-]/g, "")
+  .replace(/\s+/g, " ")
+  .trim()
+  .slice(0, 120);
+---
+
+<PageLayout
+  pageTitle={pageTitle}
+  showTitle={false}
+  description={description || undefined}
+  ogType="article"
+  publishDate={memo.data.date.toISOString()}
+  noindex={memo.data.draft}
+  breadcrumbs={[{ label: "MEMO", href: "/memos" }, { label: pageTitle }]}
+>
+  <div class={css({ display: "grid", gap: 8 })}>
+    <MemoCard memo={memo} />
+    <a
+      href="/memos"
+      class={css({
+        fontSize: "sm",
+        color: "primary",
+        textDecoration: "none",
+        justifySelf: "center",
+        _hover: { textDecoration: "underline" }
+      })}
+    >
+      ↵ メモ一覧に戻る
+    </a>
+  </div>
+</PageLayout>
