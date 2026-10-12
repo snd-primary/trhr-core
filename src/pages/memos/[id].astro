@@ -33,6 +33,7 @@ const description = (memo.body ?? "")
   description={description || undefined}
   ogType="article"
   publishDate={memo.data.date.toISOString()}
+  tags={memo.data.tags}
   noindex={memo.data.draft}
   breadcrumbs={[{ label: "MEMO", href: "/memos" }, { label: pageTitle }]}
 >

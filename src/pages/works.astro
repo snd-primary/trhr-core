@@ -6,6 +6,8 @@ import Tag from "src/components/ui/content/Tag.astro";
 import PageLayout from "src/layouts/PageLayout.astro";
 import { customImageTransition } from "src/util/customImageTransition";
 
+export const prerender = true;
+
 const allWorks = await getCollection("works");
 
 const worksGridStyles = css({
@@ -110,7 +112,12 @@ const linkButtonStyle = css({
 });
 ---
 
-<PageLayout pageTitle="Works" wide breadcrumbs={[{ label: "WORKS" }]}>
+<PageLayout
+  pageTitle="Works"
+  description="TRHR の制作物一覧"
+  wide
+  breadcrumbs={[{ label: "WORKS" }]}
+>
   <div class={css({ display: "grid", w: "full", h: "full", gap: 8 })}>
     {allWorks.length === 0 ? (
       <p class={noWorksMessageStyles}>

@@ -1,6 +1,7 @@
 ---
 import { css } from "styled-system/css";
 import { SITE_URL } from "../../site/config";
+import { toPublicPath } from "src/lib/seo";
 
 export interface BreadcrumbItem {
   label: string;
@@ -23,7 +24,8 @@ const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: crumbs.map((crumb, i) => {
-    const path = i === crumbs.length - 1 ? Astro.url.pathname : crumb.href;
+    const path =
+      i === crumbs.length - 1 ? toPublicPath(Astro.url.pathname) : crumb.href;
     return {
       "@type": "ListItem",
       position: i + 1,
