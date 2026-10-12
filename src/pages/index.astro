@@ -1,154 +1,111 @@
 ---
-import ContactUs from "src/components/ContactUs.astro";
-import { css } from "../../styled-system/css";
-import Layout from "../layouts/Layout.astro";
-import { actions } from "astro:actions";
+import { css } from "styled-system/css";
+import PageLayout from "src/layouts/PageLayout.astro";
+import PostList from "src/components/content/PostList.astro";
+import MemoCard from "src/components/content/MemoCard.astro";
+import TagList from "src/components/content/TagList.astro";
+import { countTags, getMemos, getPosts } from "src/lib/content";
 
-import MySkill from "src/components/ui/MySkill.astro";
-import CardLayout from "../layouts/CardLayout.astro";
+export const prerender = true;
 
-import SnsLinks from "src/components/ui/SnsLinks.astro";
-import BlogMotif from "src/components/ui/BlogMotif.astro";
-import Abouts from "src/components/ui/Abouts.astro";
-import Career from "src/components/ui/Career.astro";
-import KeyboardMotif from "src/components/ui/KeyboardMotif.astro";
+const LATEST_POSTS = 5;
+const LATEST_MEMOS = 5;
 
-const result = Astro.getActionResult(actions.formAction);
+const allPosts = await getPosts();
+const allMemos = await getMemos();
+const posts = allPosts.slice(0, LATEST_POSTS);
+const memos = allMemos.slice(0, LATEST_MEMOS);
+// タグはブログとメモで共用
+const tags = countTags([...allPosts, ...allMemos]);
 
-let submittedData = { name: "", email: "", message: "" };
-
-if (Astro.request.method === "POST") {
-  try {
-    const formData = await Astro.request.formData();
-    submittedData = {
-      name: (formData.get("name") as string) || "",
-      email: (formData.get("email") as string) || "",
-      message: (formData.get("message") as string) || ""
-    };
-  } catch (error) {}
-}
-
-if (result && !result.error) {
-  return Astro.redirect("/thanks");
-}
-
-const itemHeight = 350;
-const row = 3;
-const initialGridStyles = css({
+const sectionStyles = css({
   display: "grid",
-  gridTemplate: `
-    "c1" auto 
-    "c8" auto
-    "c4" auto
-    "c5" auto
-    "c2" auto
-    "c7" auto
-    "c6" auto / 1fr
-  `,
-  lg: {
-    gridTemplate: `
-    "c1 c1" 1fr
-    "c8 c8" auto
-    "c5 c2" auto
-    "c4 c4"  800px  
-    "c7 c6"  auto / 1fr 1fr`,
-    gap: 3
-  },
-  xl: {
-    gridTemplate: `
-    "c1 c1 c8 c8" 350px
-    "c1 c1 c8 c8" 250px
-    "c4 c4 c4 c2" 800px
-    "c5 c6 c6 c6"  310px 
-    "c7 c6 c6 c6"  380px / 1fr 1fr 1fr 1fr
-  `
-  },
-  width: "full",
-  height: `calc(${row} * ${itemHeight})`,
   gap: 4
+});
+
+const sectionHeaderStyles = css({
+  display: "flex",
+  alignItems: "baseline",
+  justifyContent: "space-between",
+  gap: 4
+});
+
+const sectionTitleStyles = css({
+  fontSize: "xl",
+  fontWeight: "bold",
+  letterSpacing: "tight"
+});
+
+const moreLinkStyles = css({
+  fontSize: "sm",
+  color: "primary",
+  textDecoration: "none",
+  _hover: { textDecoration: "underline" }
+});
+
+const introStyles = css({
+  fontSize: "sm",
+  color: "mutedForeground"
+});
+
+const emptyStyles = css({
+  fontSize: "sm",
+  color: "mutedForeground"
+});
+
+const memoListStyles = css({
+  display: "grid",
+  gap: 3
 });
 ---
 
-<Layout>
-  <main
-    class={css({
-      w: "full",
-      h: "full",
-      padding: { base: 3, sm: 4 },
-      mt: 8,
-      display: "grid",
-      gridTemplateColumns: "1fr",
-      gap: "12",
-      md: {
-        gap: "4"
-      }
-    })}
-  >
-    <div class={initialGridStyles}>
-      <CardLayout title="ABOUT" area="c1">
-        <Abouts />
-      </CardLayout>
-      <CardLayout title="BLOG" area="c2">
-        <BlogMotif />
-      </CardLayout>
-      <CardLayout title="CAREER" area="c8">
-        <Career />
-      </CardLayout>
-      <CardLayout title="MY SKILLS" area="c4">
-        <MySkill />
-      </CardLayout>
-      <CardLayout title="WORKS" href="/" area="c5">
-        <KeyboardMotif />
-      </CardLayout>
-      <CardLayout title="CONTACT" area="c6">
-        <ContactUs result={result} submittedData={submittedData} />
-      </CardLayout>
-      <CardLayout title="SNS" area="c7">
-        <SnsLinks />
-      </CardLayout>
-    </div>
-  </main>
-  <div
-    id="loading-overlay"
-    class={css({
-      position: "fixed",
-      inset: 0,
-      zIndex: 50,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      bg: "background/80",
-      backdropFilter: "blur(4px)",
-      opacity: 0,
-      pointerEvents: "none",
-      transition: "opacity 0.3s ease",
-      "&[data-visible]": {
-        opacity: 1,
-        pointerEvents: "auto"
-      }
-    })}
-  >
-    <div
-      class={css({
-        w: "10",
-        h: "10",
-        border: "3px solid token(colors.border)",
-        borderTopColor: "primary",
-        borderRadius: "50%",
-        animation: "spin 0.8s linear infinite"
-      })}
-    >
-    </div>
-  </div>
-  <script>
-    document.addEventListener("astro:page-load", () => {
-      const form = document.querySelector("form");
-      const overlay = document.getElementById("loading-overlay");
-      if (!form || !overlay) return;
+<PageLayout pageTitle="TRHR" showTitle={false}>
+  <div class={css({ display: "grid", gap: 12 })}>
+    <p class={introStyles}>
+      フロントエンドエンジニア TRHR
+      のブログ。技術記事と、日々のメモを置いています。
+      <a href="/about" class={moreLinkStyles}>
+        about me →
+      </a>
+    </p>
 
-      form.addEventListener("submit", () => {
-        overlay.dataset.visible = "";
-      });
-    });
-  </script>
-</Layout>
+    <section class={sectionStyles}>
+      <div class={sectionHeaderStyles}>
+        <h2 class={sectionTitleStyles}>BLOG</h2>
+        <a href="/blog" class={moreLinkStyles}>
+          すべての記事 →
+        </a>
+      </div>
+      {posts.length > 0 ? (
+        <PostList posts={posts} />
+      ) : (
+        <p class={emptyStyles}>まだ記事がありません。</p>
+      )}
+    </section>
+
+    <section class={sectionStyles}>
+      <div class={sectionHeaderStyles}>
+        <h2 class={sectionTitleStyles}>MEMO</h2>
+        <a href="/memos" class={moreLinkStyles}>
+          すべてのメモ →
+        </a>
+      </div>
+      {memos.length > 0 ? (
+        <div class={memoListStyles}>
+          {memos.map((memo) => (
+            <MemoCard memo={memo} />
+          ))}
+        </div>
+      ) : (
+        <p class={emptyStyles}>まだメモがありません。</p>
+      )}
+    </section>
+
+    {tags.length > 0 && (
+      <section class={sectionStyles}>
+        <h2 class={sectionTitleStyles}>TAGS</h2>
+        <TagList tags={tags} label="タグ一覧" align="start" />
+      </section>
+    )}
+  </div>
+</PageLayout>

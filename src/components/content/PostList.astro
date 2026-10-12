@@ -1,0 +1,71 @@
+---
+import { css } from "styled-system/css";
+import Tag from "src/components/ui/content/Tag.astro";
+import { formatDate, type Post } from "src/lib/content";
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+
+const listStyles = css({
+  display: "grid",
+  listStyle: "none",
+  borderTop: "1px solid token(colors.border)"
+});
+
+const itemStyles = css({
+  borderBottom: "1px solid token(colors.border)",
+  py: 4,
+  display: "grid",
+  gap: 1
+});
+
+const titleLinkStyles = css({
+  fontSize: { base: "md", md: "lg" },
+  fontWeight: "semibold",
+  textDecoration: "none",
+  color: "foreground",
+  transition: "color 0.2s ease",
+  _hover: { color: "primary" }
+});
+
+const metaStyles = css({
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "center",
+  gap: 2,
+  fontSize: "xs",
+  color: "mutedForeground"
+});
+
+const descriptionStyles = css({
+  fontSize: "sm",
+  color: "mutedForeground"
+});
+
+const draftStyles = css({
+  color: "destructive"
+});
+---
+
+<ul class={listStyles}>
+  {posts.map((post) => (
+    <li class={itemStyles}>
+      <div class={metaStyles}>
+        <time datetime={post.data.date.toISOString()}>
+          {formatDate(post.data.date)}
+        </time>
+        {post.data.draft && <span class={draftStyles}>[DRAFT]</span>}
+        {post.data.tags.map((tag) => (
+          <Tag tag={tag} href={`/tags/${encodeURIComponent(tag)}`} />
+        ))}
+      </div>
+      <a href={`/blog/${post.id}`} class={titleLinkStyles}>
+        {post.data.title}
+      </a>
+      <p class={descriptionStyles}>{post.data.description}</p>
+    </li>
+  ))}
+</ul>

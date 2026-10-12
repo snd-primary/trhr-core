@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://trhr_core.dev/sitemap-index.xml
