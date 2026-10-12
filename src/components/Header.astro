@@ -1,5 +1,6 @@
 ---
 import { css } from "styled-system/css";
+import { toPublicPath } from "src/lib/seo";
 
 const navItems = [
   { href: "/blog", label: "BLOG" },
@@ -8,7 +9,7 @@ const navItems = [
   { href: "/about", label: "ABOUT" }
 ];
 
-const currentPath = Astro.url.pathname;
+const currentPath = toPublicPath(Astro.url.pathname);
 const isCurrent = (href: string) =>
   currentPath === href || currentPath.startsWith(`${href}/`);
 

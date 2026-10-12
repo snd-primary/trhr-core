@@ -50,3 +50,10 @@ title: "あとで読む" # 任意
 | `/works`      | 制作物                             |
 | `/about`      | プロフィール・スキル・お問い合わせ |
 | `/rss.xml`    | 記事とメモのRSS                    |
+
+## SEO まわり
+
+- `site/config.ts` にサイト名・説明・OGP画像・SNSアカウントをまとめています。`src/components/Head.astro` がここから title / description / canonical / OGP / Twitter カード / JSON-LD (Person, WebSite, WebPage または BlogPosting) を出します。
+- 記事・メモ・制作物の詳細ページは `og:type=article` で、公開日・更新日・タグも OGP と構造化データに入ります。ブログ記事に `image` があればそれが OGP 画像になり、無ければ `public/og-default.png` を使います。
+- URL は末尾スラッシュなし (`trailingSlash: "never"` + `build.format: "file"`)。末尾スラッシュ付きで来たリクエストは 301/307 でリダイレクトされます。
+- `/robots.txt` と `/sitemap-index.xml` はビルド時に生成されます。`draft: true` の記事は noindex になり、`/thanks` と `/404` はサイトマップから除外されます。

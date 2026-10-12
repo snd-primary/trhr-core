@@ -1,24 +1,29 @@
 ---
-import { getEntry, render } from "astro:content";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 import { css } from "styled-system/css";
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import PageLayout from "src/layouts/PageLayout.astro";
 import Tag from "src/components/ui/content/Tag.astro";
 import { customImageTransition } from "src/util/customImageTransition";
 import { proseStyles as contentStyles } from "src/styles/prose";
 
-const { id } = Astro.params;
-if (id === undefined) {
-  return Astro.redirect("/404");
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const works = await getCollection("works");
+  return works.map((work) => ({ params: { id: work.id }, props: { work } }));
 }
 
-const work = await getEntry("works", id);
-
-if (work === undefined) {
-  return Astro.redirect("/404");
+interface Props {
+  work: CollectionEntry<"works">;
 }
 
+const { work } = Astro.props;
 const { Content } = await render(work);
+// サムネイルをOGPに使う
+const ogImage = (
+  await getImage({ src: work.data.image, width: 1200, format: "jpg" })
+).src;
 
 //header styles
 const header = css({
@@ -102,11 +107,13 @@ const contentContainer = css({
 <PageLayout
   pageTitle={work.data.title}
   description={work.data.description}
+  ogType="article"
+  publishDate={work.data.date.toISOString()}
+  tags={work.data.tags}
+  ogImage={ogImage}
+  ogImageAlt={work.data.title}
   wide
-  breadcrumbs={[
-    { label: "WORKS", href: "/works" },
-    { label: work.data.title }
-  ]}
+  breadcrumbs={[{ label: "WORKS", href: "/works" }, { label: work.data.title }]}
 >
   <article class={pageStyles}>
     <Image
