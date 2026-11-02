@@ -8,9 +8,6 @@ export const GET: APIRoute = ({ site }) => {
   const body = [
     "User-agent: *",
     "Allow: /",
-    // フォーム送信後のページと内部エンドポイントは巡回不要
-    "Disallow: /thanks",
-    "Disallow: /_actions/",
     "",
     `Sitemap: ${sitemapURL.href}`,
     "",
