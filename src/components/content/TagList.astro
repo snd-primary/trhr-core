@@ -1,0 +1,60 @@
+---
+import { css } from "styled-system/css";
+import type { TagCount } from "src/lib/content";
+
+interface Props {
+  tags: TagCount[];
+  // nav の aria-label (例: "ブログのタグ")
+  label: string;
+  // 一覧ページでは中央寄せ、ホームのセクション内では左寄せ
+  align?: "center" | "start";
+}
+
+const { tags, label, align = "center" } = Astro.props;
+
+const listStyles = css({
+  display: "flex",
+  flexWrap: "wrap",
+  gap: 2,
+  listStyle: "none",
+  fontSize: "xs"
+});
+
+const linkStyles = css({
+  display: "inline-flex",
+  alignItems: "center",
+  gap: 1.5,
+  px: 3,
+  py: 1,
+  border: "1px solid token(colors.border)",
+  borderRadius: "full",
+  color: "foreground",
+  textDecoration: "none",
+  transition: "color 0.2s ease, border-color 0.2s ease",
+  _hover: { color: "primary", borderColor: "primary" }
+});
+
+const alignStyles = {
+  center: css({ justifyContent: "center" }),
+  start: css({ justifyContent: "flex-start" })
+};
+
+const countStyles = css({
+  color: "mutedForeground"
+});
+---
+
+{tags.length > 0 && (
+  <nav aria-label={label}>
+    <ul class={`${listStyles} ${alignStyles[align]}`}>
+      {tags.map(({ tag, count }) => (
+        <li>
+          <a href={`/tags/${encodeURIComponent(tag)}`} class={linkStyles}>
+            #{tag}
+            <span class={countStyles}>{count}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}

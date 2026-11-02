@@ -3,104 +3,122 @@ import { ClientRouter } from "astro:transitions";
 
 import {
   SITE_TITLE,
+  SITE_TAGLINE,
   SITE_URL,
+  SITE_LOCALE,
   SITE_DESCRIPTION,
   SITE_OG_IMAGE,
   SITE_TWITTER_HANDLE,
-  SITE_AUTHOR
-} from "../../site/config"; // パスが正しいか確認してください
+  SITE_AUTHOR,
+  SITE_SOCIAL_LINKS
+} from "../../site/config";
+import { toPublicPath } from "src/lib/seo";
 
 export interface Props {
   title?: string;
   description?: string;
+  // サイトルートからの絶対パス、または絶対URL
   ogImage?: string;
-  ogType?: string; // og:type (e.g., 'website', 'article')
+  ogImageAlt?: string;
+  ogType?: "website" | "article";
   canonicalUrl?: string;
   noindex?: boolean;
   author?: string;
-  publishDate?: string; // 記事の公開日 (ISO 8601形式)
-  ogImageAlt?: string; // OGP画像のaltテキスト
+  // 記事の公開日・更新日 (ISO 8601)
+  publishDate?: string;
+  modifiedDate?: string;
+  // 記事のタグ (keywords / article:tag に使う)
+  tags?: string[];
 }
 
 const {
   title: pageTitle,
   description: pageDescription,
   ogImage: pageOgImage,
+  ogImageAlt,
   ogType = "website",
   canonicalUrl: pageCanonicalUrl,
   noindex = false,
   author: pageAuthor,
   publishDate,
-  ogImageAlt
+  modifiedDate,
+  tags = []
 } = Astro.props;
 
-const astroSite = Astro.site;
-if (!astroSite) {
-  console.warn(
-    "Astro.site is not configured. Please set the `site` property in your astro.config.mjs. Falling back to SITE_URL from config for some URLs, but this may not be ideal."
-  );
-}
-const siteBaseUrl = astroSite ? astroSite.toString() : SITE_URL;
+const siteBaseUrl = Astro.site?.toString() ?? SITE_URL;
+const isArticle = ogType === "article";
 
-// SEO Title
-const seoTitle = pageTitle ? `${pageTitle} | ${SITE_TITLE}` : SITE_TITLE;
+// <title>: ホームは "TRHR | キャッチ"、それ以外は "ページ名 | TRHR"
+const seoTitle =
+  pageTitle && pageTitle !== SITE_TITLE
+    ? `${pageTitle} | ${SITE_TITLE}`
+    : `${SITE_TITLE} | ${SITE_TAGLINE}`;
+// SNS カードはサイト名を og:site_name で出すので、見出しはページ名だけにする
+const ogTitle = pageTitle ?? SITE_TITLE;
 
-// Meta Description
 const seoDescription = pageDescription || SITE_DESCRIPTION;
 
-// Canonical URL
-const canonical = pageCanonicalUrl
-  ? new URL(pageCanonicalUrl, siteBaseUrl).href
-  : new URL(Astro.url.pathname, siteBaseUrl).href;
+// クエリやハッシュを含めない正規URL
+const canonical = new URL(
+  pageCanonicalUrl ?? toPublicPath(Astro.url.pathname),
+  siteBaseUrl
+).href;
 
-// OGP Image
-const ogImageUrl = pageOgImage
-  ? new URL(pageOgImage, siteBaseUrl).href
-  : new URL(SITE_OG_IMAGE, siteBaseUrl).href;
-const ogImageSecureUrl = ogImageUrl.startsWith("https://")
-  ? ogImageUrl
-  : undefined;
+const ogImageUrl = new URL(pageOgImage ?? SITE_OG_IMAGE, siteBaseUrl).href;
+const ogImageAltText = ogImageAlt ?? ogTitle;
 
-// Author
 const currentAuthor = pageAuthor || SITE_AUTHOR;
 
-// Structured Data (JSON-LD) - 例: WebSite and WebPage
-const websiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: SITE_TITLE,
+const robots = noindex
+  ? "noindex, nofollow"
+  : "index, follow, max-image-preview:large";
+
+// 構造化データ (JSON-LD)
+const websiteId = `${siteBaseUrl}#website`;
+const personId = `${siteBaseUrl}#person`;
+
+const personSchema = {
+  "@type": "Person",
+  "@id": personId,
+  name: SITE_AUTHOR,
   url: siteBaseUrl,
-  ...(typeof SITE_TWITTER_HANDLE === "string" && SITE_TWITTER_HANDLE
-    ? {
-        sameAs: [`https://twitter.com/${"trhr_core"}`]
-      }
-    : {})
+  sameAs: SITE_SOCIAL_LINKS
 };
 
-const webpageSchema = {
-  "@context": "https://schema.org",
-  "@type": ogType === "article" ? "Article" : "WebPage",
-  name: seoTitle,
+const websiteSchema = {
+  "@type": "WebSite",
+  "@id": websiteId,
+  name: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  url: siteBaseUrl,
+  inLanguage: "ja",
+  publisher: { "@id": personId }
+};
+
+const pageSchema = {
+  "@type": isArticle ? "BlogPosting" : "WebPage",
+  "@id": `${canonical}#${isArticle ? "article" : "webpage"}`,
+  ...(isArticle ? { headline: ogTitle } : { name: ogTitle }),
   description: seoDescription,
   url: canonical,
-  isPartOf: {
-    "@id": `${siteBaseUrl}#website`
-  },
-  ...(ogImageSecureUrl && {
-    image: {
-      "@type": "ImageObject",
-      url: ogImageSecureUrl,
-      ...(ogImageAlt && { caption: ogImageAlt })
-    }
-  }),
-  ...(currentAuthor && {
-    author: {
-      "@type": "Person",
-      name: currentAuthor
-    }
-  }),
-  ...(publishDate && ogType === "article" && { datePublished: publishDate }),
-  ...(publishDate && ogType === "article" && { dateModified: publishDate }) // 必要に応じて更新日も
+  inLanguage: "ja",
+  isPartOf: { "@id": websiteId },
+  image: ogImageUrl,
+  author: { "@id": personId },
+  ...(isArticle && {
+    mainEntityOfPage: canonical,
+    publisher: { "@id": personId },
+    ...(publishDate && { datePublished: publishDate }),
+    ...((modifiedDate ?? publishDate) && {
+      dateModified: modifiedDate ?? publishDate
+    }),
+    ...(tags.length > 0 && { keywords: tags.join(", ") })
+  })
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [personSchema, websiteSchema, pageSchema]
 };
 ---
 
@@ -111,81 +129,60 @@ const webpageSchema = {
   <title>{seoTitle}</title>
   <meta name="description" content={seoDescription} />
   <meta name="author" content={currentAuthor} />
-
-  {/* Robots Meta Tag */}
-  {
-    noindex ? (
-      <meta name="robots" content="noindex, nofollow" />
-    ) : (
-      <meta name="robots" content="index, follow" />
-    )
-  }
-
-  <link rel="sitemap" href="/sitemap-index.xml" />
-
-  {/* Canonical URL */}
+  <meta name="robots" content={robots} />
   <link rel="canonical" href={canonical} />
 
-  {/* Open Graph / Facebook */}
-  <meta property="og:title" content={seoTitle} />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title={`${SITE_TITLE} RSS`}
+    href={new URL("/rss.xml", siteBaseUrl).href}
+  />
+
+  {/* Open Graph */}
+  <meta property="og:type" content={ogType} />
+  <meta property="og:locale" content={SITE_LOCALE} />
+  <meta property="og:site_name" content={SITE_TITLE} />
+  <meta property="og:title" content={ogTitle} />
   <meta property="og:description" content={seoDescription} />
   <meta property="og:url" content={canonical} />
-  <meta property="og:site_name" content={SITE_TITLE} />
   <meta property="og:image" content={ogImageUrl} />
-
-  {
-    ogImageSecureUrl && (
-      <meta property="og:image:secure_url" content={ogImageSecureUrl} />
-    )
-  }
   <meta property="og:image:width" content="1200" />
-  {/* 推奨サイズ */}
   <meta property="og:image:height" content="630" />
-  {/* 推奨サイズ */}
-  {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
-  <meta property="og:type" content={ogType} />
-  {
-    ogType === "article" && publishDate && (
-      <meta property="article:published_time" content={publishDate} />
-    )
-  }
-  {
-    ogType === "article" && currentAuthor && (
-      <meta property="article:author" content={currentAuthor} />
-    )
-  }
+  <meta property="og:image:alt" content={ogImageAltText} />
+  {isArticle && publishDate && (
+    <meta property="article:published_time" content={publishDate} />
+  )}
+  {isArticle && modifiedDate && (
+    <meta property="article:modified_time" content={modifiedDate} />
+  )}
+  {isArticle && <meta property="article:author" content={currentAuthor} />}
+  {isArticle &&
+    tags.map((tag) => <meta property="article:tag" content={tag} />)}
 
-  {/* Twitter */}
+  {/* Twitter / X */}
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={seoTitle} />
+  <meta name="twitter:title" content={ogTitle} />
   <meta name="twitter:description" content={seoDescription} />
   <meta name="twitter:image" content={ogImageUrl} />
-  {ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt} />}
-  {
-    SITE_TWITTER_HANDLE && (
+  <meta name="twitter:image:alt" content={ogImageAltText} />
+  {SITE_TWITTER_HANDLE && (
+    <>
       <meta name="twitter:site" content={SITE_TWITTER_HANDLE} />
-    )
-  }
-  {
-    /* {SITE_TWITTER_HANDLE && <meta name="twitter:creator" content={SITE_TWITTER_HANDLE} />} */
-  }
+      <meta name="twitter:creator" content={SITE_TWITTER_HANDLE} />
+    </>
+  )}
 
-  {/* Favicon (例) - publicディレクトリに配置してください */}
+  {/* Favicon (public/ 配下) */}
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="alternate icon" href="/favicon.ico" sizes="any" />
-  {/* .icoはanyサイズ */}
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
   <meta name="theme-color" content="#1a1a3a" />
-  {/* サイトのテーマカラー */}
 
-  {/* JSON-LD Structured Data */}
-  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
-  <script type="application/ld+json" set:html={JSON.stringify(webpageSchema)} />
-
+  {/* JSON-LD */}
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <ClientRouter />
 
-  {/* Astroが自動的に挿入するスタイルやスクリプトなど */}
   <slot />
 </head>
