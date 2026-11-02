@@ -11,18 +11,5 @@
 	},
 	"observability": {
 		"enabled": true
-	},
-	"d1_databases": [
-		{
-			"binding": "DB",
-			"database_name": "trhr-contact-db",
-			"database_id": "f96d30d7-002d-46d8-969d-d170be6aae4e"
-		}
-	],
-	"send_email": [
-		{
-			"name": "SEND_EMAIL",
-			"destination_address": "snd.webdev@gmail.com"
-		}
-	]
+	}
 }

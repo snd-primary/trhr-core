@@ -6,7 +6,7 @@ import panda from "@pandacss/vite";
 const siteUrl = "https://trhr-core.dev";
 
 // サイトマップから除外するパス (noindex のページ)
-const SITEMAP_EXCLUDE = new Set(["/thanks", "/404"]);
+const SITEMAP_EXCLUDE = new Set(["/404"]);
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,11 +21,6 @@ export default defineConfig({
   },
   vite: {
     plugins: [panda()],
-    build: {
-      rollupOptions: {
-        external: ["cloudflare:email"],
-      },
-    },
   },
   integrations: [
     sitemap({
