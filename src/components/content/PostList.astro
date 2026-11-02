@@ -11,15 +11,20 @@ const { posts } = Astro.props;
 
 const listStyles = css({
   display: "grid",
-  listStyle: "none",
-  borderTop: "1px solid token(colors.border)"
+  gap: 3,
+  listStyle: "none"
 });
 
+// タイトルリンクの ::after でカード全体をクリック領域にする
 const itemStyles = css({
-  borderBottom: "1px solid token(colors.border)",
-  py: 4,
+  position: "relative",
+  border: "1px solid token(colors.border)",
+  p: { base: 4, md: 5 },
   display: "grid",
-  gap: 1
+  gap: 1,
+  transition: "border-color 0.2s ease",
+  _hover: { borderColor: "primary" },
+  _focusWithin: { borderColor: "primary" }
 });
 
 const titleLinkStyles = css({
@@ -28,7 +33,13 @@ const titleLinkStyles = css({
   textDecoration: "none",
   color: "foreground",
   transition: "color 0.2s ease",
-  _hover: { color: "primary" }
+  _focusVisible: { outline: "none" },
+  _after: {
+    content: '""',
+    position: "absolute",
+    inset: 0
+  },
+  "li:hover &": { color: "primary" }
 });
 
 const metaStyles = css({
@@ -37,7 +48,9 @@ const metaStyles = css({
   alignItems: "center",
   gap: 2,
   fontSize: "xs",
-  color: "mutedForeground"
+  color: "mutedForeground",
+  // タグはカードのリンクより前面に出して、個別にクリックできるようにする
+  "& a": { position: "relative", zIndex: 1 }
 });
 
 const descriptionStyles = css({
