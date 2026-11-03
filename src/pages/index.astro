@@ -27,11 +27,14 @@ const sectionHeaderStyles = css({
   display: "flex",
   alignItems: "baseline",
   justifyContent: "space-between",
-  gap: 4
+  gap: 4,
+  pb: 2,
+  borderBottom: "2px solid",
+  borderColor: "border"
 });
 
 const sectionTitleStyles = css({
-  fontSize: "xl",
+  fontSize: "2xl",
   fontWeight: "bold",
   letterSpacing: "tight"
 });
@@ -60,7 +63,7 @@ const memoListStyles = css({
 ---
 
 <PageLayout pageTitle="TRHR" showTitle={false}>
-  <div class={css({ display: "grid", gap: 12 })}>
+  <div class={css({ display: "grid", gap: 20 })}>
     <p class={introStyles}>
       フロントエンドエンジニア TRHR
       のブログ。技術記事と、日々のメモを置いています。
@@ -103,7 +106,9 @@ const memoListStyles = css({
 
     {tags.length > 0 && (
       <section class={sectionStyles}>
-        <h2 class={sectionTitleStyles}>TAGS</h2>
+        <div class={sectionHeaderStyles}>
+          <h2 class={sectionTitleStyles}>TAGS</h2>
+        </div>
         <TagList tags={tags} label="タグ一覧" align="start" />
       </section>
     )}
