@@ -9,5 +9,12 @@ export const onRequest = defineMiddleware(({ url, redirect }, next) => {
     const target = url.pathname.replace(/\/+$/, "") + url.search;
     return redirect(target, 301);
   }
+
+  // 旧URL: /works → /artifacts (2026-11 に改名)
+  if (url.pathname === "/works" || url.pathname.startsWith("/works/")) {
+    const target = url.pathname.replace(/^\/works/, "/artifacts") + url.search;
+    return redirect(target, 301);
+  }
+
   return next();
 });
