@@ -1,5 +1,9 @@
 ---
 import { css } from "styled-system/css";
+import { formatDate, getPosts } from "src/lib/content";
+
+// 最新記事を1件だけ載せる。記事がなければモチーフだけを表示する
+const [latest] = await getPosts();
 
 // スタイル定義を定数に切り出す
 
@@ -137,13 +141,49 @@ const overlay = css({
   display: "grid",
   placeItems: "center",
   placeContent: "center",
-  color: "foreground/70",
-  fontStyle: "italic"
+  color: "foreground",
+  gap: 2,
+  p: 4,
+  textAlign: "center",
+  transition: "background 0.3s ease",
+  _groupHover: {
+    background: "background/30"
+  }
+});
+
+const latestLabelStyles = css({
+  fontSize: "xs",
+  color: "primary",
+  letterSpacing: "widest"
+});
+
+const latestTitleStyles = css({
+  fontSize: "sm",
+  fontWeight: "semibold",
+  lineClamp: 3
+});
+
+const latestDateStyles = css({
+  fontSize: "xs",
+  color: "mutedForeground"
 });
 ---
 
 <div class={`${containerStyles} ${hoveredEase}`} id="motif" role="group">
-  <div class={overlay}>準備中</div>
+  {
+    latest && (
+      <div class={overlay}>
+        <span class={latestLabelStyles}>LATEST</span>
+        <span class={latestTitleStyles}>{latest.data.title}</span>
+        <time
+          class={latestDateStyles}
+          datetime={latest.data.date.toISOString()}
+        >
+          {formatDate(latest.data.date)}
+        </time>
+      </div>
+    )
+  }
   <div class={`${headerAreaStyles} ${hoveredEase}`}></div>
 
   <div class={`${mainAreaStyles} ${hoveredEase}`}>
