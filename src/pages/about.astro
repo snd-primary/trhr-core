@@ -23,7 +23,7 @@ const initialGridStyles = css({
   `,
   lg: {
     gridTemplate: `
-    "c1 c1" 1fr
+    "c1 c1" auto
     "c5 c2" auto
     "c4 c4"  800px  
     "c7 c7"  auto / 1fr 1fr`,
@@ -31,9 +31,9 @@ const initialGridStyles = css({
   },
   xl: {
     gridTemplate: `
-    "c1 c1 c4 c4" 360px
-    "c1 c1 c4 c4" 360px
-    "c5 c5 c2 c7" 310px / 1fr 1fr 1fr 1fr
+    "c1 c1 c4 c4" auto
+    "c5 c5 c4 c4" 1fr
+    "c2 c7 c4 c4" auto / 1fr 1fr 1fr 1fr
   `
   },
   width: "full",
