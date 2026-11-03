@@ -25,110 +25,100 @@ const iconStyle = css({
   }
 });
 
-const iconGroup = css({
-  display: "flex",
-  alignItems: "center",
-  gap: 6
-});
-
 const container = css({
   display: "grid",
-  gridTemplate: `
-	"image" 1fr
-	"name" 0.8fr
-	"desc" 0.4fr / 1fr
-	`,
-
-  "@/lg": {
-    gridTemplate: `
-	"image name" minmax(200px, 1fr)
-	"desc desc" 0.2fr / minmax(240px, 0.8fr) 1fr
-	`
-  },
-
-  "@/2xl": {
-    gridTemplate: `
-	"image name" 1fr
-	"image desc" 1fr / minmax(240px, 1fr) 1fr
-	`
-  },
-
-  placeContent: "center",
-  placeItems: "center",
-  rowGap: 4,
-  columnGap: 4,
-  w: "full"
+  gap: 4,
+  w: "full",
+  alignSelf: "start"
 });
 
-const imageStyle = css({
-  aspectRatio: "square",
-  border: "1px solid token(colors.border)",
-  gridArea: "image",
-  w: "full",
-  h: "auto"
-});
-
-const headingStyle = css({
-  w: "full",
-  h: "full",
-  display: "grid",
-  placeContent: "center",
-  placeItems: "center",
-  gridArea: "name",
-  gap: 8,
+// アバター + 名前/肩書き/アイコン
+const headerStyle = css({
+  display: "flex",
+  alignItems: "center",
+  gap: { base: 4, "@/md": 5 },
+  p: { base: 3, "@/md": 4 },
   border: "1px solid token(colors.border)",
   bgGradient: "cardGradient"
 });
 
-const titleStyle = css({});
+const imageStyle = css({
+  flexShrink: 0,
+  w: { base: "80px", "@/md": "96px" },
+  h: "auto",
+  aspectRatio: "square",
+  objectFit: "cover",
+  border: "1px solid token(colors.border)"
+});
+
+const identityStyle = css({
+  display: "grid",
+  gap: 2,
+  minW: 0
+});
+
+const nameStyle = css({
+  fontWeight: "bold",
+  fontSize: { base: "lg", "@/md": "xl" },
+  lineHeight: "tight"
+});
+
+const roleStyle = css({
+  display: "flex",
+  flexWrap: "wrap",
+  columnGap: 3,
+  fontSize: "sm",
+  color: "mutedForeground"
+});
+
+const iconGroup = css({
+  display: "flex",
+  alignItems: "center",
+  gap: 4,
+  mt: 1
+});
 
 const textStyle = css({
   display: "grid",
-  placeContent: "center",
-  placeItems: { base: "center", "@/lg": "start" },
-  gap: "2",
-  gridArea: "desc",
+  gap: 2,
   fontSize: { base: "medium", md: "sm" },
+  lineHeight: "relaxed",
   wordBreak: "break-all",
   bgGradient: "cardGradient",
   w: "full",
-  h: "full",
   border: "1px solid token(colors.border)",
-  // borderRadius: "3xl",
-  p: 5
+  p: { base: 4, "@/md": 5 }
 });
 ---
 
 <div class={container}>
-  <Image class={imageStyle} src={MyImg} alt={"プロフィール画像"} />
-
-  <div class={headingStyle}>
-    <div class={titleStyle}>
-      <h3
-        class={css({
-          fontWeight: "bold",
-          fontSize: "xl"
-        })}
-      >
-        TRHR&nbsp;(Ari Shinoda)
-      </h3>
-      <span
-        class={css({
-          fontSize: "medium"
-        })}>- Frontend Developer<br />- Web designer</span
-      >
-    </div>
-    <div class={iconGroup}>
-      {
-        iconToRender.map((item) => {
-          const Component = item.component;
-          return (
-            <a href={item.props.href} role="group">
-              <Component width={36} height={36} class={iconStyle} />
-            </a>
-          );
-        })
-      }
+  <div class={headerStyle}>
+    <Image
+      class={imageStyle}
+      src={MyImg}
+      alt="プロフィール画像"
+      width={192}
+      height={192}
+    />
+    <div class={identityStyle}>
+      <h3 class={nameStyle}>TRHR&nbsp;(Ari Shinoda)</h3>
+      <div class={roleStyle}>
+        <span>Frontend Developer</span>
+        <span>/</span>
+        <span>Web designer</span>
+      </div>
+      <div class={iconGroup}>
+        {
+          iconToRender.map((item) => {
+            const Component = item.component;
+            return (
+              <a href={item.props.href} role="group">
+                <Component width={24} height={24} class={iconStyle} />
+              </a>
+            );
+          })
+        }
+      </div>
     </div>
   </div>
 
