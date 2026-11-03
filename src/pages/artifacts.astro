@@ -113,22 +113,21 @@ const linkButtonStyle = css({
 ---
 
 <PageLayout
-  pageTitle="Works"
-  description="TRHR の制作物一覧"
+  pageTitle="Artifacts"
+  description="TRHR が趣味で作ったものの置き場"
   wide
-  breadcrumbs={[{ label: "WORKS" }]}
+  breadcrumbs={[{ label: "ARTIFACTS" }]}
 >
   <div class={css({ display: "grid", w: "full", h: "full", gap: 8 })}>
     {allWorks.length === 0 ? (
       <p class={noWorksMessageStyles}>
-        It looks like there are no works to display at the moment. Please check
-        back soon!
+        まだ何も発掘されていません。
       </p>
     ) : (
       <div class={worksGridStyles}>
         {allWorks.map((work) => (
           <a
-            href={`/works/${work.id}`}
+            href={`/artifacts/${work.id}`}
             class={workCardStyles}
             aria-label={`View details for ${work.data.title}`}
           >

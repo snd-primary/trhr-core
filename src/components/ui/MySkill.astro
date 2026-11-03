@@ -1,7 +1,14 @@
 ---
 // src/components/ui/MySkill.astro
 import { css } from "styled-system/css"; // Pandacssのcss関数とkeyframesをインポート
-import { allSkills, type Skill, type SkillCategory } from "../../data/skills";
+import {
+  allSkills,
+  experienceBar,
+  formatExperience,
+  totalMonths,
+  type Skill,
+  type SkillCategory
+} from "../../data/skills";
 
 /* const user = "guest";
 const host = "portfolio.dev";
@@ -21,13 +28,22 @@ const skills = allSkills.reduce<Record<SkillCategory, Skill[]>>(
   {} as Record<SkillCategory, Skill[]>
 );
 
+// カテゴリ内は経験が長い順に並べる
+for (const list of Object.values(skills)) {
+  list.sort((a, b) => totalMonths(b.periods) - totalMonths(a.periods));
+}
+
+const formatPeriods = (periods: Skill["periods"]) =>
+  periods.map(([start, end]) => `${start} 〜 ${end ?? "now"}`).join(", ");
+
 const categoryOrder: { name: SkillCategory; emoji: string }[] = [
   { name: "AI", emoji: "🤖" },
   { name: "Frontend", emoji: "🧋" },
-  { name: "CSS", emoji: "🎏" },
+  { name: "UI", emoji: "🎏" },
   { name: "Backend", emoji: "📮" },
-  { name: "DB", emoji: "💾" },
-  { name: "OS", emoji: "⌨️" },
+  { name: "Infra", emoji: "☁️" },
+  { name: "CI/CD", emoji: "🚚" },
+  { name: "Test", emoji: "🧪" },
   { name: "Others", emoji: "🍱" }
 ];
 
@@ -256,28 +272,52 @@ const masteryStyle = css({
               <div class={skillHead}>
                 <div class={skillGridTitleStyle}>Skill</div>
                 <div class={skillGridTitleStyle}>Experience</div>
-                <div class={skillGridTitleStyle}>Mastery</div>
+                <div class={skillGridTitleStyle}>Timeline</div>
               </div>
 
               <div class={skillGrid}>
-                {skills[categoryName.name].map((item) => (
-                  <div
-                    class={css({
-                      display: "flex"
-                    })}
-                  >
-                    <div class={skillGridItemStyle}>{item.skill}</div>
-                    <div class={skillGridItemStyle}>{item.experience}</div>
-                    <div class={`${skillGridItemStyle} `}>
-                      <span class={masteryStyle}>{item.mastery}</span>
+                {skills[categoryName.name].map((item) => {
+                  const months = totalMonths(item.periods);
+                  return (
+                    <div
+                      class={css({
+                        display: "flex"
+                      })}
+                      data-periods={JSON.stringify(item.periods)}
+                      title={formatPeriods(item.periods)}
+                    >
+                      <div class={skillGridItemStyle}>
+                        {item.skill}
+                        {item.personal && " *"}
+                      </div>
+                      <div class={skillGridItemStyle} data-experience>
+                        {formatExperience(months)}
+                      </div>
+                      <div class={`${skillGridItemStyle} `}>
+                        <span class={masteryStyle} data-bar>
+                          {experienceBar(months)}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
         ))
       }
+    </div>
+    <div
+      class={css({
+        display: "grid",
+        gap: 1,
+        pl: 4,
+        color: "mutedForeground",
+        fontSize: "xs"
+      })}
+    >
+      <span># Experience: 実務は使用した案件の期間で算出</span>
+      <span># * 個人開発での経験</span>
     </div>
     <div class={css(promptLineStyles, promptLineStylesMt4)}>
       {/* 複数のスタイルを結合 */}
@@ -286,3 +326,24 @@ const masteryStyle = css({
     </div>
   </div>
 </div>
+
+<script>
+  // ビルド時点の値で描画済みだが、デプロイ間隔が空いても古くならないよう
+  // 閲覧時の日付で経験年数を再計算する
+  import {
+    experienceBar,
+    formatExperience,
+    totalMonths,
+    type Period
+  } from "../../data/skills";
+
+  document.querySelectorAll<HTMLElement>("[data-periods]").forEach((row) => {
+    const periods: Period[] = JSON.parse(row.dataset.periods ?? "[]");
+    if (periods.length === 0) return;
+    const months = totalMonths(periods);
+    const exp = row.querySelector("[data-experience]");
+    const bar = row.querySelector("[data-bar]");
+    if (exp) exp.textContent = formatExperience(months);
+    if (bar) bar.textContent = experienceBar(months);
+  });
+</script>
