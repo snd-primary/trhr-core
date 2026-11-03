@@ -20,10 +20,21 @@ const narrowStyles = css({
 });
 
 const pageTitleStyles = css({
-  fontSize: { base: "2xl", md: "3xl" },
+  fontSize: { base: "3xl", md: "4xl" },
   fontWeight: "bold",
   textAlign: "center",
   letterSpacing: "tight"
+});
+
+const pageHeaderStyles = css({
+  display: "grid",
+  gap: 2
+});
+
+const pageDescriptionStyles = css({
+  fontSize: { base: "sm", md: "md" },
+  textAlign: "center",
+  color: "mutedForeground"
 });
 
 const containerStyle = css({
@@ -36,6 +47,8 @@ interface Props extends HeadProps {
   pageTitle: string;
   // 記事詳細など、h1を本文側で描画する場合は false
   showTitle?: boolean;
+  // description をページタイトルの下にテキストとして表示する
+  showDescription?: boolean;
   // 読みやすい幅に絞らず、横幅いっぱいに使う (Works一覧など)
   wide?: boolean;
   // HOME 以降のパンくず。省略するとパンくずを表示しない
@@ -45,16 +58,26 @@ interface Props extends HeadProps {
 const {
   pageTitle = "Works",
   showTitle = true,
+  showDescription = false,
   wide = false,
   breadcrumbs,
   ...headProps
 } = Astro.props;
+
+const { description } = headProps;
 ---
 
 <Layout title={pageTitle} {...headProps}>
   <main class={wide ? mainPageStyles : `${mainPageStyles} ${narrowStyles}`}>
     {breadcrumbs && <Breadcrumb items={breadcrumbs} />}
-    {showTitle && <h1 class={pageTitleStyles}>{pageTitle}</h1>}
+    {showTitle && (
+      <div class={pageHeaderStyles}>
+        <h1 class={pageTitleStyles}>{pageTitle}</h1>
+        {showDescription && description && (
+          <p class={pageDescriptionStyles}>{description}</p>
+        )}
+      </div>
+    )}
     <div class={containerStyle}>
       <slot />
     </div>
