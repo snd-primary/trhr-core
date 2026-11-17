@@ -1,0 +1,180 @@
+---
+import { Code } from "astro:components";
+import { css } from "styled-system/css";
+
+// 記事 (.mdx) にコードとそのプレビューを埋め込む
+// 使い方: 中に ```html / ```css / ```js のコードブロックを書く (codeDemoPlugin が props に変換する)
+//   <CodeDemo title="ボタン" height={160}>
+//
+//   ```html
+//   <button>Click</button>
+//   ```
+//
+//   </CodeDemo>
+
+interface Props {
+  html?: string;
+  css?: string;
+  js?: string;
+  title?: string;
+  // プレビュー領域の高さ (px)
+  height?: number;
+}
+
+const {
+  html = "",
+  css: style = "",
+  js = "",
+  title,
+  height = 240
+} = Astro.props;
+
+const files = [
+  { label: "HTML", lang: "html", code: html },
+  { label: "CSS", lang: "css", code: style },
+  { label: "JS", lang: "js", code: js }
+] as const;
+const tabs = files
+  .map((f) => ({ ...f, code: f.code.trim() }))
+  .filter((f) => f.code);
+
+// フロントマター内に script タグを直書きすると Vite の依存スキャンが中身をJSとして解析して失敗するので、タグ名を組み立てる
+const SCRIPT = "script";
+
+// プレビュー用のドキュメント。サイトのダークテーマに合わせた最低限の下地を敷く
+const srcdoc = `<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+:root { color-scheme: dark; }
+body { margin: 0; padding: 1rem; font-family: system-ui, sans-serif; color: #f2f2f2; }
+</style>
+<style>${style}</style>
+</head>
+<body>
+${html}
+<${SCRIPT} type="module">${js.replaceAll(`</${SCRIPT}`, `<\\/${SCRIPT}`)}</${SCRIPT}>
+</body>
+</html>`;
+
+const containerStyles = css({
+  border: "1px solid token(colors.border)",
+  borderRadius: "md",
+  overflow: "hidden",
+  mb: "1.25rem",
+  // 長いコード行が親のgrid/flexを押し広げないよう、中身の幅を親に伝えない
+  contain: "inline-size"
+});
+
+const barStyles = css({
+  display: "flex",
+  alignItems: "center",
+  gap: 1,
+  px: 2,
+  minH: 9,
+  fontSize: "xs",
+  color: "mutedForeground",
+  backgroundColor: "card",
+  borderBottom: "1px solid token(colors.border)"
+});
+
+const buttonStyles = css({
+  px: 2,
+  py: 1,
+  cursor: "pointer",
+  color: "mutedForeground",
+  borderBottom: "2px solid transparent",
+  transition: "color 0.2s ease",
+  _hover: { color: "foreground" },
+  "&[aria-selected=true]": {
+    color: "foreground",
+    borderBottomColor: "primary"
+  }
+});
+
+const previewStyles = css({
+  display: "block",
+  width: "100%",
+  border: "none",
+  backgroundColor: "background",
+  borderBottom: "1px solid token(colors.border)"
+});
+
+const panelStyles = css({
+  "& pre.astro-code": {
+    m: 0,
+    border: "none",
+    borderRadius: 0,
+    maxH: "24rem",
+    overflow: "auto"
+  }
+});
+---
+
+<figure class={containerStyles} data-code-demo>
+  <div class={barStyles}>
+    <span class={css({ flex: 1, px: 1 })}>{title ?? "Preview"}</span>
+    <button type="button" class={buttonStyles} data-rerun>
+      ↻ 再実行
+    </button>
+  </div>
+  <iframe
+    class={previewStyles}
+    style={{ height: `${height}px` }}
+    srcdoc={srcdoc}
+    sandbox="allow-scripts"
+    loading="lazy"
+    title={title ?? "コードのプレビュー"}
+  ></iframe>
+  {tabs.length > 0 && (
+    <>
+      <div class={barStyles} role="tablist">
+        {tabs.map((tab, i) => (
+          <button
+            type="button"
+            role="tab"
+            class={buttonStyles}
+            aria-selected={i === 0 ? "true" : "false"}
+            data-tab={i}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+      {tabs.map((tab, i) => (
+        <div
+          class={panelStyles}
+          role="tabpanel"
+          data-panel={i}
+          hidden={i !== 0}
+        >
+          <Code code={tab.code} lang={tab.lang} />
+        </div>
+      ))}
+    </>
+  )}
+</figure>
+
+<script>
+  for (const demo of document.querySelectorAll<HTMLElement>(
+    "[data-code-demo]"
+  )) {
+    const tabs = demo.querySelectorAll<HTMLElement>("[data-tab]");
+    const panels = demo.querySelectorAll<HTMLElement>("[data-panel]");
+
+    for (const tab of tabs) {
+      tab.addEventListener("click", () => {
+        for (const t of tabs)
+          t.setAttribute("aria-selected", String(t === tab));
+        for (const p of panels) p.hidden = p.dataset.panel !== tab.dataset.tab;
+      });
+    }
+
+    // srcdoc を再代入するとiframeが読み込み直され、JSも最初から実行される
+    demo.querySelector("[data-rerun]")?.addEventListener("click", () => {
+      const iframe = demo.querySelector("iframe");
+      if (iframe) iframe.srcdoc = iframe.srcdoc;
+    });
+  }
+</script>
