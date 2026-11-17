@@ -15,8 +15,9 @@ const works = defineCollection({
 });
 
 // 通常のブログ記事: src/data/blog/<slug>.md
+// コードデモ (CodeDemo) を埋め込む記事は .mdx で書く
 const blog = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/data/blog" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/data/blog" }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),

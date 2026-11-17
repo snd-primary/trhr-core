@@ -6,6 +6,8 @@ tags: ["Astro", "お知らせ"]
 draft: true
 ---
 
+import CodeDemo from "src/components/content/CodeDemo.astro";
+
 ポートフォリオサイトを Markdown ブログとしてリニューアルしました。
 
 ## 構成
@@ -21,6 +23,34 @@ const hello = (name: string) => `Hello, ${name}!`;
 ```
 
 > 引用はこんな感じで表示されます。
+
+## コードデモ
+
+<CodeDemo title="カウンター" height={160}>
+
+```html
+<button id="count">0 回クリック</button>
+```
+
+```css
+button {
+  padding: 0.5rem 1rem;
+  border: 1px solid orange;
+  background: transparent;
+  color: orange;
+  cursor: pointer;
+}
+```
+
+```js
+let n = 0;
+const button = document.querySelector("#count");
+button.addEventListener("click", () => {
+  button.textContent = `${++n} 回クリック`;
+});
+```
+
+</CodeDemo>
 
 ## おわりに
 
