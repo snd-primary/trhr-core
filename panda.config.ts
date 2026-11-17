@@ -101,10 +101,11 @@ export default defineConfig({
         },
         fonts: {
           depa: { value: '"DepartureMono", monospace' },
+          mono: { value: '"Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace' },
           yuji: { value: '"YujiSyuku", "Hiragino Kaku Gothic ProN"' },
           global: {
             value:
-              '"DepartureMono", "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif',
+              '"Geist", "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif',
           },
         },
       },

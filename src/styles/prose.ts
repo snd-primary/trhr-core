@@ -70,6 +70,7 @@ export const proseStyles = css({
     "& > :last-child": { marginBottom: 0 },
   },
   "& pre": {
+    fontFamily: "mono",
     backgroundColor: "card",
     color: "cardForeground",
     border: "1px solid token(colors.border)",
@@ -83,7 +84,7 @@ export const proseStyles = css({
     lineHeight: "1.5",
   },
   "& code": {
-    fontFamily: "monospace",
+    fontFamily: "mono",
     backgroundColor: "muted",
     color: "primaryForeground",
     padding: "0.15rem 0.3rem",
